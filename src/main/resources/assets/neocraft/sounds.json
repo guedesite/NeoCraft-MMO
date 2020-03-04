@@ -1,0 +1,145 @@
+{
+  "mob.enderdragon.breathe": {
+    "category": "neutral",
+    "sounds": [
+      "mob/enderdragon/breathe1",
+      "mob/enderdragon/breathe2"
+    ]
+  },
+  "mob.rat.hurt": {
+    "category": "neutral",
+    "sounds": [
+      "mob/rat/rathurt1",
+      "mob/rat/rathurt2"
+    ]
+  },
+  "mob.rat.dying": {
+    "category": "neutral",
+    "sounds": [
+      "mob/rat/ratdying"
+    ]
+  },
+   "mob.rat.grunt": {
+    "category": "neutral",
+    "sounds": [
+      "mob/rat/ratgrunt1",
+	  "mob/rat/ratgrunt2",
+	  "mob/rat/ratgrunt3",
+	  "mob/rat/ratgrunt4"
+    ]
+  },
+  "mob.enderdragon.step": {
+    "category": "neutral",
+    "sounds": [
+      "mob/enderdragon/step1",
+      "mob/enderdragon/step2",
+      "mob/enderdragon/step3",
+      "mob/enderdragon/step4"
+    ]
+  },
+  "mob.enderdragon.death": {
+    "category": "neutral",
+    "sounds": [
+      "mob/enderdragon/death"
+    ]
+  },
+  "horraire": {
+    "category": "neutral",
+    "sounds": [
+      "menu/horraire"
+    ]
+  },
+  "item.loot": {
+    "category": "neutral",
+    "sounds": [
+      "item/loot"
+    ]
+  },
+  "menu.change": {
+    "category": "neutral",
+    "sounds": [
+      "menu/change"
+    ]
+  },
+  "menu.click": {
+    "category": "neutral",
+    "sounds": [
+      "menu/click"
+    ]
+  },
+  "menu.close": {
+    "category": "neutral",
+    "sounds": [
+      "menu/close"
+    ]
+  },
+  "menu.lvl1": {
+    "category": "neutral",
+    "sounds": [
+      "menu/lvl1"
+    ]
+  },
+  "menu.lvl2": {
+    "category": "neutral",
+    "sounds": [
+      "menu/lvl2"
+    ]
+  },
+  "menu.lvl3": {
+    "category": "neutral",
+    "sounds": [
+      "menu/lvl3"
+    ]
+  },
+  "menu.lvl4": {
+    "category": "neutral",
+    "sounds": [
+      "menu/lvl4"
+    ]
+  },
+  "menu.nope": {
+    "category": "neutral",
+    "sounds": [
+      "menu/nope"
+    ]
+  },
+  "menu.open": {
+    "category": "neutral",
+    "sounds": [
+      "menu/open"
+    ]
+  },
+  "futur.error": {
+    "category": "neutral",
+    "sounds": [
+      "futur/error"
+    ]
+  },
+  "futur.action": {
+    "category": "neutral",
+    "sounds": [
+      "futur/action"
+    ]
+  },
+  "futur.success": {
+    "category": "neutral",
+    "sounds": [
+      "futur/success"
+    ]
+  },
+  	"mob.fish.wiggle": {
+		"category": "neutral",
+		"sounds": [
+			"mob/guardian/land_hit1",
+			"mob/guardian/land_hit2",
+			"mob/guardian/land_hit3",
+			"mob/guardian/land_hit4"
+		]
+	},
+	"rod.reel": {
+		"category": "player",
+		"sounds": [
+			"rod/reel"
+		]
+	}
+}

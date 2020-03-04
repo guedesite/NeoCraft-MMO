@@ -1,0 +1,13 @@
+﻿neo.cara.color=§
+key.neocraft=Custom NeoCraft
+key.map=Ouvrir la map
+
+tile.BarrierRed.name=Block invisible
+tile.MoreHouse.name=Agrandisseur de maison
+
+item.Copyright_NeoCraft.name=Copyright NeoCraft
+item.Seeds_Stick.name=Seeds Stick
+item.ItemDoorHouse.name=Item Door House
+
+neo.money.deny.amount=§dIl vous manque %s§d$
+neo.money.remove=§4-%s§4$
