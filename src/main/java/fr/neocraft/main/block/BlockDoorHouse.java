@@ -2,12 +2,18 @@ package fr.neocraft.main.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fr.neocraft.main.main;
+import fr.neocraft.main.Server.HouseManager;
+import fr.neocraft.main.Server.ServerPlayerData;
+import fr.neocraft.main.util.Teleport;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockDoorHouse extends BlockDoor {
 
@@ -21,6 +27,24 @@ public class BlockDoorHouse extends BlockDoor {
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean onBlockActivated(World w, int p_149727_2_, int p_149727_3_, int p_149727_4_, EntityPlayer p, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+    {
+        if (!w.isRemote)
+        {
+        	ServerPlayerData data = main.AllPlayerServer.get(p.getCommandSenderName());
+        	if(data.HouseIndex != -1)
+        	{
+        		if(p.posZ < -15000 && data.lastBeforeHouse != null)
+        		{
+        			Teleport.entity(p, data.lastBeforeHouse.x, data.lastBeforeHouse.x, data.lastBeforeHouse.z);
+        			data.lastBeforeHouse = null;
+        		} else {
+        			HouseManager.TeleportPlayerToHouse(data);
+        		}
+        	}
+        }
+        return false;
+    }
 	
 	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)

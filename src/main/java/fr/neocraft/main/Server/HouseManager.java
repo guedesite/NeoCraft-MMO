@@ -40,9 +40,9 @@ public class HouseManager {
 		return index;
 	}
 	
-	public static void TeleportPlayerToHouse(EntityPlayer p) {
-		
-		Teleport.player(p, X +  main.AllPlayerServer.get(p.getCommandSenderName()).HouseIndex * 50, Y+1, Z);
+	public static void TeleportPlayerToHouse(ServerPlayerData p) {
+		p.lastBeforeHouse = new Vector3f((int)p.p.posX,(int) p.p.posY,(int)p.p.posZ);
+		Teleport.player(p.p, X +  p.HouseIndex * 50, Y+1, Z);
 	}
 	
 }

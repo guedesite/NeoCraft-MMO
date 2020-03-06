@@ -184,13 +184,13 @@ public class CommandManager extends CommandBase{
 				if(data.HouseIndex != -1)
 				{
 					data.HouseIndex = HouseManager.createHouse();
-					HouseManager.TeleportPlayerToHouse((EntityPlayer) ic);
+					HouseManager.TeleportPlayerToHouse(data);
 				}else {
 					M(ic, "Tu en as déjà une !");
 				}
 			}else if(arg[0].equals("tpmyhouse"))
 			{
-				HouseManager.TeleportPlayerToHouse((EntityPlayer) ic);
+				HouseManager.TeleportPlayerToHouse(data);
 			}
 		} else {
 			sendHelp(ic);
