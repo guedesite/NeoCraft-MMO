@@ -78,10 +78,10 @@ public class RenderEventClient {
     public void onRenderGui(RenderGameOverlayEvent.Pre event)
     {
 
-		if(event.type == RenderGameOverlayEvent.ElementType.DEBUG && mc.thePlayer.posX > -10000 && 10000>mc.thePlayer.posX&& mc.thePlayer.posZ > -10000 && 10000>mc.thePlayer.posZ)
-		{
-			event.setCanceled(true);
-		}
+	//	if(event.type == RenderGameOverlayEvent.ElementType.DEBUG && ( mc.thePlayer.posX > 10000 || mc.thePlayer.posZ > 10000 || -10000 > mc.thePlayer.posX || -10000 > mc.thePlayer.posZ ))
+	//	{
+	//		event.setCanceled(true);
+	//	}
 
     }
 	

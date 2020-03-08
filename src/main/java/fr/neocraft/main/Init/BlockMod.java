@@ -21,7 +21,7 @@ public class BlockMod {
 	
 		BarrierRed = new BlockBarrierRed(Material.iron, 5).setCreativeTab(main.neocraft).setBlockName("BarrierRed").setBlockUnbreakable().setBlockTextureName(Reference.MOD_ID + ":BarrierRed" );
 		BlockMoreHouse = new BlockMoreHouse(Material.iron, 5).setCreativeTab(main.neocraft).setBlockName("MoreHouse").setBlockUnbreakable();
-		BlockDoorHouse = new BlockDoorHouse(Material.wood).setBlockName("BlockDoorHouse").setBlockTextureName(Reference.MOD_ID+":door_wood");
+		BlockDoorHouse = new BlockDoorHouse(Material.wood).setBlockName("BlockDoorHouse").setBlockTextureName(Reference.MOD_ID+":door_wood").setBlockUnbreakable();;
     }
 	
 	 public static void register()

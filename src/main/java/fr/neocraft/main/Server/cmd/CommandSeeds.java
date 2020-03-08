@@ -96,6 +96,27 @@ public class CommandSeeds extends CommandBase{
 				} else {
 					M(ic, "make first the both pos");
 				}
+			}else if(arg[0].equals("script")) {
+				if(arg.length != 1)
+				{
+					try {
+						M(ic, "start: "+"fr.neocraft.main.Server.function."+arg[1]);
+						Class.forName("fr.neocraft.main.Server.function."+arg[1]).newInstance();
+						M(ic, "end: "+"fr.neocraft.main.Server.function."+arg[1]);
+					} catch (ClassNotFoundException e) {
+						M(ic, "Not found: "+"fr.neocraft.main.Server.function."+arg[1]);
+					}catch (InstantiationException e)
+				    {
+						M(ic, "La classe est abstract ou est une interface ou n'a pas de constructeur accessible sans paramètre");
+					}
+					catch (IllegalAccessException e)
+					{
+						M(ic, "La classe n'est pas accessible");
+				 }
+				} else {
+					sendHelp(ic);
+				}
+
 			}else {
 				sendHelp(ic);
 			}
@@ -116,6 +137,7 @@ public class CommandSeeds extends CommandBase{
 		M(ic, "/seeds loadfile (file-name)");
 		M(ic, "/seeds copy");
 		M(ic, "/seeds paste");
+		M(ic, "/seeds script (class name)");
 	}
 
 }

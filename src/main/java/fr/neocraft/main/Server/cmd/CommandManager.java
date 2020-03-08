@@ -65,6 +65,7 @@ public class CommandManager extends CommandBase{
 			{
 			
 				ZoneManager.Register();
+				HouseManager.loadUp();
 				M(ic, "Reload");
 				
 			}else if(arg[0].equals("setzonename"))

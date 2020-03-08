@@ -16,12 +16,12 @@ public class PosVec3DHelper {
 		if(pos1.y < pos2.y)
 		{
 			v.y = pos1.y;
-			v.u = pos2.y - pos1.y;
+			v.v = pos2.y - pos1.y;
 		} else {
 			v.y = pos2.y;
 			v.v = pos1.y - pos2.y;
 		}
-		if(pos1.y < pos2.y)
+		if(pos1.z < pos2.z)
 		{
 			v.z = pos1.z;
 			v.w = pos2.z - pos1.z;

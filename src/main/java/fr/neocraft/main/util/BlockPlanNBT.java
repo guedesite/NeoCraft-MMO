@@ -18,10 +18,10 @@ import net.querz.nbt.custom.SerializableTag;
 
 public class BlockPlanNBT {
 
-	public static CompoundTag LoadBlock(World w, int x, int y, int z, int widthx, int widthz, int height)
+	public static CompoundTag LoadBlock(World w, int x, int y, int z, int widthx, int height, int widthz)
 	{
 		CompoundTag tag = new CompoundTag();
-		tag.put("xyzuvw",new SerializableTag(new Vector6f(0,0,0,widthx,widthz, height)));
+		tag.put("xyzuvw",new SerializableTag(new Vector6f(0,0,0,widthx,height, widthz)));
 		ListTag all = new ListTag(CompoundTag.class);
 		for(int y2 = 0; y2 <= height; y2++)
 		{
@@ -63,10 +63,10 @@ public class BlockPlanNBT {
 		return tag;
 	}
 	
-	public static CompoundTag LoadBlockAndAire(World w, int x, int y, int z, int widthx, int widthz, int height)
+	public static CompoundTag LoadBlockAndAire(World w, int x, int y, int z, int widthx, int height, int widthz)
 	{
 		CompoundTag tag = new CompoundTag();
-		tag.put("xyzuvw",new SerializableTag(new Vector6f(0,0,0,widthx,widthz, height)));
+		tag.put("xyzuvw",new SerializableTag(new Vector6f(0,0,0,widthx,height, widthz)));
 		ListTag all = new ListTag(CompoundTag.class);
 		for(int y2 = 0; y2 <= height; y2++)
 		{
@@ -75,6 +75,7 @@ public class BlockPlanNBT {
 				for(int z2 = 0; z2 <= widthz; z2++)
 				{
 					Block b = w.getBlock(x + x2, y+y2, z+z2);
+
 						CompoundTag blockhere = new CompoundTag();
 						
 						int meta = w.getBlockMetadata(x + x2, y+y2, z+z2);
@@ -98,7 +99,7 @@ public class BlockPlanNBT {
 							blockhere.putBoolean("hastile", false);
 						}
 						all.add(blockhere);
-				}
+					}
 			}
 		}
 		tag.put("blocks", all);

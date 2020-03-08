@@ -2,13 +2,16 @@ package fr.neocraft.main.event;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fr.neocraft.main.main;
+import fr.neocraft.main.Init.BlockMod;
 import fr.neocraft.main.Init.ItemMod;
+import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
 import fr.neocraft.main.util.Vector3f;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -17,6 +20,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 
 public class ZoneEventFORGE {
 
@@ -43,7 +48,7 @@ public class ZoneEventFORGE {
 	
 	@SubscribeEvent
 	public void PlayerInteract(PlayerInteractEvent event) {
-		if(event.entityPlayer instanceof EntityPlayer) {
+		if(event.entityPlayer instanceof net.minecraft.entity.player.EntityPlayerMP) {
 			ServerPlayerData data = main.AllPlayerServer.get(event.entity.getCommandSenderName());
 			
 			Zone znew = ZoneManager.getZoneAtEntity(event.entity);
@@ -68,6 +73,52 @@ public class ZoneEventFORGE {
 		}
 	}
 	
+	 @SubscribeEvent
+	 public void BreakBlock(BreakEvent event)
+	 {
+		 if(event.getPlayer() != null)
+		 {	
+			 ServerPlayerData data = main.AllPlayerServer.get(event.getPlayer().getCommandSenderName());
+			if(data != null && !data.debug)
+			{
+				
+				if(HouseManager.isUnderHouse(data) )
+				{
+					if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+					{
+						event.setCanceled(true);
+					}
+				} else {
+					event.setCanceled(true);
+				}
+				
+			 }
+		 }
+	 }
+	 
+	 
+	 @SubscribeEvent
+	 public void PlaceBlock(PlaceEvent event)
+	 {
+		 if(event.player != null)
+		 {	
+			 ServerPlayerData data = main.AllPlayerServer.get(event.player.getCommandSenderName());
+			if(data != null && !data.debug)
+			{
+				
+				if(HouseManager.isUnderHouse(data) )
+				{
+					if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+					{
+						event.setCanceled(true);
+					}
+				} else {
+					event.setCanceled(true);
+				}
+				
+			 }
+		 }
+	 }
 	
 	private boolean isHolding(EntityPlayer p, Item i )
 	{

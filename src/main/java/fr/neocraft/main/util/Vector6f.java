@@ -42,4 +42,16 @@ public class Vector6f implements Serializable{
 		return v2.x == x & v2.y == y & v2.z == z & v2.u == u & v2.v == v & v2.w == w;
 	}
 	
+	public boolean isUnder(Vector3f v2) {
+		return v2.x >= x & v2.y >= y & v2.z >= z & v2.x <= x+u & v2.y <= y+v & v2.z <= z+w; 
+	}
+	
+	public boolean isUnderExclu(Vector3f v2) {
+		return v2.x > x & v2.y > y & v2.z > z & v2.x < x+u & v2.y < y+v & v2.z < z+w; 
+	}
+	
+	public Vector6f copy() {
+		return new Vector6f(x,y,z,u,v,w);
+	}
+	
 }

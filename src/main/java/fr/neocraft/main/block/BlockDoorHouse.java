@@ -6,6 +6,7 @@ import fr.neocraft.main.main;
 import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.util.Teleport;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.IconFlipped;
@@ -124,6 +125,11 @@ public class BlockDoorHouse extends BlockDoor {
         this.field_150016_b[0] = p_149651_1_.registerIcon(this.getTextureName() + "_lower");
         this.field_150017_a[1] = new IconFlipped(this.field_150017_a[0], true, false);
         this.field_150016_b[1] = new IconFlipped(this.field_150016_b[0], true, false);
+    }
+    
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    {
+    	
     }
 	
 }
