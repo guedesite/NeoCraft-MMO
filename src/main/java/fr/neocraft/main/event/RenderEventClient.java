@@ -26,7 +26,7 @@ public class RenderEventClient {
 	
 	
 	private Minecraft mc = Minecraft.getMinecraft();
-	private String CaraColor = I18n.format("neo.cara.color");
+	private  String CaraColor = I18n.format("neo.cara.color");
 	private boolean isLaunchDecompt = false;
 	private ArrayList<AltString> allText = new ArrayList<AltString>();
 	private Timer t = new Timer();

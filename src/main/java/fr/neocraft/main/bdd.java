@@ -15,7 +15,7 @@ import java.util.Map;
 
 import fr.neocraft.main.util.BDDConnection;
 import fr.neocraft.main.util.CRASH;
-import fr.neocraft.pnj.PnjData;
+import static fr.neocraft.main.main.l;
 import net.querz.nbt.CompoundTag;
 import net.querz.nbt.NBTUtil;
 
@@ -90,7 +90,6 @@ public class bdd {
 	{
 		try {
 			Iterator it = this.s.values().iterator();
-			int i = 0;
 			while(it.hasNext())
 			{
 				((Statement)it.next()).close();
@@ -121,30 +120,32 @@ public class bdd {
 		if(this.s.isEmpty()) {
 			return 0;
 		} else {
-			Iterator it = this.s.values().iterator();
-			int i = 0;
-			while(it.hasNext())
-			{
-				i++;
-				it.next();
-			}
-			return i;
+			return this.s.values().size();
 		}
 	}
 	
 	
 	public int GetFreeId() {
-		if(this.Id >= Integer.MAX_VALUE-10)
-		{
-			s.clear();
-			this.Id = 0;
-		}
-		this.Id++;
-		if(this.IsDebug)
-		{
-			System.out.println("[BDD DEBUG] Create id: "+this.Id);
-		}
 		try {
+			if(this.Id >= Integer.MAX_VALUE-10)
+			{
+				Iterator it = this.s.values().iterator();
+				while(it.hasNext())
+				{
+					((Statement)it.next()).close();
+				}
+				this.Id = 0;
+			}
+			this.Id++;
+			if(this.IsDebug)
+			{
+				System.out.println("[BDD DEBUG] Create id: "+this.Id);
+			}
+			if(this.connexion.isClosed())
+			{
+				Openbdd();
+			}
+			
 			this.s.put(this.Id, this.connexion.createStatement());
 			return this.Id;
 		} catch (SQLException e) {
@@ -213,7 +214,7 @@ public class bdd {
 		}
 		else
 		{
-			this.erreur("query", "key "+id+" null", query);
+			this.erreur("Exist", "key "+id+" null", query);
 		}
 		CloseFreeId(id);
 		return false;
@@ -330,29 +331,29 @@ public class bdd {
 
 	public void erreur(String f, Exception e, String stat)
 	{
-		System.err.println("ERREUR LORS DE L'EXECUTION '"+f +"'");
-		System.err.println(" INFO: ");
+		l.error("ERREUR LORS DE L'EXECUTION '"+f +"'");
+		l.error(" INFO: ");
 		e.printStackTrace();
-		System.err.println(" DATA: " + stat);
+		l.error(" DATA: " + stat);
 		CRASH.Push(e);
 	}
 
 	public void erreur(String f, Exception e) {
-		System.err.println("ERREUR LORS DE L'EXECUTION '"+f +"'");
-		System.err.println(" INFO: ");
+		l.error("ERREUR LORS DE L'EXECUTION '"+f +"'");
+		l.error(" INFO: ");
 		e.printStackTrace();
 		CRASH.Push(e);
 	}
 	public void erreur(String f, String e) {
-		System.err.println("ERREUR LORS DE L'EXECUTION '"+f +"'");
-		System.err.println(" INFO: "+e);
+		l.error("ERREUR LORS DE L'EXECUTION '"+f +"'");
+		l.error(" INFO: "+e);
 	}
 
 	public void erreur(String f, String e, String stat)
 	{
-		System.err.println("ERREUR LORS DE L'EXECUTION '"+f +"'");
-		System.err.println(" INFO: "+e);
-		System.err.println(" DATA: " + stat);
+		l.error("ERREUR LORS DE L'EXECUTION '"+f +"'");
+		l.error(" INFO: "+e);
+		l.error(" DATA: " + stat);
 	}
 
 	public ArrayList<String> getAllTable() throws Exception {

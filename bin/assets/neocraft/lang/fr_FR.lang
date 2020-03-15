@@ -11,3 +11,5 @@ item.ItemDoorHouse.name=Item Door House
 
 neo.money.deny.amount=§dIl vous manque %s§d$
 neo.money.remove=§4-%s§4$
+neo.house.deny.notallby1=§cVous devez avoir acheter toutes les extensions
+neo.house.deny.notallby2=§cavant de pouvoir éditer votre maison.

@@ -45,7 +45,7 @@ public class CommandManager extends CommandBase{
 	public void processCommand(ICommandSender ic, String[] arg) {
 		if(arg.length > 0)
 		{
-			ServerPlayerData data = main.AllPlayerServer.get(ic.getCommandSenderName());
+			ServerPlayerData data = main.AllPlayerServer.get(((EntityPlayer)ic).getCommandSenderName());
 			if(arg[0].equals("help"))
 			{
 				sendHelp(ic);
@@ -182,7 +182,7 @@ public class CommandManager extends CommandBase{
 			}
 			else if(arg[0].equals("createmyhouse"))
 			{
-				if(data.HouseIndex != -1)
+				if(data.HouseIndex == -1)
 				{
 					data.HouseIndex = HouseManager.createHouse();
 					HouseManager.TeleportPlayerToHouse(data);

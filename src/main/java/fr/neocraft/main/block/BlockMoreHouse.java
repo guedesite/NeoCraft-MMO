@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.Reference;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Init.BlockMod;
+import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.util.Vector3f;
 import net.minecraft.block.material.Material;
@@ -26,7 +27,6 @@ public class BlockMoreHouse extends BlockBasic {
 	 @SideOnly(Side.CLIENT)
 	 private IIcon autre;
 	
-	 public static int[] prix = new int[] { 500, 2000, 5000, 10000, 20000, 50000, 10000 };
 	 
 	public BlockMoreHouse(Material p_i45394_1_, int level) {
 		super(p_i45394_1_, level);
@@ -55,13 +55,22 @@ public class BlockMoreHouse extends BlockBasic {
         else
         {
         	ServerPlayerData data = main.AllPlayerServer.get(p_149727_5_.getCommandSenderName());
-        	if(data.hasMoneyAndNotif(prix[data.HouseBy]))
+        	if(HouseManager.isUnderHouse(data))
         	{
-        		data.RemoveMoney(prix[data.HouseBy]);
-        		by(p_149727_1_,p_149727_2_, p_149727_3_, p_149727_4_);
+	        	if(data.hasMoneyAndNotif(HouseManager.price[data.HouseBy]))
+	        	{
+	        		data.RemoveMoney(HouseManager.price[data.HouseBy]);
+	        		data.HouseBy++;
+	        		data.UpdateVal("HouseBy", data.HouseBy);
+	        		by(p_149727_1_,p_149727_2_, p_149727_3_, p_149727_4_);
+	        		
+	        	}
+	        	return true;
+        	} else {
+        		return false;
         	}
-        	return true;
         }
+      
     }
     
     public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)

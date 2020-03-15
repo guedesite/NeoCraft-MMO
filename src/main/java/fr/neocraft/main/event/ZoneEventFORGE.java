@@ -12,6 +12,7 @@ import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
 import fr.neocraft.main.util.Vector3f;
 import net.minecraft.block.Block;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -82,10 +83,17 @@ public class ZoneEventFORGE {
 			if(data != null && !data.debug)
 			{
 				
-				if(HouseManager.isUnderHouse(data) )
+				if(HouseManager.isUnderHouse(data))
 				{
-					if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+					if(data.HouseBy == HouseManager.price.length)
 					{
+						if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+						{
+							event.setCanceled(true);
+						}
+					} else {
+						M(event.getPlayer(), "neo.house.deny.notallby1");
+						M(event.getPlayer(), "neo.house.deny.notallby2");
 						event.setCanceled(true);
 					}
 				} else {
@@ -108,8 +116,15 @@ public class ZoneEventFORGE {
 				
 				if(HouseManager.isUnderHouse(data) )
 				{
-					if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+					if(data.HouseBy == HouseManager.price.length)
 					{
+						if(Block.getIdFromBlock(event.block) == 684 || event.block == BlockMod.BlockDoorHouse)
+						{
+							event.setCanceled(true);
+						}
+					} else {
+						M(event.player, "neo.house.deny.notallby1");
+						M(event.player, "neo.house.deny.notallby2");
 						event.setCanceled(true);
 					}
 				} else {
@@ -123,5 +138,10 @@ public class ZoneEventFORGE {
 	private boolean isHolding(EntityPlayer p, Item i )
 	{
 		return p.getHeldItem() != null && p.getHeldItem().getItem() == i;
+	}
+	
+	private void M(ICommandSender player, String msg) {
+		player.addChatMessage(new ChatComponentText(msg));
+		
 	}
 }

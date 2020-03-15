@@ -79,7 +79,14 @@ public class CommandSeeds extends CommandBase{
 				if(data.pos1 != null && data.pos2 != null)
 				{
 					Vector6f v6 = PosVec3DHelper.getMinPosAndVec(data.pos1, data.pos2);
-					CompoundTag tag = BlockPlanNBT.LoadBlock(p.worldObj, v6.x, v6.y, v6.z, v6.u, v6.v, v6.w);
+					CompoundTag tag = null;
+					if(arg.length != 1 && arg[1].equals("-a"))
+					{
+						tag = BlockPlanNBT.LoadBlockAndAire(p.worldObj, v6.x, v6.y, v6.z, v6.u, v6.v, v6.w);
+					} else {
+						tag = BlockPlanNBT.LoadBlock(p.worldObj, v6.x, v6.y, v6.z, v6.u, v6.v, v6.w);
+					}
+					
 					tag.put("playerpos",new SerializableTag(new Vector3f(v6.x - MathHelper.floor_double(p.posX), v6.y-MathHelper.floor_double(p.posY), v6.z-MathHelper.floor_double(p.posZ))));
 					data.seeds = tag;
 					M(ic, "copy from: "+v6.toString());
@@ -90,9 +97,11 @@ public class CommandSeeds extends CommandBase{
 			{
 				if(data.pos1 != null && data.pos2 != null)
 				{
-					BlockPlanNBT.writeBlock(p.worldObj, MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ), data.seeds);
-					Vector6f v6 = PosVec3DHelper.getMinPosAndVec(data.pos1, data.pos2);
-					M(ic, "paste to: "+v6.toString());
+
+						BlockPlanNBT.writeBlock(p.worldObj, MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ), data.seeds);
+						Vector6f v6 = PosVec3DHelper.getMinPosAndVec(data.pos1, data.pos2);
+						M(ic, "paste to: "+v6.toString());
+					
 				} else {
 					M(ic, "make first the both pos");
 				}
@@ -135,7 +144,7 @@ public class CommandSeeds extends CommandBase{
 		M(ic, "/seeds pos2");
 		M(ic, "/seeds savefile (file-name)");
 		M(ic, "/seeds loadfile (file-name)");
-		M(ic, "/seeds copy");
+		M(ic, "/seeds copy (-a)");
 		M(ic, "/seeds paste");
 		M(ic, "/seeds script (class name)");
 	}
