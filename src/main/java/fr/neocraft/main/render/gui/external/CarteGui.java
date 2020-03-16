@@ -4,9 +4,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import fr.neocraft.main.Reference;
+import fr.neocraft.main.main;
 import fr.neocraft.main.Server.EnumSound;
 import fr.neocraft.main.Server.SoundManager;
-import fr.neocraft.main.proxy.ClientProxy;
+import fr.neocraft.main.util.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,6 +19,7 @@ public class CarteGui extends GuiScreen {
 	private ResourceLocation arrow = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/carteArrow.png");
 	private ResourceLocation map = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/carteMap.png");
 	private ResourceLocation player = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/cartePlayer.png");
+	private ResourceLocation pos = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/pos.png");
 	private int xSize = 256, ySize = 256;
 	private double debutx =0, debuty = 0;
 	private float scale = 1F;
@@ -86,7 +88,16 @@ public class CarteGui extends GuiScreen {
 		    GL11.glScalef(0.03125F, 0.03125F, 1F);
 		    drawTexturedModalRect(playerx *32 -4,playery*32-4, 0, 0, 256, 256);
 		    GL11.glScalef(32F, 32F, 1F);
-
+		    //mc.getTextureManager().deleteTexture(player);
+		    if(main.AllPlayer.get(mc.thePlayer.getCommandSenderName()).posMap != null)
+		    {
+		    	mc.getTextureManager().bindTexture(pos);
+		    	for(Vector3f v:main.AllPlayer.get(mc.thePlayer.getCommandSenderName()).posMap)
+		    	{
+		    		drawTexturedModalRect((((((v.x+10000)*2048)/20000) / 8) - debutMapx)*scaleMap-8,(((((v.z+10000)*2048)/20000) / 8) - debutMapy)*scaleMap-8, 0, 0, 16, 16);
+		    	}
+		    	//mc.getTextureManager().deleteTexture(pos);
+		    }
 		  
 		    GL11.glScalef(scale, scale, 1F);
 		    mc.getTextureManager().bindTexture(textures);

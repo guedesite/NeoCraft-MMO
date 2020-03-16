@@ -42,8 +42,16 @@ public class ZoneEventFORGE {
 				} else if(znew.id != data.Zone.id){
 					main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetHeaderText(true, znew.getName(), znew.getSecName())), (EntityPlayerMP)event.entity);
 				}
+				if(data.posMap != null)
+				{
+					for(int i = 0; i < data.posMap.size(); i++)
+					{
+						if(data.posMap.get(i).createSquare(25, 500, 25).isUnder(Vector3f.getVectorFromEntity(event.entity))) {
+							data.posMap.remove(i);
+						}
+					}
+				}
 			}
-			
 		}
 	}
 	

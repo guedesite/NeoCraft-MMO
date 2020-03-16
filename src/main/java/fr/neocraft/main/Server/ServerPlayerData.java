@@ -4,6 +4,9 @@ import fr.neocraft.main.util.Vector3f;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import static fr.neocraft.main.main.bdd;
+
+import java.util.ArrayList;
+
 import net.minecraft.util.ChatComponentTranslation;
 import net.querz.nbt.CompoundTag;
 import fr.neocraft.main.Server.Zone.Zone;
@@ -37,7 +40,10 @@ public class ServerPlayerData {
 	public Vector3f pos1, pos2, lastBeforeHouse = null;
 	public CompoundTag seeds;
 	
+	public ArrayList<Vector3f> posMap;
+	
 	public EntityPlayer p;
+	
 	
 	public ServerPlayerData(EntityPlayer pl) {
 		p = pl;

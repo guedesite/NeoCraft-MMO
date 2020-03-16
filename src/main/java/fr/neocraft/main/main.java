@@ -51,7 +51,6 @@ public class main {
     public static final Logger l = LogManager.getLogger();
     
     public static final bdd bdd = new bdd();
-    
     public static HashMap<String, ClientPlayerData> AllPlayer = new HashMap<String, ClientPlayerData>();
     
     public static HashMap<String, ServerPlayerData> AllPlayerServer = new HashMap<String, ServerPlayerData>();
