@@ -35,9 +35,9 @@ public class HouseManager {
 		if(tag != null && tag.get("xyzuvw") != null)
 		{
 			Vector6f v = (Vector6f)((SerializableTag)tag.get("xyzuvw")).getValue();
-			size.u = -v.u;
-			size.v = -v.v;
-			size.w = -v.w;
+			size.u = v.u;
+			size.v = v.v;
+			size.w = v.w;
 			size.y = Y;
 			size.z = Z;
 		}
@@ -64,7 +64,7 @@ public class HouseManager {
 	
 	public static void TeleportPlayerToHouse(ServerPlayerData p) {
 		p.lastBeforeHouse = new Vector3f((int)p.p.posX,(int) p.p.posY,(int)p.p.posZ);
-		Teleport.player(p.p, X +  p.HouseIndex * 55 -43, Y+1, Z+3);
+		Teleport.player(p.p, X +  p.HouseIndex * 55, Y+1, Z);
 	}
 	
 	public static boolean isUnderHouse(ServerPlayerData p)

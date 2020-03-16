@@ -64,11 +64,8 @@ public class CommandDonjon extends CommandBase{
 					if(data.seeds.getListTag("mobs") != null)
 					{
 						ListTag l =data.seeds.getListTag("mobs");
-						ListTag all = new ListTag(SerializableTag.class);
-						all.addAll(l.val());
-						all.add(new SerializableTag(v));
+						l.add(new SerializableTag(v));
 						
-						data.seeds.put("mobs", all);
 					} else {
 						ListTag all = new ListTag(SerializableTag.class);
 						
@@ -88,11 +85,9 @@ public class CommandDonjon extends CommandBase{
 					if(data.seeds.getListTag("boss") != null)
 					{
 						ListTag l =data.seeds.getListTag("boss");
-						ListTag all = new ListTag(SerializableTag.class);
-						all.addAll(l.val());
-						all.add(new SerializableTag(v));
-						
-						data.seeds.put("boss", all);
+					
+						l.add(new SerializableTag(v));
+
 					} else {
 						ListTag all = new ListTag(SerializableTag.class);
 						
