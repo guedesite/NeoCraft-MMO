@@ -431,6 +431,7 @@ public class bdd {
 	  `HouseIndex` int DEFAULT -1,
 	  `Pseudo` text NOT NULL,
 	  `HouseBy` int DEFAULT 0,
+	  `posMap` text default null,
 	  PRIMARY KEY (`id`)
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -452,6 +453,7 @@ public class bdd {
 	 * HouseIndex
 	 * Pseudo
 	 * HouseBy
+	 * posMap
 	 */
 	public String getStringPlayer() {
 		return "`MMO-Player`";

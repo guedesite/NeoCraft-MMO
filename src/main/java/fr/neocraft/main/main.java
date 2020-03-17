@@ -142,4 +142,9 @@ public class main {
 	    }
 	    return null;
 	}
+    
+    public static ListIterator getPlayer(){
+	    return (ListIterator) MinecraftServer.getServer().getConfigurationManager().playerEntityList.listIterator();
+
+	}
 }

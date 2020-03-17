@@ -1,6 +1,7 @@
 package fr.neocraft.main.event;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.ListIterator;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -12,6 +13,7 @@ import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.proxy.network.NetWorkClient;
+import fr.neocraft.main.proxy.network.util.Serializer;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
 import fr.neocraft.main.proxy.network.util.object.ClientSetListPlayer;
 import fr.neocraft.main.proxy.network.util.object.ClientUpdateListPlayer;
@@ -61,12 +63,18 @@ public class ZoneEventFML {
 				dataServer.Money = result.getDouble("Money");
 				dataServer.Zone = ZoneManager.getZoneAtEntity(event.player);
 				dataServer.HouseBy = result.getInt("HouseBy");
+
+				if(result.getString("posMap") != null) {
+					ArrayList ar = (ArrayList) Serializer.fromString(result.getString("posMap"));
+					dataServer.posMap = ar;
+					dataClient.posMap = ar;
+				}
 				
 			}
 		} catch(Exception e) {
 			CRASH.Push(e);
 		}
-		 ListIterator li = (ListIterator) MinecraftServer.getServer().getConfigurationManager().playerEntityList.listIterator();
+		 ListIterator li = main.getPlayer();
 	
 		 EntityPlayerMP p ;
 		 while (li.hasNext()){
@@ -76,7 +84,7 @@ public class ZoneEventFML {
 		        	main.NetWorkClient.sendTo(new NetWorkClient(new  ClientUpdateListPlayer(0, event.player.getCommandSenderName(), dataClient)), p);
 		        }
 		    }
-		 main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);
+		// main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);
 		 main.AllPlayerServer.put(event.player.getCommandSenderName(), dataServer);
 		 main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetListPlayer(main.AllPlayer)), (EntityPlayerMP) event.player);
 		 main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetHeaderText(true, dataServer.Zone.getName(), dataServer.Zone.getSecName())), (EntityPlayerMP)event.player);

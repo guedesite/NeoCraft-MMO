@@ -44,5 +44,22 @@ public class Serializer {
         }
 
     }
+    
+    public static Object fromString( String u ){
+        try{
+        	ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( Base64.getDecoder().decode( u) ) );
+            Object o = ois.readObject();
+            ois.close();
+            return o;
+        } catch (ClassNotFoundException e) {
+            CRASH.Push(e);
+            return null;
+        } catch (IOException e) {
+        	 CRASH.Push(e);
+        	return null;
+        }
+
+    }
+
 
 }

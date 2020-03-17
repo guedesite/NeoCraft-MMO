@@ -4,6 +4,8 @@ package fr.neocraft.main.Server.Quest;
 import fr.neocraft.main.main;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClienGui;
+import fr.neocraft.main.proxy.network.util.object.ClientUpdateMapPos;
+import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.pnj.Action.EnumPnjAction;
 import fr.neocraft.pnj.Action.PnjAction;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -89,6 +91,22 @@ public class RegisterQuestEnum {
 			@Override
 			public boolean MakeAction(Object pl) {
 				((EntityPlayer)pl).addChatMessage(new ChatComponentText((String)this.Value));
+				return true;
+			}
+		});
+		
+		EnumPnjAction.setCondition(EnumPnjAction.AddMapPoint, new PnjAction() { 
+			@Override
+			public boolean MakeAction(Object pl) {
+				main.NetWorkClient.sendTo(new NetWorkClient(new ClientUpdateMapPos(((EntityPlayer)pl).getCommandSenderName(), 0, new Vector3f(Integer.parseInt((String)this.Value), 0, Integer.parseInt((String)this.Value2)))), (EntityPlayerMP)pl);
+				return true;
+			}
+		});
+		
+		EnumPnjAction.setCondition(EnumPnjAction.RemoveMapPoint, new PnjAction() { 
+			@Override
+			public boolean MakeAction(Object pl) {
+				main.NetWorkClient.sendTo(new NetWorkClient(new ClientUpdateMapPos(((EntityPlayer)pl).getCommandSenderName(),-1, new Vector3f(Integer.parseInt((String)this.Value), 125, Integer.parseInt((String)this.Value2)))), (EntityPlayerMP)pl);
 				return true;
 			}
 		});
