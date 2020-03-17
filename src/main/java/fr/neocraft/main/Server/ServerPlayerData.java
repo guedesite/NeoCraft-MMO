@@ -1,14 +1,27 @@
 package fr.neocraft.main.Server;
 
+import fr.neocraft.main.util.CRASH;
 import fr.neocraft.main.util.Vector3f;
+import fr.neocraft.pnj.PnjData;
+import fr.neocraft.quest.QuestData;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import static fr.neocraft.main.main.bdd;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.minecraft.util.ChatComponentTranslation;
 import net.querz.nbt.CompoundTag;
+import net.querz.nbt.NBTUtil;
+import net.querz.nbt.Tag;
+import net.querz.nbt.custom.PnjDataTag;
+import net.querz.nbt.custom.SerializableTag;
 import fr.neocraft.main.Server.Zone.Zone;
 
 public class ServerPlayerData {
@@ -88,5 +101,36 @@ public class ServerPlayerData {
 		}
 		bdd.updateProtocole(bdd.getStringPlayer(), new Object[] { key, value}, "WHERE Pseudo='"+p.getCommandSenderName()+"'");
 	}
+	
+
+	class Quest {
+		
+		public List<QuestData> data;
+		
+		public Quest(String uuid) {
+			data = new ArrayList<QuestData>();
+			File f = new File("assets/PlayerQuest/"+uuid+".dat");
+			if(f.exists())
+			{
+				try {
+					data = (List<QuestData>) ((SerializableTag) NBTUtil.readTag(f).clone()).getValue();
+				} catch (Exception e) {
+					CRASH.Push(e);
+				}
+			}
+		}
+		
+		public void Save(String uuid) {
+			try {
+				File f = new File("assets/PlayerQuest/"+uuid+".dat");
+				NBTUtil.writeTag(new SerializableTag((Serializable) data), f);
+			} catch(Exception e) {
+				CRASH.Push(e);
+			}
+		}
+		
+	}
+	
+	
 	
 }

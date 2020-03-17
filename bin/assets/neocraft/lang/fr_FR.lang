@@ -13,3 +13,4 @@ neo.money.deny.amount=§dIl vous manque %s§d$
 neo.money.remove=§4-%s§4$
 neo.house.deny.notallby1=§cVous devez avoir acheter toutes les extensions
 neo.house.deny.notallby2=§cavant de pouvoir éditer votre maison.
+neo.dropItem=§4Votre inventaire est plein, les items sont par terre !
