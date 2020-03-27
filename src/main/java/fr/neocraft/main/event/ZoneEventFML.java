@@ -86,6 +86,7 @@ public class ZoneEventFML {
 		    }
 		// main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);
 		 main.AllPlayerServer.put(event.player.getCommandSenderName(), dataServer);
+		 main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);
 		 main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetListPlayer(main.AllPlayer)), (EntityPlayerMP) event.player);
 		 main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetHeaderText(true, dataServer.Zone.getName(), dataServer.Zone.getSecName())), (EntityPlayerMP)event.player);
 		 bdd.CloseFreeId(id);
@@ -104,6 +105,7 @@ public class ZoneEventFML {
 		        }
 		    }
 		 ServerPlayerData data = main.AllPlayerServer.get(event.player.getCommandSenderName());
+		 data.quest.Save(event.player.getUniqueID().toString());
 		 if(data.lastBeforeHouse != null)
 		 {
 			 event.player.setPosition(data.lastBeforeHouse.x+0.5, data.lastBeforeHouse.y+0.5, data.lastBeforeHouse.z+0.5);

@@ -5,6 +5,7 @@ import static fr.neocraft.main.main.bdd;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
+import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.proxy.network.NetWorkClient;
@@ -189,6 +190,10 @@ public class CommandManager extends CommandBase{
 				}else {
 					M(ic, "Tu en as déjà une !");
 				}
+			}
+			else if(arg[0].equals("reloaddata")) {
+				DataManager.register();
+				M(ic, "reload");
 			}else if(arg[0].equals("tpmyhouse"))
 			{
 				HouseManager.TeleportPlayerToHouse(data);

@@ -6,6 +6,7 @@ import fr.neocraft.main.event.RenderEventClient;
 import fr.neocraft.main.event.TickClientEvent;
 import fr.neocraft.main.render.Block.RenderBlockBarrierRed;
 import fr.neocraft.main.render.Block.RenderBlockDoorHouse;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
@@ -18,11 +19,9 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void onInit() {
-		
+		Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 		FMLCommonHandler.instance().bus().register(new TickClientEvent());
 		MinecraftForge.EVENT_BUS.register(GuiClientManager);
-		
-		
 		RenderIdBarrierRed = RenderingRegistry.getNextAvailableRenderId();
 	    RenderingRegistry.registerBlockHandler(RenderIdBarrierRed, new RenderBlockBarrierRed());
 	    

@@ -3,9 +3,14 @@ package fr.neocraft.main.Server;
 import fr.neocraft.main.util.CRASH;
 import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.pnj.PnjData;
+import fr.neocraft.quest.ElementData;
 import fr.neocraft.quest.QuestData;
+import fr.neocraft.quest.Condition.EnumCondition;
+import fr.neocraft.quest.Condition.QuestCondition;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import static fr.neocraft.main.main.bdd;
 
 import java.io.File;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +28,12 @@ import net.querz.nbt.NBTUtil;
 import net.querz.nbt.Tag;
 import net.querz.nbt.custom.PnjDataTag;
 import net.querz.nbt.custom.SerializableTag;
+import fr.neocraft.main.main;
+import fr.neocraft.main.Server.Quest.DataManager;
+import fr.neocraft.main.Server.Quest.QuestClientGuiInfo;
 import fr.neocraft.main.Server.Zone.Zone;
+import fr.neocraft.main.proxy.network.NetWorkClient;
+import fr.neocraft.main.proxy.network.util.object.ClientSetQuest;
 
 public class ServerPlayerData {
 	public int life;
@@ -56,10 +67,11 @@ public class ServerPlayerData {
 	public ArrayList<Vector3f> posMap;
 	
 	public EntityPlayer p;
-	
+	public Quest quest;
 	
 	public ServerPlayerData(EntityPlayer pl) {
 		p = pl;
+		quest=new Quest(pl.getUniqueID().toString());
 	}
 	
 	public boolean hasMoneyAndNotif( double amount)
@@ -103,20 +115,77 @@ public class ServerPlayerData {
 	}
 	
 
-	class Quest {
+	public class Quest{
 		
-		public List<QuestData> data;
+		public Map<Integer, QuestPlayerData> data;
+		
+		public void SendToPlayerAllQuest(EntityPlayer pl) {
+			QuestClientGuiInfo[] finale = new QuestClientGuiInfo[data.size()];
+			
+			int o =0;
+			Iterator it = data.keySet().iterator();
+			while(it.hasNext())
+			{
+				int id = (Integer) it.next();
+				QuestClientGuiInfo info = new QuestClientGuiInfo();
+				QuestData q = DataManager.getQuestById(id);
+				
+				info.titre = q.Title;
+				info.texte = q.Description;
+				
+				ElementData el = q.Element.get(data.get(id).PlayerIndex);
+				
+				info.conditions = new Object[el.condition.size()][3];
+				for(int i = 0; i < el.condition.size() ; i++)
+				{
+					info.conditions[i] = new Object[] { el.condition.get(i).getName(), el.condition.get(i).Value,el.condition.get(i).Value2 }; 
+				}
+	
+				info.recompense = new Object[el.recompense.size()][3];
+				for(int i = 0; i < q.QuestCondition.size() ; i++)
+				{
+					info.recompense[i] = new Object[] { el.recompense.get(i).getName(), el.recompense.get(i).Value,el.recompense.get(i).Value2 }; 
+				}
+				finale[o] = info;
+				o++;
+			}
+			
+			main.NetWorkClient.sendTo(new NetWorkClient(new ClientSetQuest(finale)), (EntityPlayerMP) pl);
+			
+		}
+		
+		public void Event(EntityPlayer EntityPlayer, Object ad1, Object ad2, EnumCondition en) {
+			Iterator it = data.keySet().iterator();
+			ArrayList<Integer> toRemove = new ArrayList<Integer>();
+			while(it.hasNext())
+			{
+				int id = (Integer) it.next();
+				QuestPlayerData pl = (QuestPlayerData) data.get(id);
+				if(pl.Event(EntityPlayer, ad1, ad2, en)) {
+					DataManager.getQuestById(id).endElement(EntityPlayer, pl.PlayerIndex);
+					if(pl.PlayerIndex == -1)
+					{
+						toRemove.add(id);
+					}
+				}
+			}
+			for(int i:toRemove) {
+				data.remove(i);
+			}
+		}
 		
 		public Quest(String uuid) {
-			data = new ArrayList<QuestData>();
 			File f = new File("assets/PlayerQuest/"+uuid+".dat");
 			if(f.exists())
 			{
 				try {
-					data = (List<QuestData>) ((SerializableTag) NBTUtil.readTag(f).clone()).getValue();
+					data = (HashMap<Integer, QuestPlayerData>) ((SerializableTag) NBTUtil.readTag(f).clone()).getValue();
 				} catch (Exception e) {
 					CRASH.Push(e);
 				}
+			}
+			else {
+				data = new HashMap<Integer, QuestPlayerData>();
 			}
 		}
 		
@@ -126,6 +195,59 @@ public class ServerPlayerData {
 				NBTUtil.writeTag(new SerializableTag((Serializable) data), f);
 			} catch(Exception e) {
 				CRASH.Push(e);
+			}
+		}
+		
+		
+		class QuestPlayerData implements Serializable{
+			private static final long serialVersionUID = 879879986L;
+			public int PlayerIndex;
+			
+			public ArrayList<valCondition> allcond;
+			
+			public QuestPlayerData(ArrayList<QuestCondition> cond)
+			{ 
+				PlayerIndex=0;
+				allcond = new ArrayList<valCondition>();
+				for(QuestCondition q:cond)
+				{
+					allcond.add(new valCondition((q.Value != null ? ((String)q.Value) : "")+(q.Value2 != null ? ((String) q.Value2) : "")+q.getName()));
+				}
+			}
+			
+			
+			
+			public boolean Event(Object EntityPlayer, Object data, Object data2, EnumCondition en) {
+				String ev = (data != null ? ((String)data) : "")+(data2 != null ? ((String) data2) : "")+en.name();
+				for(int i = 0; i < allcond.size(); i++)
+				{
+					if(allcond.get(i).index.equals(ev))
+					{
+						int d = EnumCondition.getCondition(en).CheckCondition(EntityPlayer, data, data2,allcond.get(i).amount);
+						if(d == 0)
+						{
+							allcond.remove(i);
+						}
+						else if(d > 0)
+						{
+							allcond.get(i).amount += d;
+						}
+					}
+				}
+				return  allcond.size() == 0;
+			}
+			
+			class valCondition implements Serializable{
+
+				private static final long serialVersionUID = 879879987L;
+				String index;
+				int amount;
+				
+				public valCondition(String in)
+				{
+					index = in;
+					amount = 0;
+				}
 			}
 		}
 		

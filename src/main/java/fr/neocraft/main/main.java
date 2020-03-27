@@ -1,5 +1,6 @@
 package fr.neocraft.main;
 
+
 import java.util.HashMap;
 import java.util.ListIterator;
 
@@ -25,6 +26,7 @@ import fr.neocraft.main.Init.ItemMod;
 import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
+import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.Server.cmd.CommandDonjon;
 import fr.neocraft.main.Server.cmd.CommandManager;
@@ -33,6 +35,7 @@ import fr.neocraft.main.event.ZoneEventFML;
 import fr.neocraft.main.event.ZoneEventFORGE;
 import fr.neocraft.main.proxy.CommonProxy;
 import fr.neocraft.main.util.CRASH;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,6 +60,9 @@ public class main {
     
     public static SimpleNetworkWrapper NetWorkClient, NetWorkServer;
     public static CreativeTabs neocraft;
+    
+    
+    
     private void registerTab()
     {
     	neocraft= new CreativeTabs("neocraft")
@@ -105,7 +111,7 @@ public class main {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	
+    
     }
     
     @EventHandler
@@ -118,6 +124,7 @@ public class main {
     		{
     			HouseManager.loadUp();
     			ZoneManager.Register();
+    			DataManager.register();
     			ServerCommandManager cmdman = (ServerCommandManager) MinecraftServer.getServer().getCommandManager(); 
 		    	cmdman.registerCommand(new CommandManager());
 		    	cmdman.registerCommand(new CommandSeeds());
@@ -129,7 +136,19 @@ public class main {
     @EventHandler
     public void onServerStopped(FMLServerStoppingEvent event)
     {	
-
+    	if(bdd.IsClass)
+    	{
+    		if(bdd.IsOpen)
+    		{
+    			bdd.Closebdd();
+    		}
+    		ListIterator it = getPlayer();
+    		while(it.hasNext())
+    		{
+    			EntityPlayer player = (EntityPlayer) it.next();
+    			AllPlayerServer.get(player).quest.Save(player.getUniqueID().toString());
+    		}
+    	}
     }
     
     public static EntityPlayer getPlayer(String name){

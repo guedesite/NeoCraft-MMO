@@ -32,10 +32,9 @@ public class CRASH {
 		
 		}
 		try {
-		
 			System.err.println("Error saved in: "+f.getAbsolutePath());
 		
-			f.createNewFile();
+			f.mkdir();
 
 			
 			PrintWriter writer = new PrintWriter(f, "UTF-8");

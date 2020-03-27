@@ -3,6 +3,8 @@ package fr.neocraft.main.proxy.network.util.object;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.proxy.network.util.T;
@@ -19,6 +21,7 @@ public class ClientSetListPlayer extends T {
 	
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void A() {
 		main.AllPlayer = list;
 	}

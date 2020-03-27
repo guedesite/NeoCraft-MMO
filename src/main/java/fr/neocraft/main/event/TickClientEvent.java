@@ -20,9 +20,12 @@ public class TickClientEvent {
 	
 	@SubscribeEvent
     public void onTick(ClientTickEvent evt) {
-		if(KEY_MAP.isPressed())
+		if(Minecraft.getMinecraft().isIntegratedServerRunning())
 		{
-			Minecraft.getMinecraft().displayGuiScreen(new CarteGui());
+			if(KEY_MAP.isPressed())
+			{
+				Minecraft.getMinecraft().displayGuiScreen(new CarteGui());
+			}
 		}
 	}
 }

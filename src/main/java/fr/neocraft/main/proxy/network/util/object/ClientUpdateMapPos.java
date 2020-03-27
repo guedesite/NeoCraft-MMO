@@ -4,6 +4,8 @@ import static fr.neocraft.main.main.bdd;
 
 import java.util.ArrayList;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.Server.ServerPlayerData;
@@ -50,6 +52,7 @@ public class ClientUpdateMapPos extends T {
 	
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void A() {
 		ClientPlayerData data = main.AllPlayer.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 		switch(stat) {
