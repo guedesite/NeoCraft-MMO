@@ -19,6 +19,9 @@ public class DataManager {
 	public static QuestData getQuestById(int id) {
 		return allQuest.get((Integer)id);
 	}
+	public static PnjData getPnjById(int id) {
+		return allPnj.get((Integer)id);
+	}
 	
 	public static void register() {
 		ArrayList<QuestData> q = QuestDataManager.LoadAllQuest("assets/quest.dat");

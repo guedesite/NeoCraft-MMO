@@ -2,8 +2,29 @@
 key.neocraft=Custom NeoCraft
 key.map=Ouvrir la map
 
+itemGroup.neocraft.name=NeoCraft
+itemGroup.neocraftDeco.name=NeoCraft décoration
+itemGroup.neocraftDecoStair.name=NeoCraft décoration escalier
+itemGroup.neocraftDecoSlab.name=NeoCraft décoration demi-dalle
+
 tile.BarrierRed.name=Block invisible
 tile.MoreHouse.name=Agrandisseur de maison
+tile.NeologStripped.name=Bois lisse
+tile.frosted_ice.name=Glace fracturé
+tile.cut_red_sandstone.name=Pierre de sable rouge coupé
+tile.red_sandstone.name=Pierre de sable rouge
+tile.chiseled_red_sandstone.name=Pierre de sable rouge taillé
+tile.stripped_bone_block.name=Block d'os
+tile.prismarine_1.name=Prismarine
+tile.prismarine_2.name=Prismarine
+tile.prismarine_3.name=Prismarine
+tile.prismarine_4.name=Prismarine
+tile.dark_prismarine.name=Prismarine foncé
+tile.red_nether_bricks.name=Nether brique rouge
+tile.prismarine_bricks.name=Brique prismarine
+tile.magma.name=Block de magma
+tile.sea_lantern.name=Lanterne de mer
+tile.nether_wart_block.name=Block de nether wart
 
 item.Copyright_NeoCraft.name=Copyright NeoCraft
 item.Seeds_Stick.name=Seeds Stick
@@ -11,6 +32,32 @@ item.ItemDoorHouse.name=Item Door House
 
 neo.money.deny.amount=§dIl vous manque %s§d$
 neo.money.remove=§4-%s§4$
+neo.money.add=§a-%s§a$
 neo.house.deny.notallby1=§cVous devez avoir acheter toutes les extensions
 neo.house.deny.notallby2=§cavant de pouvoir éditer votre maison.
 neo.dropItem=§4Votre inventaire est plein, les items sont par terre !
+
+neo.condition.WinXp=Gagner %s XP.
+neo.condition.WinLvl=Gagner %s LVL.
+neo.condition.SpeakToPnj=Parler à %s.
+neo.condition.WinMoney=Gagner %s $.
+neo.condition.PlaceBlock=Placer le block %s %s fois.
+neo.condition.BreakBlock=Casser le block %s %s fois.
+neo.condition.BuyHouse=Acheter votre maison.
+neo.condition.IsGoodRace=Être de la race %s.
+neo.condition.IsGoodClasse=Être la classe %s.
+neo.condition.IsFaction=Être de la faction %s.
+neo.condition.IsDay=Qu'il fasse jour.
+neo.condition.IsNight=Qu'il fasse nuit.
+neo.condition.HasHouse=Avoir une maison.
+neo.condition.HasItemInInventory=Avoir %s %s dans l'inventaire.
+neo.condition.HasItemInHand=Avoir %s %s dans les mains.
+neo.condition.HasDoQuest=Avoir fais la quête "%s".
+neo.condition.HasLevel=Être LVL %s.
+neo.condition.HasDamageOrMore=Faire plus de %s de dégats.
+neo.condition.HasLifeOrMore=Avoir plus de %s PV.
+neo.condition.HasSpeedOrMore=Avoir plus de %s de Speed;
+neo.condition.HasRegenOrMore=Avoir plus de %s de régénérations.
+neo.condition.HasMoneyOrMore=Avoir plus de %s $
+neo.condition.HasReputation1=Avoir plus de %s de réputation au près de votre race dans votre faction.
+neo.condition.HasReputation2=Avoir plus de %s de réputation au près de de l'autre race dans votre faction.

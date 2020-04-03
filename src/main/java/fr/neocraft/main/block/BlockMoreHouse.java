@@ -28,8 +28,9 @@ public class BlockMoreHouse extends BlockBasic {
 	 private IIcon autre;
 	
 	 
-	public BlockMoreHouse(Material p_i45394_1_, int level) {
-		super(p_i45394_1_, level);
+	public BlockMoreHouse(Material p_i45394_1_) {
+		super(p_i45394_1_);
+		this.setHarvestLevel("pickaxe",20);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -59,7 +60,7 @@ public class BlockMoreHouse extends BlockBasic {
         	{
 	        	if(data.hasMoneyAndNotif(HouseManager.price[data.HouseBy]))
 	        	{
-	        		data.RemoveMoney(HouseManager.price[data.HouseBy]);
+	        		data.removeMoney(HouseManager.price[data.HouseBy]);
 	        		data.HouseBy++;
 	        		data.UpdateVal("HouseBy", data.HouseBy);
 	        		by(p_149727_1_,p_149727_2_, p_149727_3_, p_149727_4_);

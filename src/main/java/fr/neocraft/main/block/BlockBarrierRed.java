@@ -13,8 +13,9 @@ import net.minecraft.world.World;
 
 public class BlockBarrierRed extends BlockBasic{
 
-	public BlockBarrierRed(Material p_i45394_1_, int level) {
-		super(p_i45394_1_, level);
+	public BlockBarrierRed(Material p_i45394_1_) {
+		super(p_i45394_1_);
+		this.setHarvestLevel("pickaxe", 20);
 	}
 	
 	public boolean isOpaqueCube() {

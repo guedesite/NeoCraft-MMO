@@ -86,19 +86,31 @@ public class ServerPlayerData {
 		}
 	}
 	
+	public void giveMoney(double amount) {
+		Money += amount;
+		M(p, "neo.money.add", "&a"+amount);
+		UpdateVal("Money", Money);
+	}
+	
+	public void removeMoney(double amount) {
+		if(!debug)
+		{
+			Money -= amount;
+		}
+		if(0 > Money)
+		{
+			Money = 0;
+		}
+		M(p, "neo.money.remove", "&4"+amount);
+		UpdateVal("Money", Money);
+	}
+	
 	public boolean hasMoney( double amount)
 	{
 		return Money > amount || debug;
 	}
 	
-	public void RemoveMoney(double amount) {
-		if(!debug)
-		{
-			Money -= amount;
-		}
-		M(p, "neo.money.remove", "&4"+amount);
-		UpdateVal("Money", Money);
-	}
+
 	
 	private void M(ICommandSender player, String msg, Object ... obj) {
 		player.addChatMessage(new ChatComponentTranslation(msg,obj));
@@ -115,9 +127,25 @@ public class ServerPlayerData {
 	}
 	
 
-	public class Quest{
+	public class Quest {
 		
 		public Map<Integer, QuestPlayerData> data;
+		
+		
+		public void addQuest(EntityPlayer pl, QuestData q) {
+			
+			data.put(q.id, new QuestPlayerData(q.Element.get(0).condition));
+			Save(pl.getUniqueID().toString());
+			SendToPlayerAllQuest(pl);
+		}
+		
+		public void removeQuest(EntityPlayer pl, int id) {
+			
+			data.remove(id);
+			Save(pl.getUniqueID().toString());
+			SendToPlayerAllQuest(pl);
+		}
+		
 		
 		public void SendToPlayerAllQuest(EntityPlayer pl) {
 			QuestClientGuiInfo[] finale = new QuestClientGuiInfo[data.size()];
@@ -135,10 +163,11 @@ public class ServerPlayerData {
 				
 				ElementData el = q.Element.get(data.get(id).PlayerIndex);
 				
-				info.conditions = new Object[el.condition.size()][3];
+				info.conditions = new Object[el.condition.size()][4];
 				for(int i = 0; i < el.condition.size() ; i++)
 				{
-					info.conditions[i] = new Object[] { el.condition.get(i).getName(), el.condition.get(i).Value,el.condition.get(i).Value2 }; 
+				
+					info.conditions[i] = new Object[] { el.condition.get(i).getName(), el.condition.get(i).Value,el.condition.get(i).Value2, false }; 
 				}
 	
 				info.recompense = new Object[el.recompense.size()][3];
@@ -167,6 +196,9 @@ public class ServerPlayerData {
 					{
 						toRemove.add(id);
 					}
+					else {
+						
+					}
 				}
 			}
 			for(int i:toRemove) {
@@ -186,6 +218,7 @@ public class ServerPlayerData {
 			}
 			else {
 				data = new HashMap<Integer, QuestPlayerData>();
+				Save(uuid);
 			}
 		}
 		

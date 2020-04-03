@@ -39,6 +39,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,7 +60,7 @@ public class main {
     public static HashMap<String, ServerPlayerData> AllPlayerServer = new HashMap<String, ServerPlayerData>();
     
     public static SimpleNetworkWrapper NetWorkClient, NetWorkServer;
-    public static CreativeTabs neocraft;
+    public static CreativeTabs neocraft, neocraftdeco, neocraftdecoStair, neocraftdecoSlab;
     
     
     
@@ -71,6 +72,30 @@ public class main {
             public Item getTabIconItem()
             {
                 return ItemMod.Copyright_NeoCraft;
+            }
+        };
+        neocraftdeco= new CreativeTabs("neocraftDeco")
+        {
+            @SideOnly(Side.CLIENT)
+            public Item getTabIconItem()
+            {
+                return Item.getItemFromBlock(Blocks.wool);
+            }
+        };
+        neocraftdecoStair= new CreativeTabs("neocraftDecoStair")
+        {
+            @SideOnly(Side.CLIENT)
+            public Item getTabIconItem()
+            {
+                return Item.getItemFromBlock(Blocks.stone_stairs);
+            }
+        };
+        neocraftdecoSlab= new CreativeTabs("neocraftDecoSlab")
+        {
+            @SideOnly(Side.CLIENT)
+            public Item getTabIconItem()
+            {
+                return Item.getItemFromBlock(Blocks.stone_slab);
             }
         };
     }

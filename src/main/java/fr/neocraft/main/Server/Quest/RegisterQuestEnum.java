@@ -5,6 +5,7 @@ import fr.neocraft.main.main;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClienGui;
 import fr.neocraft.main.proxy.network.util.object.ClientUpdateMapPos;
+import fr.neocraft.main.util.Teleport;
 import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.pnj.Action.EnumPnjAction;
 import fr.neocraft.pnj.Action.PnjAction;
@@ -24,22 +25,51 @@ public class RegisterQuestEnum {
 		EnumPnjAction.register();
 		/*
 
-	GiveQuest,
-	GiveMoney,
-	Teleport,
+
 	ExecutePlayerCommand,
 	ExecuteConsolCommand,
-		 * 
+			
 		 */
 		
 		
-		
 		EnumPnjAction.setCondition(EnumPnjAction.Null, new PnjAction() {
-
 			@Override
 			public boolean MakeAction(Object arg0) {
 				return true;
-			} });
+			} 
+		});
+		EnumPnjAction.setCondition(EnumPnjAction.GiveMoney, new PnjAction() {
+			@Override
+			public boolean MakeAction(Object entity) {
+				main.AllPlayerServer.get((EntityPlayer)entity).giveMoney(Integer.parseInt((String) this.Value));
+				return true;
+			} 
+		});
+		EnumPnjAction.setCondition(EnumPnjAction.RemoveMoney, new PnjAction() {
+			@Override
+			public boolean MakeAction(Object entity) {
+				main.AllPlayerServer.get((EntityPlayer)entity).removeMoney(Integer.parseInt((String) this.Value));
+				return true;
+			} 
+		});
+		EnumPnjAction.setCondition(EnumPnjAction.GiveQuest, new PnjAction() {
+			@Override
+			public boolean MakeAction(Object entity)
+			{
+				 main.AllPlayerServer.get((EntityPlayer)entity).quest.addQuest((EntityPlayer)entity, DataManager.getQuestById(Integer.parseInt(this.Value+"")));
+				return true;
+			}
+		});
+		
+		EnumPnjAction.setCondition(EnumPnjAction.Teleport, new PnjAction() {
+			@Override
+			public boolean MakeAction(Object entity)
+			{
+				String[] xyz = ((String) this.Value).split(":");
+				Teleport.player((EntityPlayer)entity, Integer.parseInt(xyz[0]), Integer.parseInt(xyz[1]), Integer.parseInt(xyz[2]));
+				return true;
+			}
+		});
 		
 		EnumPnjAction.setCondition(EnumPnjAction.CloseText, new PnjAction() { 
 			@Override
@@ -120,7 +150,7 @@ public class RegisterQuestEnum {
 		
 		
 		
-		
+		//cmd
 		
 		
 		EnumRecompense.register();
@@ -194,6 +224,43 @@ public class RegisterQuestEnum {
 			public void GiveRecompense(Object pl) {
 				main.NetWorkClient.sendTo(new NetWorkClient(new ClientUpdateMapPos(((EntityPlayer)pl).getCommandSenderName(),-1, new Vector3f(Integer.parseInt((String)this.Value), 125, Integer.parseInt((String)this.Value2)))), (EntityPlayerMP)pl);
 			}
+		});
+		
+		EnumRecompense.setCondition(EnumRecompense.Teleport, new QuestRecompense() { 
+			
+			@Override
+			public void GiveRecompense(Object entity)
+			{
+				String[] xyz = ((String) this.Value).split(":");
+				Teleport.player((EntityPlayer)entity, Integer.parseInt(xyz[0]), Integer.parseInt(xyz[1]), Integer.parseInt(xyz[2]));
+			}
+			
+		});
+		
+		EnumRecompense.setCondition(EnumRecompense.GiveQuest, new QuestRecompense() { 
+			
+			@Override
+			public void GiveRecompense(Object entity)
+			{
+				main.AllPlayerServer.get((EntityPlayer)entity).quest.addQuest((EntityPlayer)entity, DataManager.getQuestById(Integer.parseInt(this.Value+"")));
+			}
+			
+		});
+		
+		EnumRecompense.setCondition(EnumRecompense.GiveMoney, new QuestRecompense() { 
+			@Override
+			public void GiveRecompense(Object entity)
+			{
+				main.AllPlayerServer.get((EntityPlayer)entity).giveMoney(Integer.parseInt((String) this.Value));
+			} 
+		});
+		EnumRecompense.setCondition(EnumRecompense.RemoveMoney, new QuestRecompense() { 
+			
+			@Override
+			public void GiveRecompense(Object entity)
+			{
+				main.AllPlayerServer.get((EntityPlayer)entity).removeMoney(Integer.parseInt((String) this.Value));
+			} 
 		});
 		
 	}
