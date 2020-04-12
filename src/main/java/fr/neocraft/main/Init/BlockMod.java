@@ -19,7 +19,7 @@ import fr.neocraft.main.block.*;
 public class BlockMod {
 
 	
-	public static Block[] blockreg;
+	public static Block[] blockreg, BlockDoor = new Block[7];
 	
 	public static Block 
 	BarrierRed, 
@@ -144,7 +144,13 @@ public class BlockMod {
 				,new BlockNeoWall(BlockredNetherBrick, 3)
 				,new BlockNeoWall(Blocks.sandstone, 3)
 				
-				
+				,BlockDoor[0] = new BlockNeoDoor("acacia_door")
+				,BlockDoor[1] = new BlockNeoDoor("birch_door")
+				,BlockDoor[2] = new BlockNeoDoor("dark_oak_door")
+				,BlockDoor[3] = new BlockNeoDoor("iron_door")
+				,BlockDoor[4] = new BlockNeoDoor("jungle_door")
+				,BlockDoor[5] = new BlockNeoDoor("oak_door")
+				,BlockDoor[6] = new BlockNeoDoor("spruce_door")
 				
 				
 		};

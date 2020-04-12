@@ -23,8 +23,9 @@ public class RenderEventClient {
 
 	//@SubscribeEvent
 	//RenderPlayerEvent
-	
-	
+	public float x = 0;
+	public float y = 0;
+	public float z = 0;
 	private Minecraft mc = Minecraft.getMinecraft();
 	private  String CaraColor = I18n.format("neo.cara.color");
 	private boolean isLaunchDecompt = false;
@@ -84,12 +85,14 @@ public class RenderEventClient {
 	@SubscribeEvent
 	public void RenderPlayerEventSpecial(RenderPlayerEvent.Specials.Pre event)
 	{
-		event.setCanceled(true);
+		//event.setCanceled(true);
 	}
+	
 	
 	@SubscribeEvent
 	public void RenderPlayerEvent(RenderPlayerEvent.Pre event)
 	{
+		
 		ClientPlayerData pl = main.AllPlayer.get(event.entityPlayer.getCommandSenderName());
 		if(pl != null)
 		{

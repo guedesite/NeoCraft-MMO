@@ -23,7 +23,7 @@ public class DataManager {
 		return allPnj.get((Integer)id);
 	}
 	
-	public static void register() {
+	public static void register() throws Exception {
 		ArrayList<QuestData> q = QuestDataManager.LoadAllQuest("assets/quest.dat");
 		for(QuestData qd:q)
 		{
@@ -33,6 +33,7 @@ public class DataManager {
 		ArrayList<PnjData> q2 = PnjDataManager.LoadAllPnj("assets/pnj.dat");
 		for(PnjData qd:q2)
 		{
+			qd.RegisterAction();
 			allPnj.put(qd.ID, qd);
 		}
 		

@@ -30,29 +30,31 @@ public class HouseManager {
 	private static final Vector6f size = new Vector6f(0,0,0,0,0,0);
 	
 	public static void loadUp() {
-		
-		CompoundTag tag = BlockPlanNBT.ReadCompoundTag(HouseModel);
-		if(tag != null && tag.get("xyzuvw") != null)
+		if(HouseModel.exists())
 		{
-			Vector6f v = (Vector6f)((SerializableTag)tag.get("xyzuvw")).getValue();
-			size.u = v.u;
-			size.v = v.v;
-			size.w = v.w;
-			size.y = Y;
-			size.z = Z;
+			CompoundTag tag = BlockPlanNBT.ReadCompoundTag(HouseModel);
+			if(tag != null && tag.get("xyzuvw") != null)
+			{
+				Vector6f v = (Vector6f)((SerializableTag)tag.get("xyzuvw")).getValue();
+				size.u = v.u;
+				size.v = v.v;
+				size.w = v.w;
+				size.y = Y;
+				size.z = Z;
+			}
+			
+			World w = DimensionManager.getWorld(0);
+			boolean flag = false;
+			int x = 0;
+			index = -1;
+			while(!flag)
+			{
+				index ++;
+				x += 50;
+				flag = w.getBlock(X + x, Y, Z) == Blocks.air;
+			}
+			main.l.info("load "+index+" player's house !");
 		}
-		
-		World w = DimensionManager.getWorld(0);
-		boolean flag = false;
-		int x = 0;
-		index = -1;
-		while(!flag)
-		{
-			index ++;
-			x += 50;
-			flag = w.getBlock(X + x, Y, Z) == Blocks.air;
-		}
-		main.l.info("load "+index+" player's house !");
 	}
 	
 	

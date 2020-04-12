@@ -1,6 +1,7 @@
 package fr.neocraft.main;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -80,7 +81,11 @@ public class bdd {
 				CRASH.Push(e);
 			}
 		} else {
-			 this.erreur("Openbdd", "No bdd.dat found");
+			 try {
+				this.erreur("Openbdd", "No bdd.dat found: "+f.getCanonicalPath());
+			} catch (IOException e) {
+				CRASH.Push(e);
+			}
 		}
 		
 		
@@ -340,8 +345,6 @@ public class bdd {
 
 	public void erreur(String f, Exception e) {
 		l.error("ERREUR LORS DE L'EXECUTION '"+f +"'");
-		l.error(" INFO: ");
-		e.printStackTrace();
 		CRASH.Push(e);
 	}
 	public void erreur(String f, String e) {

@@ -1,0 +1,256 @@
+---- Minecraft Crash Report ----
+// Hey, that tickles! Hehehe!
+
+Time: 08/04/20 23:11
+Description: Initializing game
+
+java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    net/minecraft/client/renderer/ItemRenderer.renderItemInFirstPerson(F)V @1: getfield
+  Reason:
+    Type 'net/minecraft/client/renderer/ItemRenderer' (current frame, stack[0]) is not assignable to 'fr/neocraft/core/NeoClassTransformer'
+  Current Frame:
+    bci: @1
+    flags: { }
+    locals: { 'net/minecraft/client/renderer/ItemRenderer', float }
+    stack: { 'net/minecraft/client/renderer/ItemRenderer' }
+  Bytecode:
+    0x0000000: 2ab4 0132 2ab4 0134 2ab4 0132 6623 6a62
+    0x0000010: 452a b401 35b4 0139 4e2d b401 3e2d b401
+    0x0000020: 412d b401 3e66 236a 6238 04b8 0049 1704
+    0x0000030: 0c0b 0bb8 00cb 2db4 0144 2db4 0147 2db4
+    0x0000040: 0144 6623 6a62 0b0c 0bb8 00cb b801 4cb8
+    0x0000050: 00a1 2d3a 0519 05b4 0151 1905 b401 5419
+    0x0000060: 05b4 0151 6623 6a62 3806 1905 b401 5719
+    0x0000070: 05b4 015a 1905 b401 5766 236a 6238 072d
+    0x0000080: b401 4117 0666 1301 5b6a 0c0b 0bb8 00cb
+    0x0000090: 2db4 0147 1707 6613 015b 6a0b 0c0b b800
+    0x00000a0: cb2a b401 5d3a 0819 08c6 001f 1908 b600
+    0x00000b0: 55c1 015f 9900 1411 0be2 b800 6311 0302
+    0x00000c0: 1103 0304 03b8 0069 2ab4 0135 b401 632d
+    0x00000d0: b401 67b8 016d 2db4 0170 b801 6d2d b401
+    0x00000e0: 73b8 016d 03b6 0179 3609 1509 1301 7a70
+    0x00000f0: 360a 1509 1301 7a6c 360b b201 7d15 0a86
+    0x0000100: 0c6e 150b 860c 6eb8 0181 0c0c 0c0c b800
+    0x0000110: eb19 08c6 004a 1908 b600 5519 0803 b601
+    0x0000120: 8536 0f15 0f10 107a 1100 ff7e 8613 0186
+    0x0000130: 6e38 0c15 0f10 087a 1100 ff7e 8613 0186
+    0x0000140: 6e38 0d15 0f11 00ff 7e86 1301 866e 380e
+    0x0000150: 170c 170d 170e 0cb8 00eb a700 0a0c 0c0c
+    0x0000160: 0cb8 00eb 1908 c602 c019 08b6 0055 c101
+    0x0000170: 8899 02b5 b800 4912 e838 122d 23b6 018c
+    0x0000180: 380c 170c 1301 8d6a b801 9038 0d17 0cb8
+    0x0000190: 0193 1301 8d6a b801 9038 0e17 0e76 1301
+    0x00001a0: 946a 170c b801 9313 018d 6a0d 6ab8 0190
+    0x00001b0: 1301 956a 170d 7613 0195 6ab8 00c2 0c17
+    0x00001c0: 0413 0196 6e66 1301 5b62 380c 170c 0b96
+    0x00001d0: 9c00 060b 380c 170c 0c95 9e00 060c 380c
+    0x00001e0: 170c 1301 8d6a b801 9976 12e6 6a12 e662
+    0x00001f0: 380c 0b0b 1712 6a0c 2466 1301 9a6a 6617
+    0x0000200: 0c12 e66a 6613 019b 6213 019c 1712 6ab8
+    0x0000210: 00c2 1301 9d0b 0c0b b800 cb17 0c13 019e
+    0x0000220: 6a0b 0b0c b800 cb12 beb8 0063 2ab4 0135
+    0x0000230: b600 4f2d b601 a2b6 007e 0336 15a7 007c
+    0x0000240: 1515 0568 0464 3616 b800 4913 01a3 1301
+    0x0000250: a413 01a5 1516 866a b800 c210 d315 1668
+    0x0000260: 860c 0b0b b800 cb13 01a6 0b0b 0cb8 00cb
+    0x0000270: 1301 a70b 0b0c b800 cb10 bf15 1668 860b
+    0x0000280: 0c0b b800 cbb2 01ac 2ab4 0135 b401 39b6
+    0x0000290: 01b0 3a13 1913 c001 b23a 140c 3811 1711
+    0x00002a0: 1711 1711 b800 c619 142a b401 35b4 0139
+    0x00002b0: b601 b6b8 00a1 8415 0115 1505 a1ff 842d
+    0x00002c0: 23b6 018c 380d 170d 170d 6a13 018d 6ab8
+    0x00002d0: 0190 380e 170d b801 9313 018d 6ab8 0190
+    0x00002e0: 380f 170e 7613 01b7 6a0b 0c0b b800 cb17
+    0x00002f0: 0f76 1301 b76a 0b0b 0cb8 00cb 170f 7613
+    0x0000300: 01b8 6a0c 0b0b b800 cb13 01b9 3810 1710
+    0x0000310: 1710 1710 b800 c613 019d 0b0c 0bb8 00cb
+    0x0000320: 1301 ba0b 0b0c b800 cb13 0123 1301 230b
+    0x0000330: b800 c213 01bb 3811 1711 1711 1711 b800
+    0x0000340: c62a b401 35b6 004f b201 bdb6 007e b200
+    0x0000350: af3a 150b 0b13 0123 b801 c019 15b6 0118
+    0x0000360: 1007 3616 1915 0315 1664 8711 0080 1516
+    0x0000370: 6087 0e0e 0fb6 011f 1915 1100 8015 1660
+    0x0000380: 8711 0080 1516 6087 0e0f 0fb6 011f 1915
+    0x0000390: 1100 8015 1660 8703 1516 6487 0e0f 0eb6
+    0x00003a0: 011f 1915 0315 1664 8703 1516 6487 0e0e
+    0x00003b0: 0eb6 011f 1915 b601 2257 1908 b201 c3b8
+    0x00003c0: 0073 3a17 1908 b600 55c0 0188 1908 2ab4
+    0x00003d0: 0135 b401 63b6 01c7 3a18 1917 c700 1b19
+    0x00003e0: 18c6 003f 2ab4 0135 b401 cbb6 01d1 1918
+    0x00003f0: 03b6 01d7 a700 2c19 17b2 01c3 1908 06bd
+    0x0000400: 0004 5903 2ab4 0135 b401 3953 5904 2ab4
+    0x0000410: 0135 b600 4f53 5905 1918 53b9 01dc 0400
+    0x0000420: b800 a1a7 04aa 1908 c603 7bb8 0049 12e8
+    0x0000430: 3812 2db6 01df 9e00 bc19 08b6 01e3 3a15
+    0x0000440: 1915 b201 e9a5 000b 1915 b201 eca6 00e8
+    0x0000450: 2db6 01df 8623 660c 6238 0d0c 170d 1908
+    0x0000460: b601 ef86 6e66 380e 0c17 0e66 380f 170f
+    0x0000470: 170f 6a17 0f6a 380f 170f 170f 6a17 0f6a
+    0x0000480: 380f 170f 170f 6a17 0f6a 380f 0c17 0f66
+    0x0000490: 3810 0b17 0d13 01f0 6e13 018d 6ab8 0199
+    0x00004a0: 1301 5b6a b801 f317 0e8d 1401 f497 9e00
+    0x00004b0: 0704 a700 0403 866a 0bb8 00c2 1710 1301
+    0x00004c0: f66a 1710 7612 e66a 0bb8 00c2 1710 1301
+    0x00004d0: 9d6a 0b0c 0bb8 00cb 1710 12fc 6a0c 0b0b
+    0x00004e0: b800 cb17 1013 01f7 6a0b 0b0c b800 cba7
+    0x00004f0: 0046 2d23 b601 8c38 0c17 0c13 018d 6ab8
+    0x0000500: 0190 380d 170c b801 9313 018d 6ab8 0190
+    0x0000510: 380e 170e 7613 0194 6a17 0cb8 0193 1301
+    0x0000520: 8d6a 0d6a b801 9013 0195 6a17 0d76 1301
+    0x0000530: 956a b800 c213 01f8 1712 6a13 01f9 1712
+    0x0000540: 6a0c 2466 1301 f66a 6613 019c 1712 6ab8
+    0x0000550: 00c2 1301 960b 0c0b b800 cb12 beb8 0063
+    0x0000560: 2d23 b601 8c38 0c17 0c17 0c6a 1301 8d6a
+    0x0000570: b801 9038 0d17 0cb8 0193 1301 8d6a b801
+    0x0000580: 9038 0e17 0d76 1301 b76a 0b0c 0bb8 00cb
+    0x0000590: 170e 7613 01b7 6a0b 0b0c b800 cb17 0e76
+    0x00005a0: 1301 b86a 0c0b 0bb8 00cb 1301 9438 0f17
+    0x00005b0: 0f17 0f17 0fb8 00c6 2db6 01df 9e01 3719
+    0x00005c0: 08b6 01e3 3a17 1917 b201 fba6 002b 1301
+    0x00005d0: fc13 0195 0bb8 00c2 1301 f70b 0c0b b800
+    0x00005e0: cb13 01fd 0c0b 0bb8 00cb 1301 fe0b 0c0b
+    0x00005f0: b800 cba7 0100 1917 b202 01a6 00f8 1302
+    0x0000600: 020b 0b0c b800 cb13 0203 0b0c 0bb8 00cb
+    0x0000610: 1302 040c 0b0b b800 cb13 019c 1301 950b
+    0x0000620: b800 c219 08b6 01ef 862d b601 df86 2366
+    0x0000630: 0c62 6638 1117 1113 01b7 6e38 15b2 020a
+    0x0000640: bb02 0c59 1711 b802 12b7 0215 1302 17b6
+    0x0000650: 021b 1715 b602 1e13 0220 b602 1b23 b602
+    0x0000660: 1eb6 0224 b602 2917 1517 156a 1715 0d6a
+    0x0000670: 6213 022a 6e38 1517 150c 959e 0006 0c38
+    0x0000680: 1517 1513 015b 959e 0020 0b17 1113 015b
+    0x0000690: 6613 022b 6ab8 0190 1302 2c6a 1715 1301
+    0x00006a0: 5b66 6a0b b800 c20b 0b17 1513 015b 6ab8
+    0x00006b0: 00c2 1302 2d0b 0b0c b800 cb12 f80b 0c0b
+    0x00006c0: b800 cb0b 12e6 0bb8 00c2 0c17 1513 0195
+    0x00006d0: 6a62 3816 0c0c 1716 b800 c60b 1301 fc0b
+    0x00006e0: b800 c212 c70b 0c0b b800 cb12 cc0b 0b0c
+    0x00006f0: b800 cb19 08b6 0055 b602 3199 000c 1301
+    0x0000700: ba0b 0c0b b800 cb19 08b6 0055 b602 3499
+    0x0000710: 0083 2a2d 1908 03b2 0237 b602 3804 3617
+    0x0000720: a700 5d19 08b6 0055 1908 1517 b601 8536
+    0x0000730: 1815 1810 107a 1100 ff7e 8613 0186 6e38
+    0x0000740: 1115 1810 087a 1100 ff7e 8613 0186 6e38
+    0x0000750: 1515 1811 00ff 7e86 1301 866e 3816 0c17
+    0x0000760: 116a 0c17 156a 0c17 166a 0cb8 00eb 2a2d
+    0x0000770: 1908 1517 b202 37b6 0238 8417 0115 1719
+    0x0000780: 08b6 0055 1908 b600 94b6 023c a1ff 97a7
+    0x0000790: 000e 2a2d 1908 03b2 0237 b602 38b8 00a1
+    0x00007a0: a701 2d2d b602 3f9a 0126 b800 4912 e838
+    0x00007b0: 122d 23b6 018c 380c 170c 1301 8d6a b801
+    0x00007c0: 9038 0d17 0cb8 0193 1301 8d6a b801 9038
+    0x00007d0: 0e17 0e76 12bd 6a17 0cb8 0193 1301 8d6a
+    0x00007e0: 0d6a b801 9013 0194 6a17 0d76 1301 946a
+    0x00007f0: b800 c212 e817 126a 1302 4017 126a 0c24
+    0x0000800: 6613 01f6 6a66 1301 9c17 126a b800 c213
+    0x0000810: 0196 0b0c 0bb8 00cb 12be b800 632d 23b6
+    0x0000820: 018c 380c 170c 170c 6a13 018d 6ab8 0190
+    0x0000830: 380d 170c b801 9313 018d 6ab8 0190 380e
+    0x0000840: 170e 1302 416a 0b0c 0bb8 00cb 170d 7613
+    0x0000850: 01b7 6a0b 0b0c b800 cb2a b401 35b6 004f
+    0x0000860: 2db6 01a2 b600 7e13 0123 1302 4213 0243
+    0x0000870: b800 c213 0244 0b0b 0cb8 00cb 1302 450c
+    0x0000880: 0b0b b800 cb13 0246 0b0c 0bb8 00cb 0c0c
+    0x0000890: 0cb8 00c6 1302 470b 0bb8 00c2 b201 ac2a
+    0x00008a0: b401 35b4 0139 b601 b03a 1319 13c0 01b2
+    0x00008b0: 3a14 0c38 1117 1117 1117 11b8 00c6 1914
+    0x00008c0: 2ab4 0135 b401 39b6 01b6 b800 a119 08c6
+    0x00008d0: 0014 1908 b600 55c1 015f 9900 0911 0be2
+    0x00008e0: b800 e212 beb8 00e2 b802 4ab1          
+  Stackmap Table:
+    full_frame(@200,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81]},{})
+    append_frame(@349,Integer,Integer,Integer)
+    same_frame(@356)
+    full_frame(@470,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Top,Top,Top,Float},{})
+    same_frame(@480)
+    full_frame(@576,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Top,Top,Top,Float,Top,Top,Integer},{})
+    same_frame_extended(@697)
+    full_frame(@1015,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Float,Float,Float,Top,Top,Object[#171],Integer,Object[#13],Object[#473]},{})
+    same_frame(@1056)
+    full_frame(@1062,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer},{})
+    full_frame(@1104,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Top,Top,Top,Top,Top,Top,Float,Top,Top,Object[#485]},{})
+    full_frame(@1205,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Top,Float,Float,Float,Float,Top,Float,Top,Top,Object[#485]},{Float,Float})
+    full_frame(@1206,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Top,Float,Float,Float,Float,Top,Float,Top,Top,Object[#485]},{Float,Float,Integer})
+    full_frame(@1266,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Top,Top,Top,Top,Top,Top,Float},{})
+    same_frame_extended(@1333)
+    full_frame(@1526,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Top,Top,Float,Top,Top,Top,Top,Object[#485]},{})
+    full_frame(@1665,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Top,Float,Float,Top,Top,Float,Top,Object[#485]},{})
+    same_frame(@1703)
+    full_frame(@1779,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Top,Top,Float},{})
+    same_frame(@1799)
+    full_frame(@1827,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Top,Top,Float,Top,Top,Top,Top,Integer},{})
+    same_frame_extended(@1917)
+    full_frame(@1938,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer,Float,Float,Float,Float,Top,Top,Float},{})
+    same_frame(@1949)
+    full_frame(@1955,{Object[#304],Float,Float,Object[#315],Float,Object[#334],Float,Float,Object[#81],Integer,Integer,Integer},{})
+    same_frame_extended(@2253)
+    same_frame(@2275)
+
+	at net.minecraft.client.Minecraft.startGame(Minecraft.java:545)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:942)
+	at net.minecraft.client.main.Main.main(Main.java:164)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(Unknown Source)
+	at GradleStart.main(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at net.minecraft.client.Minecraft.startGame(Minecraft.java:545)
+
+-- Initialization --
+Details:
+Stacktrace:
+	at net.minecraft.client.Minecraft.run(Minecraft.java:942)
+	at net.minecraft.client.main.Main.main(Main.java:164)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(Unknown Source)
+	at GradleStart.main(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.7.10
+	Operating System: Windows 7 (x86) version 6.1
+	Java Version: 1.8.0_241, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) Client VM (mixed mode, sharing), Oracle Corporation
+	Memory: 34209672 bytes (32 MB) / 203202560 bytes (193 MB) up to 259522560 bytes (247 MB)
+	JVM Flags: 0 total; 
+	AABB Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP v9.05 FML v7.10.99.99 Minecraft Forge 10.13.4.1558 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCH	mcp{9.05} [Minecraft Coder Pack] (minecraft.jar) 
+	UCH	FML{7.10.99.99} [Forge Mod Loader] (forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar) 
+	UCH	Forge{10.13.4.1558} [Minecraft Forge] (forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar) 
+	UCH	neocraft{1.0.1} [NeoCraft MMO] (neocraft-1.1586380208425.jar) 
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.6.0 NVIDIA 391.35' Renderer: 'GeForce GT 710/PCIe/SSE2'
+	Launched Version: 1.7.10
+	LWJGL: 2.9.1
+	OpenGL: GeForce GT 710/PCIe/SSE2 GL version 4.6.0 NVIDIA 391.35, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Anisotropic filtering is supported and maximum anisotropy is 16.
+Shaders are available because OpenGL 2.1 is supported.
+
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: []
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	Vec3 Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	Anisotropic Filtering: Off (1)

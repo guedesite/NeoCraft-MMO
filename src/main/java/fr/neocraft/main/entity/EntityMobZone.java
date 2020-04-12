@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 public class EntityMobZone extends EntityCreature {
 	
 	public Zone base;
-	public boolean isMob;
+	public boolean isMob = false;
 	public boolean canWander = false;
 	public double baseX, baseY,baseZ;
 
@@ -75,7 +75,7 @@ public class EntityMobZone extends EntityCreature {
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
     }
 	@Override
-    protected void entityInit()
+    public void entityInit()
     {
         super.entityInit();
         if(this.base != null)
@@ -147,7 +147,6 @@ public class EntityMobZone extends EntityCreature {
         super.readEntityFromNBT(c);
         if(c.hasKey("ZoneX"))
         {
-	        this.getDataWatcher().updateObject(12, Integer.valueOf(c.getInteger("lvl")));
 	        if( this.base == null) 
 	        {
 	        	this.base = ZoneManager.AllZone.get(c.getInteger("ZoneX"), c.getInteger("ZoneZ"));
@@ -158,7 +157,10 @@ public class EntityMobZone extends EntityCreature {
         this.baseX = c.getDouble("baseX");
         this.baseY = c.getDouble("baseY");
         this.baseZ = c.getDouble("baseZ");
-        this.setHomeArea((int)this.baseX,(int) this.baseY, (int)this.baseZ, 20);
+        if(this.baseY != -1)
+        {
+        	this.setHomeArea((int)this.baseX,(int) this.baseY, (int)this.baseZ, 20);
+        }
     }
     
     @Override

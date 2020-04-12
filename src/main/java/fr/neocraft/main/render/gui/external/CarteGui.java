@@ -3,6 +3,8 @@ package fr.neocraft.main.render.gui.external;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.Reference;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Server.EnumSound;
@@ -10,10 +12,12 @@ import fr.neocraft.main.Server.SoundManager;
 import fr.neocraft.main.util.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
-public class CarteGui extends GuiScreen {
+@SideOnly(Side.CLIENT)
+public class CarteGui {
 
 	private ResourceLocation textures = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/carte.png");
 	private ResourceLocation arrow = new ResourceLocation(Reference.MOD_ID,"textures/gui/carte/carteArrow.png");
@@ -25,24 +29,25 @@ public class CarteGui extends GuiScreen {
 	private float scale = 1F;
 	private float scaleMap = 1F;
 	protected double zLevel;
-	
-	private double xpos;
-	private double zpos;
+	private Minecraft mc;
+
+
 	public double MapSize = 256;
 	 
 	
-	public CarteGui() {
+	public CarteGui(Minecraft mc) {
+		
 		SoundManager.PlaySound(EnumSound.NeoMOpen.getSound());
-		xpos = Minecraft.getMinecraft().thePlayer.posX;
-		zpos = Minecraft.getMinecraft().thePlayer.posZ;
+		this.mc= mc;
 	}
 	
-	@Override
+
     public void onGuiClosed() {
     	SoundManager.PlaySound(EnumSound.NeoMClose.getSound());
     }
 	
-	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
+	public void drawScreen(int width, int height, double xpos, double zpos, double yaw) {
+		ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
 		
 			MapSize += Mouse.getDWheel() *-0.04;
@@ -53,8 +58,6 @@ public class CarteGui extends GuiScreen {
 			{
 				MapSize = 50;
 			}
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	        GL11.glPushMatrix();
 	        scale=(height) / ((float)270);
 	        if(scale < 1)
 	        {
@@ -81,31 +84,36 @@ public class CarteGui extends GuiScreen {
 
 		   drawTexturedModalRect(0,0, debutMapx, debutMapy, MapSize, MapSize);
 		    
+		   
+		   
 
 		    GL11.glScalef(1F/scaleMap, 1F/scaleMap, 1F);
-		    
-		    mc.getTextureManager().bindTexture(player);
+		    GL11.glScalef(scale, scale, 1F);
+		    mc.getTextureManager().bindTexture(textures);
+		    drawTexturedModalRect(0,0, 0, 0, xSize,ySize);
+		    GL11.glScalef(1F/scale, 1F/scale, 1F);
 		    GL11.glScalef(0.03125F, 0.03125F, 1F);
-		    drawTexturedModalRect(playerx *32 -4,playery*32-4, 0, 0, 256, 256);
-		    GL11.glScalef(32F, 32F, 1F);
-		    //mc.getTextureManager().deleteTexture(player);
+		    
 		    if(main.AllPlayer.get(mc.thePlayer.getCommandSenderName()).posMap != null)
 		    {
 		    	mc.getTextureManager().bindTexture(pos);
 		    	for(Vector3f v:main.AllPlayer.get(mc.thePlayer.getCommandSenderName()).posMap)
 		    	{
-		    		drawTexturedModalRect((((((v.x+10000)*2048)/20000) / 8) - debutMapx)*scaleMap-8,(((((v.z+10000)*2048)/20000) / 8) - debutMapy)*scaleMap-8, 0, 0, 16, 16);
+		    		drawTexturedModalRect((((((v.x+10000)*2048)/20000) / 8) - debutMapx)*scaleMap *32-4,(((((v.z+10000)*2048)/20000) / 8) - debutMapy)*scaleMap * 32-8, 0, 0, 256, 256);
 		    	}
-		    	//mc.getTextureManager().deleteTexture(pos);
-		    }
-		  
-		    GL11.glScalef(scale, scale, 1F);
-		    mc.getTextureManager().bindTexture(textures);
-		    drawTexturedModalRect(0,0, 0, 0, xSize,ySize);
-		    GL11.glScalef(1F/scale, 1F/scale, 1F);
 
+		    }
 		    
-	        GL11.glPopMatrix();
+
+		    GL11.glTranslated(playerx*32-4,playery*32-4, 0);
+
+		    mc.getTextureManager().bindTexture(player);
+		    GL11.glTranslated(128,128, 0);
+		    GL11.glRotated(yaw, 0, 0, 1);
+		    GL11.glTranslated(-128,-128, 0);
+		    
+		    drawTexturedModalRect(0,0, 0, 0, 256, 256);
+
 	}
 	
 	private void drawTexturedModalRect(double p_73729_1_, double p_73729_2_, double p_73729_3_, double p_73729_4_, double p_73729_5_, double p_73729_6_)

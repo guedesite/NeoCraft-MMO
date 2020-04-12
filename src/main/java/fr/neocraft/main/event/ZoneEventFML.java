@@ -49,6 +49,8 @@ public class ZoneEventFML {
 				dataClient.race = result.getString("Race");
 				dataClient.reputation[0] = result.getDouble("Reputation1");
 				dataClient.reputation[1] = result.getDouble("Reputation2");
+				dataClient.clientQuest = dataServer.quest.SendToPlayerAllQuest(event.player);
+				
 				
 				dataServer.classe = result.getString("Classe");
 				dataServer.race = result.getString("Race");
@@ -81,9 +83,10 @@ public class ZoneEventFML {
 		    	p = ((EntityPlayerMP) li.next());
 		        if(!p.getCommandSenderName().equals(event.player.getCommandSenderName()))
 		        {
-		        	main.NetWorkClient.sendTo(new NetWorkClient(new  ClientUpdateListPlayer(0, event.player.getCommandSenderName(), dataClient)), p);
+		        	main.NetWorkClient.sendTo(new NetWorkClient(new  ClientUpdateListPlayer(0, event.player.getCommandSenderName(), dataClient.CloneForOther())), p);
 		        }
 		    }
+		 main.NetWorkClient.sendToAll(new NetWorkClient(new  ClientUpdateListPlayer(0, event.player.getCommandSenderName(), dataClient)));
 		// main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);
 		 main.AllPlayerServer.put(event.player.getCommandSenderName(), dataServer);
 		 main.AllPlayer.put(event.player.getCommandSenderName(), dataClient);

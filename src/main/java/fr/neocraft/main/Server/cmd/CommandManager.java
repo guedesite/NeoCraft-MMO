@@ -192,8 +192,13 @@ public class CommandManager extends CommandBase{
 				}
 			}
 			else if(arg[0].equals("reloaddata")) {
-				DataManager.register();
-				M(ic, "reload");
+				try {
+					DataManager.register();
+					M(ic, "reload");
+				} catch(Exception e)
+				{
+					M(ic, e.getMessage());
+				}
 			}else if(arg[0].equals("tpmyhouse"))
 			{
 				HouseManager.TeleportPlayerToHouse(data);

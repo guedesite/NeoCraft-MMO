@@ -34,10 +34,9 @@ public class CRASH {
 		try {
 			System.err.println("Error saved in: "+f.getAbsolutePath());
 		
-			f.mkdir();
 
 			
-			PrintWriter writer = new PrintWriter(f, "UTF-8");
+			PrintWriter writer = new PrintWriter(path+"Crash-"+LocalDate.now().toString()+"-"+i+".txt", "UTF-8");
 			
 			writer.println("########################	error	########################");
 			writer.println(" ");

@@ -47,9 +47,9 @@ public class ServerPlayerData {
 	public String classe;
 	public String race;
 	
-	public double Money;
+	public double Money =0;
 	
-	public int power;
+	public int power =0;
 	
 	public double[] reputation = new double[2];
 	
@@ -143,11 +143,10 @@ public class ServerPlayerData {
 			
 			data.remove(id);
 			Save(pl.getUniqueID().toString());
-			SendToPlayerAllQuest(pl);
 		}
 		
 		
-		public void SendToPlayerAllQuest(EntityPlayer pl) {
+		public QuestClientGuiInfo[] SendToPlayerAllQuest(EntityPlayer pl) {
 			QuestClientGuiInfo[] finale = new QuestClientGuiInfo[data.size()];
 			
 			int o =0;
@@ -179,8 +178,7 @@ public class ServerPlayerData {
 				o++;
 			}
 			
-			main.NetWorkClient.sendTo(new NetWorkClient(new ClientSetQuest(finale)), (EntityPlayerMP) pl);
-			
+			return finale;
 		}
 		
 		public void Event(EntityPlayer EntityPlayer, Object ad1, Object ad2, EnumCondition en) {
@@ -224,8 +222,7 @@ public class ServerPlayerData {
 		
 		public void Save(String uuid) {
 			try {
-				File f = new File("assets/PlayerQuest/"+uuid+".dat");
-				NBTUtil.writeTag(new SerializableTag((Serializable) data), f);
+				NBTUtil.writeTag(new SerializableTag((Serializable) data), "assets/PlayerQuest/"+uuid+".dat");
 			} catch(Exception e) {
 				CRASH.Push(e);
 			}

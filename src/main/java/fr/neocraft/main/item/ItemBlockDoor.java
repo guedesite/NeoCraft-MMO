@@ -1,5 +1,6 @@
 package fr.neocraft.main.item;
 
+import fr.neocraft.main.Reference;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Init.BlockMod;
 import net.minecraft.block.Block;
@@ -11,11 +12,13 @@ import net.minecraft.world.World;
 
 public class ItemBlockDoor extends Item {
 
-
-    public ItemBlockDoor()
+	private Block block;
+    public ItemBlockDoor(Block b)
     {
         this.maxStackSize = 1;
+        block = b;
         this.setCreativeTab(main.neocraft);
+        this.setUnlocalizedName("ItemHouse"+b.getLocalizedName().substring(5)).setCreativeTab(main.neocraftdeco).setTextureName(Reference.MOD_ID+":"+b.getUnlocalizedName().substring(5));
     }
 
     /**
@@ -31,7 +34,6 @@ public class ItemBlockDoor extends Item {
         else
         {
             ++p_77648_5_;
-            Block block = BlockMod.BlockDoorHouse;
 
 
             if (p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_1_) && p_77648_2_.canPlayerEdit(p_77648_4_, p_77648_5_ + 1, p_77648_6_, p_77648_7_, p_77648_1_))

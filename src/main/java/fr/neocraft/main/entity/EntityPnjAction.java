@@ -2,13 +2,21 @@ package fr.neocraft.main.entity;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fr.neocraft.main.Init.ItemMod;
 import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.Server.Zone.ZoneManager;
+import fr.neocraft.main.util.CRASH;
 import fr.neocraft.main.util.Vector6f;
 import fr.neocraft.pnj.PnjData;
+import fr.neocraft.pnj.Action.PnjAction;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -26,6 +34,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -33,7 +42,7 @@ public class EntityPnjAction extends EntityMobZone {
 
 
 	public int indexPnj = -1;
-	
+
 	public EntityPnjAction(World p_i1745_1_, double baseX, double baseY, double baseZ, int index) {
 		super(p_i1745_1_);
 		this.isMob = false;
@@ -71,6 +80,30 @@ public class EntityPnjAction extends EntityMobZone {
 	
 	public EntityPnjAction(World p_i1745_1_) {
 		super(p_i1745_1_);
+	}
+	
+	@Override
+    public void entityInit()
+    {
+        super.entityInit();
+        this.dataWatcher.addObject(14, Integer.valueOf(0));
+        this.dataWatcher.addObject(15, Integer.valueOf(0));
+        
+    }
+	public int getModelIndex() {
+		return this.dataWatcher.getWatchableObjectInt(14);
+	}
+	
+	public int getSkinIndex() {
+		return this.dataWatcher.getWatchableObjectInt(15);
+	}
+	
+	public void setModelIndex(int i) {
+		this.dataWatcher.updateObject(14, i);
+	}
+	
+	public void setSkinIndex(int i){
+		this.dataWatcher.updateObject(15, i);
 	}
 	
 		@Override
@@ -268,9 +301,113 @@ public class EntityPnjAction extends EntityMobZone {
 	}
 	
 	@Override
-	public boolean interact(EntityPlayer p_70085_1_)
+	public boolean interact(EntityPlayer p)
 	{
+		if(p.getHeldItem() != null && !p.worldObj.isRemote)
+		{
+			if(p.getHeldItem().getItem() == ItemMod.ItemChangeModelPnjAction)
+			{
+				int i = this.getModelIndex();
+				
+				if(!p.isSneaking())
+				{
+					i++;
+					if(i >=  allClass.size())
+					{
+						i = 0;
+					}
+				} else {
+					i--;
+					if(0>i)
+					{
+						i = allClass.size();
+					}
+				}
+				this.setModelIndex(i);
+				return true;
+			} else if(p.getHeldItem().getItem() == ItemMod.ItemChangeSkinPnjAction)
+			{
+				int i = this.getSkinIndex();
+				int model = this.getModelIndex();
+				if(!p.isSneaking())
+				{
+					i++;
+					if(i >= allClass.get(model).res.length)
+					{
+						i = 0;
+					}
+				} else {
+					i--;
+					if(0>i)
+					{
+						i = allClass.get(model).res.length;
+					}
+				}
+				this.setSkinIndex(i);
+				return true;
+			}
+		}else if(!p.worldObj.isRemote && indexPnj != -1){
+			PnjData data = DataManager.getPnjById(indexPnj);
+			for(PnjAction ac:data.Actions)
+			{
+				if(ac.canAction(p))
+				{
+					ac.MakeAction(p);
+					return true;
+				}
+			}
+		}
 		return false;
+	}
+	
+	public static HashMap<Integer, ClassSkin> allClass = new HashMap<Integer,ClassSkin>();
+	
+	@SideOnly(Side.CLIENT)
+	public static HashMap<Integer, ModelSkin> allModel = new HashMap<Integer, ModelSkin>();
+	
+	public static void registerModel()
+	{
+		
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void registerClientModel() {
+		Iterator it = allClass.keySet().iterator();
+		while(it.hasNext())
+		{
+			int i = (Integer) it.next();
+			ClassSkin ck = allClass.get(i);
+			
+			try {
+				allModel.put(i, new ModelSkin((ModelBase) ck.model.newInstance(), ck.res));
+			} catch (Exception e) {
+				CRASH.Push(e);
+			}
+		}
+		allClass = null;
+	}
+	
+	static class ClassSkin {
+		public Class model;
+		public ResourceLocation[] res;
+		public ClassSkin(Class model, ResourceLocation[] res)
+		{
+			this.model = model;
+			this.res = res;
+		}
+		
+		
+	}
+	
+	@SideOnly(Side.CLIENT)
+	static class ModelSkin {
+		public ResourceLocation[] res;
+		public ModelBase model;
+		public ModelSkin(ModelBase model, ResourceLocation[] res)
+		{
+			this.res = res;
+			this.model = model;
+		}
 	}
 	
 }

@@ -16,6 +16,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -31,6 +32,10 @@ import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.Server.cmd.CommandDonjon;
 import fr.neocraft.main.Server.cmd.CommandManager;
 import fr.neocraft.main.Server.cmd.CommandSeeds;
+import fr.neocraft.main.entity.EntityPnjAction;
+import fr.neocraft.main.event.RenderEventClient;
+import fr.neocraft.main.event.TickClientEvent;
+import fr.neocraft.main.event.TickServerEvent;
 import fr.neocraft.main.event.ZoneEventFML;
 import fr.neocraft.main.event.ZoneEventFORGE;
 import fr.neocraft.main.proxy.CommonProxy;
@@ -104,12 +109,14 @@ public class main {
     public void preInit(FMLPreInitializationEvent event)
     {
     	CRASH.init();
-    	
+
     	registerTab();
+    	BlockMod.init();
     	ItemMod.Init();
     	ItemMod.register();
-    	BlockMod.init();
     	BlockMod.register();
+    	EntityPnjAction.registerModel();
+    	
     	 NetWorkClient = NetworkRegistry.INSTANCE.newSimpleChannel("NeoNetWorkClient");
          NetWorkClient.registerMessage(fr.neocraft.main.proxy.network.NetWorkClient.Handler.class, fr.neocraft.main.proxy.network.NetWorkClient.class, 0, Side.CLIENT);
         
@@ -126,8 +133,10 @@ public class main {
     	{
     		FMLCommonHandler.instance().bus().register(new ZoneEventFML());
     		MinecraftForge.EVENT_BUS.register(new ZoneEventFORGE());
-    	} else {
-    		
+    		MinecraftForge.EVENT_BUS.register(new TickServerEvent());
+    	} else if(event.getSide().equals(Side.CLIENT)) {
+    		MinecraftForge.EVENT_BUS.register(new RenderEventClient());
+    		MinecraftForge.EVENT_BUS.register(new TickClientEvent(null, Minecraft.getMinecraft()));
     	}
     	
     	
@@ -149,7 +158,12 @@ public class main {
     		{
     			HouseManager.loadUp();
     			ZoneManager.Register();
-    			DataManager.register();
+    			try {
+    				DataManager.register();
+    			} catch(Exception e)
+    			{
+    				CRASH.Push(e);
+    			}
     			ServerCommandManager cmdman = (ServerCommandManager) MinecraftServer.getServer().getCommandManager(); 
 		    	cmdman.registerCommand(new CommandManager());
 		    	cmdman.registerCommand(new CommandSeeds());
@@ -159,8 +173,9 @@ public class main {
     }
     
     @EventHandler
-    public void onServerStopped(FMLServerStoppingEvent event)
+    public void onServerStopped(FMLServerStoppedEvent event)
     {	
+    	try {
     	if(bdd.IsClass)
     	{
     		if(bdd.IsOpen)
@@ -173,6 +188,9 @@ public class main {
     			EntityPlayer player = (EntityPlayer) it.next();
     			AllPlayerServer.get(player).quest.Save(player.getUniqueID().toString());
     		}
+    	}
+    	} catch(Exception e ) {
+    		CRASH.Push(e);
     	}
     }
     

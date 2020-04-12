@@ -1,7 +1,8 @@
 ﻿neo.cara.color=§
+neo.dollar=$
 key.neocraft=Custom NeoCraft
 key.map=Ouvrir la map
-
+key.zoom=Zoom
 itemGroup.neocraft.name=NeoCraft
 itemGroup.neocraftDeco.name=NeoCraft décoration
 itemGroup.neocraftDecoStair.name=NeoCraft décoration escalier

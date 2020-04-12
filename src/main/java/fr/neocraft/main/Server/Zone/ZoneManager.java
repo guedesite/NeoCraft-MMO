@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 
 public class ZoneManager {
 
-	public static Table<Integer, Integer, Zone> AllZone;
+	public static Table<Integer, Integer, Zone> AllZone  = HashBasedTable.create();;
 	
 	private static Zone ZoneDefault = new Zone(-1,"l'Abysse Perdu",null,-999,-999,0,0);
 	
