@@ -133,10 +133,9 @@ public class main {
     	{
     		FMLCommonHandler.instance().bus().register(new ZoneEventFML());
     		MinecraftForge.EVENT_BUS.register(new ZoneEventFORGE());
-    		MinecraftForge.EVENT_BUS.register(new TickServerEvent());
+    		FMLCommonHandler.instance().bus().register(new TickServerEvent());
     	} else if(event.getSide().equals(Side.CLIENT)) {
-    		MinecraftForge.EVENT_BUS.register(new RenderEventClient());
-    		MinecraftForge.EVENT_BUS.register(new TickClientEvent(null, Minecraft.getMinecraft()));
+    		
     	}
     	
     	

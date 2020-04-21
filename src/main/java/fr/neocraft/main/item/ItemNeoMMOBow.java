@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.Reference;
 import fr.neocraft.main.main;
+import fr.neocraft.main.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
@@ -18,13 +19,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 
-public class ItemNeoBow extends ItemBow {
+public class ItemNeoMMOBow extends ItemBow {
 
 
 	
-	    public ItemNeoBow()
+	    public ItemNeoMMOBow()
 	    {
 	        this.maxStackSize = 1;
+	        this.setFull3D();
 	        this.setCreativeTab(main.neocraft);
 	    }
 	    
@@ -45,14 +47,30 @@ public class ItemNeoBow extends ItemBow {
 	    @Override
 	    public IIcon getIcon(ItemStack s, int meta)
 	    {
-	    	return s.getItemUseAction() == EnumAction.bow ? getIconFromDamageForRenderPass(s.getItemDamage(), meta) : this.itemIcon;
+	    	return getIconFromDamageForRenderPass(getIconIndexMMO(s), meta);
+	    }
+	    
+	    
+	    private int getIconIndexMMO(ItemStack s)
+	    {
+	    	if(s.stackTagCompound != null && s.stackTagCompound.hasKey("display"))
+	    	{
+	    		return s.stackTagCompound.getCompoundTag("display").getInteger("iconIndex");
+	    	}
+	    	return 0;
 	    }
 	    
 	    @Override
 	    @SideOnly(Side.CLIENT)
 	    public IIcon getIconFromDamageForRenderPass(int p_77618_1_, int nb)
 	    {
-	        return nb > 0 ? this.Arrow : this.itemIcon ;
+	    	if( p_77618_1_ == 0)
+	    	{
+	    		return nb == 0 ? this.itemIcon : this.Arrow;
+		    
+	    	} else {
+	    		return null;
+	    	}
 	    }
 	    
 	    public int getItemEnchantability()
@@ -63,11 +81,14 @@ public class ItemNeoBow extends ItemBow {
 	    public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_)
 	    {
 
-	    	
+	    		if(p_77615_2_.isRemote)
+	    		{
+	    			ClientProxy.EntityRenderer.setReachZoom(1.0D);
+	    		}
 	        int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
+	        
 
-
-	            float f = (float)j / 20.0F;
+	            float f = (float)j / 10.0F;
 	            f = (f * f + f * 2.0F) / 3.0F;
 
 	            if ((double)f < 0.1D)
@@ -117,15 +138,18 @@ public class ItemNeoBow extends ItemBow {
 	    @Override
 	    public int getMaxItemUseDuration(ItemStack p_77626_1_)
 	    {
+	    	
 	        return 72000;
 	    }
 
 	    /**
 	     * returns the action that specifies what animation to play when the items is being used
 	     */
+
 	    @Override
 	    public EnumAction getItemUseAction(ItemStack p_77661_1_)
 	    {
+	    
 	        return EnumAction.bow;
 	    }
 

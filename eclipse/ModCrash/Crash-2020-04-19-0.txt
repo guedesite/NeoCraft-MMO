@@ -1,0 +1,23 @@
+########################	error	########################
+ 
+Time: 2020/04/19 00:21:45
+ 
+java.io.FileNotFoundException: assets\model3d\donjon\zone.dat (Le fichier spécifié est introuvable)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at net.querz.nbt.NBTUtil.readTag(NBTUtil.java:157)
+	at fr.neocraft.main.util.BlockPlanNBT.ReadCompoundTag(BlockPlanNBT.java:112)
+	at fr.neocraft.main.Server.DonjonManager.timerDonjon(DonjonManager.java:115)
+	at fr.neocraft.main.event.TickServerEvent.onTick(TickServerEvent.java:25)
+	at cpw.mods.fml.common.eventhandler.ASMEventHandler_18_TickServerEvent_onTick_ServerTickEvent.invoke(.dynamic)
+	at cpw.mods.fml.common.eventhandler.ASMEventHandler.invoke(ASMEventHandler.java:54)
+	at cpw.mods.fml.common.eventhandler.EventBus.post(EventBus.java:140)
+	at cpw.mods.fml.common.FMLCommonHandler.onPreServerTick(FMLCommonHandler.java:260)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:603)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:118)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:485)
+	at net.minecraft.server.MinecraftServer$2.run(MinecraftServer.java:752)
+ 
+########################	error	########################
+ 

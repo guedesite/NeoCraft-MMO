@@ -27,9 +27,17 @@ tile.magma.name=Block de magma
 tile.sea_lantern.name=Lanterne de mer
 tile.nether_wart_block.name=Block de nether wart
 
+neo.itemtooltype.lvl=§lNiveau: %s
+neo.itemtooltype.dmg=Dégats: %s
+neo.itemtooltype.dmgtype=Type: %s
+neo.itemtooltype.mf=Trouvaille magique: %s
+neo.itemtooltype.projectiletype=Combinaison: %s %s
+
 item.Copyright_NeoCraft.name=Copyright NeoCraft
 item.Seeds_Stick.name=Seeds Stick
 item.ItemDoorHouse.name=Item Door House
+item.ItemChangeModelPnjAction.name=Change Pnj MODEL
+item.ItemChangeSkinPnjAction.name=Change Pnj SKIN
 
 neo.money.deny.amount=§dIl vous manque %s§d$
 neo.money.remove=§4-%s§4$

@@ -12,13 +12,16 @@ import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
 import fr.neocraft.main.util.Vector3f;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
@@ -143,6 +146,68 @@ public class ZoneEventFORGE {
 		 }
 	 }
 	
+	 @SubscribeEvent
+	 public void ItemToolType(ItemTooltipEvent event)
+	 {
+		 if(event.itemStack.stackTagCompound != null && event.itemStack.stackTagCompound.hasKey("dmg"))
+		 {
+			 event.toolTip.clear();
+			 String cara = RenderEventClient.CaraColor;
+			 NBTTagCompound tag = event.itemStack.stackTagCompound;
+			 
+			 event.toolTip.add(I18n.format("neo.itemtooltype.lvl", cara+"l"+tag.getInteger("lvl")));
+			 
+			 event.toolTip.add(I18n.format("neo.itemtooltype.dmg", tag.getInteger("dmg")));
+			 
+			 if(tag.hasKey("dmgtype"))
+			 {
+				 switch(tag.getInteger("dmg"))
+				 {
+				 	case 0:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"8"+"physique"));
+				 		break;
+				 	case 1:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"b"+"glace"));
+				 		break;
+				 	case 2:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"2"+"poison"));
+				 		break;
+				 	case 3:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"4"+"feu"));
+				 		break;
+				 		
+				 }
+				 event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", tag.getInteger("dmg")));
+			 }
+			 if(tag.hasKey("projectiletype"))
+			 {
+				 switch(tag.getInteger("projectiletype"))
+				 {
+				 	case 0:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.projectiletype", "rafale de", tag.getInteger("amount")));
+				 		break;
+				 	case 1:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.projectiletype", tag.getInteger("amount"), "horizontal(s)"));
+				 		break;
+				 }
+			 }
+			 
+			 if(tag.hasKey("mf"))
+			 {
+				 event.toolTip.add(I18n.format("neo.itemtooltype.mf", tag.getInteger("mf")));
+			 }
+			 if(tag.hasKey("display"))
+			 {
+				 NBTTagCompound display = tag.getCompoundTag("display");
+				 if(display.hasKey("author"))
+				 {
+					 event.toolTip.add(tag.getString("author"));
+				 }
+			 }
+		 }
+	 }
+	
+
 	private boolean isHolding(EntityPlayer p, Item i )
 	{
 		return p.getHeldItem() != null && p.getHeldItem().getItem() == i;

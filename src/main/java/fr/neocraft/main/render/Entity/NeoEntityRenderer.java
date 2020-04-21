@@ -561,8 +561,16 @@ public class NeoEntityRenderer extends EntityRenderer{
 	   
 	    
 	    private void orientCamera(float p_78467_1_)
-	    {
-
+	    {//<>
+	    	if(this.cameraZoom < this.ZoomReach)
+	    	{
+	    		this.cameraZoom += 0.1F;
+	    	}
+	    	if(this.cameraZoom > this.ZoomReach)
+	    	{
+	    		this.cameraZoom -= 0.1F;
+	    	}
+	    	
 	        EntityLivingBase entitylivingbase = this.mc.renderViewEntity;
 	        float f1 = entitylivingbase.yOffset - 1.62F;
 	        double d0 = entitylivingbase.prevPosX + (entitylivingbase.posX - entitylivingbase.prevPosX) * (double)p_78467_1_;
@@ -2133,4 +2141,18 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    {
 	        return this.theMapItemRenderer;
 	    }
+	    
+	    private double ZoomReach  = 1F;
+	    public void setCameraZoom(double z)
+	    {
+	    	this.ZoomReach = this.cameraZoom = z;
+	    }
+	    
+	    public void setReachZoom(double r)
+	    {
+	    	this.ZoomReach=r;
+	    }
+	    
+	    
+	    
 	}

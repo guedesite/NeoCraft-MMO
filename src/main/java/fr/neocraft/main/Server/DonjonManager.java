@@ -98,48 +98,66 @@ public class DonjonManager {
 			BlockPlanNBT.saveCompoundTag(f, new CompoundTag());
 		}
 		CompoundTag tag = BlockPlanNBT.ReadCompoundTag(f);
+		
+		File tagf = new File(pathModel+"zone.dat");
+		if(!tagf.exists())
+		{
+			BlockPlanNBT.saveCompoundTag(tagf, new CompoundTag());
+		}
+		CompoundTag tagZone = BlockPlanNBT.ReadCompoundTag(tagf);
+		
 		Iterator<Zone> it = ZoneManager.AllZone.values().iterator();
 		while(it.hasNext())
 		{
 			Zone z = it.next();
-			ListTag l;
-			if(tag.getListTag(z.id+"") == null)
+			if(tag.getListTag(z.id+"") != null)
 			{
-				l = new ListTag(SerializableTag.class);
-			} else {
-				l = tag.getListTag(z.id+"");
-			}
-			if(l.size() <= z.DonjonSpot/2)
-			{	
-				File tagf = new File(pathModel+"zone.dat");
-				CompoundTag tagZone = BlockPlanNBT.ReadCompoundTag(tagf);
-				int d =z.DonjonSpot/2 - l.size();
-				for(int i = 0; i <= d; i++)
-				{
-					int index = r.nextInt(((ListTag) tagZone.get(z.id+"")).size());
-					Vector6f v = (Vector6f) ((SerializableTag) ((ListTag) tagZone.get(z.id+"")).get(index)).getValue();
-					CompoundTag t = getRandomDonjonWithReg(z.donjonType, v);
-					if(t != null)
+
+				ListTag l = tag.getListTag(z.id+"");
+				if(l.size() <= z.DonjonSpot/2)
+				{	
+					if(tagZone.containsKey(z.id+""))
 					{
-						BlockPlanNBT.saveCompoundTag(new File(pathModel+"cache-"+v.toSampleString()+".dat"), BlockPlanNBT.LoadBlockAndAire(DimensionManager.getWorld(0), v.x, v.y,v .z, v.u, v.v, v.w));
-						BlockPlanNBT.writeBlock(DimensionManager.getWorld(0), v.x, v.y,v .z, t);
-						initMobDonjon(v, t);
-						l.add(tagZone.get(z.id+"").clone());
-						((ListTag) tagZone.get(z.id+"")).remove(index);
+						int d =z.DonjonSpot/2 - l.size();
+						for(int i = 0; i <= d; i++)
+						{
+							int index = r.nextInt(((ListTag) tagZone.get(z.id+"")).size());
+							Vector6f v = (Vector6f) ((SerializableTag) ((ListTag) tagZone.get(z.id+"")).get(index)).getValue();
+							CompoundTag t = getRandomDonjonWithReg(z.donjonType, v);
+							if(t != null)
+							{
+								BlockPlanNBT.saveCompoundTag(new File(pathModel+"cache-"+v.toSampleString()+".dat"), BlockPlanNBT.LoadBlockAndAire(DimensionManager.getWorld(0), v.x, v.y,v .z, v.u, v.v, v.w));
+								BlockPlanNBT.writeBlock(DimensionManager.getWorld(0), v.x, v.y,v .z, t);
+								initMobDonjon(v, t);
+								l.add(tagZone.get(z.id+"").clone());
+								((ListTag) tagZone.get(z.id+"")).remove(index);
+							}
+						}
 					}
 				}
-				
-				BlockPlanNBT.saveCompoundTag(tagf, tagZone);
 			}
 		}
+		BlockPlanNBT.saveCompoundTag(tagf, tagZone);
 		BlockPlanNBT.saveCompoundTag(f, tag);
 	}
 	
 	public static void addDonjonZone(int idzone, Vector6f v )
 	{
 		File tagf = new File(pathModel+"zone.dat");
+		if(!tagf.exists())
+		{
+			BlockPlanNBT.saveCompoundTag(tagf, new CompoundTag());
+		}
 		CompoundTag tagZone = BlockPlanNBT.ReadCompoundTag(tagf);
-		((ListTag) tagZone.get(idzone+"")).add(new SerializableTag(v));
+		if(tagZone.containsKey(idzone+""))
+		{
+			((ListTag) tagZone.get(idzone+"")).add(new SerializableTag(v));
+		} else {
+			ListTag list = new ListTag(SerializableTag.class);
+			list.add(new SerializableTag(v));
+			tagZone.put(idzone+"", list);
+			
+		}
 		BlockPlanNBT.saveCompoundTag(tagf, tagZone);
 	}
 	
@@ -156,10 +174,13 @@ public class DonjonManager {
 		while(it.hasNext())
 		{
 			Zone z = it.next();
-			ListTag l = tag.getListTag(z.id+"");
-			for(int i = 0; i < l.size(); i++ )
+			if(tag.containsKey(z.id+""))
 			{
-				EndingDonjon.add(new stockDonjonBeforeEnd((Vector6f)((SerializableTag) l.get(i)).getValue(), z.id));
+				ListTag l = tag.getListTag(z.id+"");
+				for(int i = 0; i < l.size(); i++ )
+				{
+					EndingDonjon.add(new stockDonjonBeforeEnd((Vector6f)((SerializableTag) l.get(i)).getValue(), z.id));
+				}
 			}
 		}
 	}

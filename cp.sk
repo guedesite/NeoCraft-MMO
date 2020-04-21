@@ -1,0 +1,146 @@
+function sorting(1: numbers) :: numbers:
+	loop {_1::*}:
+		set {_1} to 1
+		loop {_2::*}:
+			loop-value-1 <= loop-value-2 
+			add 1 to {_1}
+		set {_2} to {_1} + 1
+		set {_3::*} to {_2::*}
+		loop (size of {_2::*} - {_1} + 1) times:
+			set {_3} to {_2} - 1
+			set {_2::%{_2}%} to {_3::%{_3}%}
+			add 1 to {_2}
+		set {_2::%{_1}%} to loop-value
+	return {_2::*}
+	
+	
+# {cp.all::*}
+# {cp.%nb%::*}
+# {cp.player.player}
+command /classementpvp [<text>] [<offline player>] [<number>]:
+	aliases: cp
+	trigger:
+		if arg-1 is not set:
+			set {cp.all::*} to sorting({cp.all::*})
+			set {_count} to 0
+			message "&4╔&m [===>&c Classement PvP &4&m<===] &4"
+			message "&4╠"
+			loop {cp.all::*}:
+				if {_count} is 10:
+					stop loop
+				loop {cp.%loop-value-1%::*}:
+					if {_count} is 10:
+						stop loop
+					send "&4╠ &c%loop-value-1% &4> &c%loop-value-2%"
+					set {_count} to {_count} + 1
+			message "&4╠"
+			message "&4╚&m [===>&c &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f&4&m<===] &4"
+			stop
+		if arg-1 is set:
+			if arg-1 is "add":
+				if player has permission "admin.2":
+					if arg-2 is not set:
+						message "/cp add player NOMBRE"
+						stop
+					if arg-3 is not set:
+						message "/cp add player NOMBRE"
+						stop
+					if {cp.player.%arg-2%} is not set:
+						set {cp.player.%arg-2%} to arg-3
+						add arg-2 to {cp.%{cp.player.%arg-2%}%::*}
+						
+						if {cp.all::*} contains {cp.player.%arg-2%}:
+							message "&4%arg-2% &cà maintenant &4%{cp.player.%arg-2%}% &cpoints ! &8(+%arg-3%)"
+							stop
+						add {cp.player.%arg-2%} to {cp.all::*}
+						message "&4%arg-2% &cà maintenant &4%{cp.player.%arg-2%}% &cpoints ! &8(+%arg-3%)"
+						stop
+					else:
+						
+						remove arg-2 from {cp.%{cp.player.%arg-2%}%::*}
+						
+						if size of {cp.%{cp.player.%arg-2%}%::*} is 0:
+							remove {cp.player.%arg-2%} from {cp.all::*}
+							
+						set {cp.player.%arg-2%} to {cp.player.%arg-2%} + arg-3
+						add arg-2 to {cp.%{cp.player.%arg-2%}%::*}
+						
+						if {cp.all::*} contains {cp.player.%arg-2%}:
+							message "&4%arg-2% &cà maintenant &4%{cp.player.%arg-2%}% &cpoints ! &8(+%arg-3%)"
+							stop
+						add {cp.player.%arg-2%} to {cp.all::*}
+						message "&4%arg-2% &cà maintenant &4%{cp.player.%arg-2%}% &cpoints ! &8(+%arg-3%)"
+						stop
+
+				else:
+					message "Tu n'as pas la permission ..."
+					stop
+			else if arg-1 is "del" or "take":
+				if player has permission "admin.2":
+					if arg-2 is not set:
+						message "/cp del player NOMBRE"
+						stop
+					if arg-3 is not set:
+						message "/cp del player NOMBRE"
+						stop
+					else:
+						remove arg-2 from {cp.%{cp.player.%arg-2%}%::*}
+					
+						if size of {cp.%{cp.player.%arg-2%}%::*} is 0:
+							remove {cp.player.%arg-2%} from {cp.all::*}
+							
+						set {cp.player.%arg-2%} to {cp.player.%arg-2%} - arg-3
+						if {cp.player.%arg-2%} is less than 0:
+							set {cp.player.%arg-2%} to 0
+						add arg-2 to {cp.%{cp.player.%arg-2%}%::*}
+						if {cp.all::%{cp.player.%arg-2%}%} is not set:
+							add {cp.player.%arg-2%} to {cp.all::*}
+						message "&4%arg-2% &cà maintenant &4%{cp.player.%arg-2%}% &cpoints ! &8(-%arg-3%)"
+				
+					stop
+				else:
+					message "Tu n'as pas la permission ..."
+					stop
+			else if arg-1 is "reset":
+				if player has permission "admin.2":
+					set {cp.all::*} to sorting({cp.all::*})
+					loop {cp.all::*}:
+						loop {cp.%loop-value%::*}:
+							delete {cp.player.%loop-value-2%}
+						delete {cp.%loop-value%::*}
+					delete {cp.all::*}
+					message "reset"
+					stop
+				else:
+					message "Tu n'as pas la permission ..."
+					stop
+			else:
+				message "1"
+				set {_nb} to 0
+				set {_count} to 0
+		
+				set {_aa} to arg-1 parsed as integer
+				message "1 %{_aa}% "
+				set {_aa} to {_aa} - 1
+				set {_nb} to {_aa} * 10
+				
+				set {cp.all::*} to sorting({cp.all::*})
+				set {_nb2} to {_nb} + 10
+				message "&4╔&m [===>&c Classement PvP &4&m<===] &4"
+				message "&4╠"
+				loop {cp.all::*}:
+					if {_count} is {_nb2}:
+						stop loop
+					loop {cp.%loop-value-1%::*}:
+						if {_count} is {_nb2}:
+							stop loop
+						if {_count} is more than {_nb}:
+							send "&4╠ &c%loop-value-1% &4> &c%loop-value-2%"
+						set {_count} to {_count} + 1
+				message "&4╠"
+				message "&4╚&m [===>&c &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f &f&4&m<===] &4"
+				stop
+			execute player command "/cp"
+			
+
+		

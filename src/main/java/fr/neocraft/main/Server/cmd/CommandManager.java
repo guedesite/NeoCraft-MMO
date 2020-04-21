@@ -11,6 +11,7 @@ import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
 import fr.neocraft.main.util.Vector3f;
+import fr.neocraft.main.util.WeaponGenerator;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,10 +58,10 @@ public class CommandManager extends CommandBase{
 				{
 					Vector3f v = ZoneManager.getPosOfZoneAtEntity((EntityPlayer)ic);
 					bdd.execute("INSERT INTO "+bdd.getStringZone()+" (`XPos`, `ZPos`) VALUES ('"+(int)v.x+"', '"+(int)v.z+"')");
-					M(ic, "zone créat at "+v.toString());
+					M(ic, "zone creat at "+v.toString());
 				}
 				else {
-					M(ic, "zone déjà éxistante");
+					M(ic, "zone dï¿½jï¿½ ï¿½xistante");
 				}
 			}else if(arg[0].equals("reload"))
 			{
@@ -86,7 +87,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "New name: "+f);
 				}
 				else {
-					M(ic, "vous devez être dans une zone");
+					M(ic, "vous devez Ãªtre dans une zone");
 				}
 			}else if(arg[0].equals("setzonename"))
 			{
@@ -105,7 +106,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "New name: "+f);
 				}
 				else {
-					M(ic, "vous devez être dans une zone");
+					M(ic, "vous devez Ãªtre dans une zone");
 				}
 			}else if(arg[0].equals("setzonesecname"))
 			{
@@ -124,7 +125,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "New name: "+f);
 				}
 				else {
-					M(ic, "vous devez être dans une zone");
+					M(ic, "vous devez Ãªtre dans une zone");
 				}
 			}
 			else if(arg[0].equals("setzonelvl"))
@@ -165,7 +166,7 @@ public class CommandManager extends CommandBase{
 					}
 				}
 				else {
-					M(ic, "vous devez être dans une zone");
+					M(ic, "vous devez Ãªtre dans une zone");
 				}
 			}else if(arg[0].equals("debug"))
 			{
@@ -188,7 +189,7 @@ public class CommandManager extends CommandBase{
 					data.HouseIndex = HouseManager.createHouse();
 					HouseManager.TeleportPlayerToHouse(data);
 				}else {
-					M(ic, "Tu en as déjà une !");
+					M(ic, "Tu en as dÃ©jÃ  une !");
 				}
 			}
 			else if(arg[0].equals("reloaddata")) {
@@ -199,9 +200,53 @@ public class CommandManager extends CommandBase{
 				{
 					M(ic, e.getMessage());
 				}
+			}else if(arg[0].equals("genitem") && arg.length > 2) {
+				
+				try {
+					int lvl;
+					if(arg[2].equals("0"))
+					{
+						lvl = 0;
+					}else {
+						lvl = Integer.parseInt(arg[2]);
+					}
+				
+					if(lvl < 0 || lvl > 10)
+					{
+						M(ic, "extra range detected ...");
+					}
+					if(!(ic instanceof EntityPlayer))
+					{
+						M(ic, "can't give");
+						return;
+					}
+					
+					EntityPlayer pl = (EntityPlayer) ic;
+ 					if(arg[1].equalsIgnoreCase("bow"))
+					{
+ 						pl.inventory.addItemStackToInventory(WeaponGenerator.generateBow(lvl));
+					} else if(arg[1].equalsIgnoreCase("stick"))
+					{
+						pl.inventory.addItemStackToInventory(WeaponGenerator.generateStick(lvl));
+					} else if(arg[1].equalsIgnoreCase("sword"))
+					{
+						pl.inventory.addItemStackToInventory(WeaponGenerator.generateSword(lvl));
+					}else {
+						M(ic, "no item '"+arg[1]+"' found");
+					}
+
+					M(ic, "create");
+				} catch(Exception e)
+				{
+					e.printStackTrace();
+					M(ic, "error number invalid");
+				}
 			}else if(arg[0].equals("tpmyhouse"))
 			{
 				HouseManager.TeleportPlayerToHouse(data);
+			}
+			else {
+				sendHelp(ic);
 			}
 		} else {
 			sendHelp(ic);
@@ -223,6 +268,7 @@ public class CommandManager extends CommandBase{
 		M(ic, "/manager reload");
 		M(ic, "/manager createmyhouse");
 		M(ic, "/manager tpmyhouse");
+		M(ic, "/manager genitem bow/sword/stick lvl(0,1,2,3 ...)");
 	}
 
 }

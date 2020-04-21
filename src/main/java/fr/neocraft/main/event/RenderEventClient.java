@@ -5,19 +5,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import fr.neocraft.main.main;
-import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.proxy.ClientProxy;
-import fr.neocraft.main.render.gui.external.CarteGui;
+import fr.neocraft.main.render.Entity.PlayerRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class RenderEventClient {
 
@@ -25,12 +23,14 @@ public class RenderEventClient {
 	//RenderPlayerEvent
 	public float x = 0;
 	public float y = 0;
-	public float z = 0;
+	public float z = 0,f=0;
 	private Minecraft mc = Minecraft.getMinecraft();
-	private  String CaraColor = I18n.format("neo.cara.color");
+	public static String CaraColor = I18n.format("neo.cara.color");
 	private boolean isLaunchDecompt = false;
 	private ArrayList<AltString> allText = new ArrayList<AltString>();
 	private Timer t = new Timer();
+	
+	public PlayerRenderer PlayerRender = new PlayerRenderer();
 	
 	@SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Post event)
@@ -46,18 +46,18 @@ public class RenderEventClient {
 			if(allText.size() == 1 ) 
 			{
 			
-				drawCenteredString(mc.fontRenderer, allText.get(0).prems, width / 2, 5, Integer.parseInt("FFFFFF", 16));
+				drawCenteredString(mc.fontRenderer, allText.get(0).prems, width / 2, 5, 0XFFFFFF);
 				if(allText.get(0).second != null)
 				{
-					drawCenteredString(mc.fontRenderer, allText.get(0).second, width / 2, 30, Integer.parseInt("FFFFFF", 16));
+					drawCenteredString(mc.fontRenderer, allText.get(0).second, width / 2, 30, 0XFFFFFF);
 				}
 				
 			} else if(allText.size() > 1)
 			{
-				drawCenteredString(mc.fontRenderer, allText.get(1).prems, width / 2, 5, Integer.parseInt("FFFFFF", 16));
+				drawCenteredString(mc.fontRenderer, allText.get(1).prems, width / 2, 5, 0XFFFFFF);
 				if(allText.get(0).second != null)
 				{
-					drawCenteredString(mc.fontRenderer, allText.get(0).second, width / 2, 30, Integer.parseInt("FFFFFF", 16));
+					drawCenteredString(mc.fontRenderer, allText.get(0).second, width / 2, 30, 0XFFFFFF);
 				}
 				if(!isLaunchDecompt ) {
 					isLaunchDecompt  = true;
@@ -92,55 +92,55 @@ public class RenderEventClient {
 	@SubscribeEvent
 	public void RenderPlayerEvent(RenderPlayerEvent.Pre event)
 	{
-		
-		ClientPlayerData pl = main.AllPlayer.get(event.entityPlayer.getCommandSenderName());
-		if(pl != null)
+		if(ClientProxy.player != null)
 		{
-			if(pl.race == "orc")
+			event.setCanceled(true);
+			PlayerRender.doRender(event.entityPlayer, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0,  event.partialRenderTick);
+			if(ClientProxy.player.race == "orc")
 			{
-				if(pl.race == "paladin")
+				if(ClientProxy.player.race == "paladin")
+				{
+			
+				}else if(ClientProxy.player.race == "archer")
 				{
 					
-				}else if(pl.race == "archer")
-				{
-					
-				}else if(pl.race == "mage")
+				}else if(ClientProxy.player.race == "mage")
 				{
 					
 				}
-			}else if(pl.race == "humain")
+			}else if(ClientProxy.player.race == "humain")
 			{
-				if(pl.race == "paladin")
+				if(ClientProxy.player.race == "paladin")
 				{
 					
-				}else if(pl.race == "archer")
+				}else if(ClientProxy.player.race == "archer")
 				{
 					
-				}else if(pl.race == "mage")
+				}else if(ClientProxy.player.race == "mage")
 				{
 					
 				}
-			}else if(pl.race == "demon")
+			}else if(ClientProxy.player.race == "demon")
 			{
-				if(pl.race == "paladin")
+				if(ClientProxy.player.race == "paladin")
 				{
 					
-				}else if(pl.race == "archer")
+				}else if(ClientProxy.player.race == "archer")
 				{
 					
-				}else if(pl.race == "mage")
+				}else if(ClientProxy.player.race == "mage")
 				{
 					
 				}
-			}else if(pl.race == "elfe")
+			}else if(ClientProxy.player.race == "elfe")
 			{
-				if(pl.race == "paladin")
+				if(ClientProxy.player.race == "paladin")
 				{
 					
-				}else if(pl.race == "archer")
+				}else if(ClientProxy.player.race == "archer")
 				{
 					
-				}else if(pl.race == "mage")
+				}else if(ClientProxy.player.race == "mage")
 				{
 					
 				}
@@ -175,5 +175,64 @@ public class RenderEventClient {
 		}
 		
 	}
+	 @SubscribeEvent
+	 public void ItemToolType(ItemTooltipEvent event)
+	 {
+		 if(event.itemStack.stackTagCompound != null && event.itemStack.stackTagCompound.hasKey("dmg"))
+		 {
+			 event.toolTip.clear();
+			 String cara = I18n.format(RenderEventClient.CaraColor);
+			 NBTTagCompound tag = event.itemStack.stackTagCompound;
+			 
+			 event.toolTip.add(I18n.format("neo.itemtooltype.dmg", tag.getInteger("dmg")));
+			 
+			 if(tag.hasKey("dmgtype"))
+			 {
+				 switch(tag.getInteger("dmg"))
+				 {
+				 	case 0:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"8"+"physique"));
+				 		break;
+				 	case 1:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"b"+"glace"));
+				 		break;
+				 	case 2:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"2"+"poison"));
+				 		break;
+				 	case 3:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"4"+"feu"));
+				 		break;
+				 		
+				 }
+				 event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", tag.getInteger("dmg")));
+			 }
+			 if(tag.hasKey("projectiletype"))
+			 {
+				 switch(tag.getInteger("projectiletype"))
+				 {
+				 	case 0:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.projectiletype", "rafale de", tag.getInteger("amount")));
+				 		break;
+				 	case 1:
+				 		event.toolTip.add(I18n.format("neo.itemtooltype.projectiletype", tag.getInteger("amount"), "horizontal(s)"));
+				 		break;
+				 }
+			 }
+			 
+			 if(tag.hasKey("mf"))
+			 {
+				 event.toolTip.add(I18n.format("neo.itemtooltype.mf", tag.getInteger("mf")));
+			 }
+			 if(tag.hasKey("display"))
+			 {
+				 NBTTagCompound display = tag.getCompoundTag("display");
+				 if(display.hasKey("author"))
+				 {
+					 event.toolTip.add(display.getString("author"));
+				 }
+			 }
+		 }
+	 }
+	
 	
 }
