@@ -55,7 +55,7 @@ public class Teleport {
 		return DimensionManager.getWorld(world) != null;
 	}
 	
-	public static void entity(final Entity player, final int x, final int y, final int z)
+	public static void entity(final Entity player, final double posX, final double posY, final double posZ)
 	{
 		if(player instanceof EntityPlayer && main.getPlayer(player.getCommandSenderName()) == null)
 		{
@@ -63,7 +63,7 @@ public class Teleport {
 		}
 		player.fallDistance = 0;
 		checkRiding(player);
-		player.setPosition((double) x+0.5, (double) y, (double) z+0.5);
+		player.setPosition((double) posX+0.5, (double) posY, (double) posZ+0.5);
 	}
 	
 	public static void entity(final int world, final Entity player, final int x, final int y, final int z)

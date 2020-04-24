@@ -562,15 +562,18 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    
 	    private void orientCamera(float p_78467_1_)
 	    {//<>
-	    	if(this.cameraZoom < this.ZoomReach)
+	    	if(this.cameraZoom > this.ZoomReach -ZoomStep &&this.cameraZoom < this.ZoomReach +ZoomStep )
 	    	{
-	    		this.cameraZoom += 0.1F;
+	    		this.cameraZoom = this.ZoomReach;
+	    	}
+	    	if(this.cameraZoom < this.ZoomReach) 
+	    	{
+	    		this.cameraZoom += ZoomStep;
 	    	}
 	    	if(this.cameraZoom > this.ZoomReach)
 	    	{
-	    		this.cameraZoom -= 0.1F;
+	    		this.cameraZoom -= ZoomStep;
 	    	}
-	    	
 	        EntityLivingBase entitylivingbase = this.mc.renderViewEntity;
 	        float f1 = entitylivingbase.yOffset - 1.62F;
 	        double d0 = entitylivingbase.prevPosX + (entitylivingbase.posX - entitylivingbase.prevPosX) * (double)p_78467_1_;
@@ -1378,7 +1381,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	            GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	            GL11.glPopMatrix();
 
-	            if (this.cameraZoom == 1.0D && entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI && this.mc.objectMouseOver != null && !entitylivingbase.isInsideOfMaterial(Material.water))
+	            if (entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI && this.mc.objectMouseOver != null && !entitylivingbase.isInsideOfMaterial(Material.water))
 	            {
 	                entityplayer = (EntityPlayer)entitylivingbase;
 	                GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -1486,7 +1489,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	            ForgeHooksClient.dispatchRenderLast(renderglobal, p_78471_1_);
 
 
-	            if (!ForgeHooksClient.renderFirstPersonHand(renderglobal, p_78471_1_, j) && this.cameraZoom == 1.0D)
+	            if (!ForgeHooksClient.renderFirstPersonHand(renderglobal, p_78471_1_, j))
 	            {
 	                GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 	                this.renderHand(p_78471_1_, j);
@@ -2143,13 +2146,15 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    }
 	    
 	    private double ZoomReach  = 1F;
+	    private double ZoomStep  = 0.1F;
 	    public void setCameraZoom(double z)
 	    {
 	    	this.ZoomReach = this.cameraZoom = z;
 	    }
 	    
-	    public void setReachZoom(double r)
+	    public void setReachZoom(double r, double step)
 	    {
+	    	this.ZoomStep=step;
 	    	this.ZoomReach=r;
 	    }
 	    

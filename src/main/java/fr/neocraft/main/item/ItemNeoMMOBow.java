@@ -83,8 +83,10 @@ public class ItemNeoMMOBow extends ItemBow {
 
 	    		if(p_77615_2_.isRemote)
 	    		{
-	    			ClientProxy.EntityRenderer.setReachZoom(1.0D);
+	    			ClientProxy.EntityRenderer.setReachZoom(1.0D, 0.05D);
 	    		}
+	    		
+	    		
 	        int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
 	        
 
@@ -125,6 +127,7 @@ public class ItemNeoMMOBow extends ItemBow {
 	            {
 	                p_77615_2_.spawnEntityInWorld(entityarrow);
 	            }
+	            p_77615_3_.clearItemInUse();
 	    }
 	    @Override
 	    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)

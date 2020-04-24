@@ -30,6 +30,7 @@ import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.Server.cmd.CommandDonjon;
+import fr.neocraft.main.Server.cmd.CommandEntity;
 import fr.neocraft.main.Server.cmd.CommandManager;
 import fr.neocraft.main.Server.cmd.CommandSeeds;
 import fr.neocraft.main.entity.EntityPnjAction;
@@ -144,7 +145,7 @@ public class main {
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    
+    	proxy.onPostInit();
     }
     
     @EventHandler
@@ -167,6 +168,7 @@ public class main {
 		    	cmdman.registerCommand(new CommandManager());
 		    	cmdman.registerCommand(new CommandSeeds());
 		    	cmdman.registerCommand(new CommandDonjon());
+		    	cmdman.registerCommand(new CommandEntity());
     		}
     	}
     }

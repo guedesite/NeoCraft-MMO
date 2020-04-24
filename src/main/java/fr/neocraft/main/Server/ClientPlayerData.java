@@ -58,8 +58,7 @@ public class ClientPlayerData implements Serializable{
 	
 	public double calculPercWithExp() {
 		
-		exp++;
-		return (330 * exp) / getExpNextLevel();
+		return (320 * exp) / getExpNextLevel();
 	}
 	
 	public static class Cam  {

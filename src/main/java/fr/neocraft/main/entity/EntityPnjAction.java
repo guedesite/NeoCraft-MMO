@@ -8,7 +8,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fr.neocraft.main.main;
 import fr.neocraft.main.Init.ItemMod;
+import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.Server.Zone.ZoneManager;
@@ -346,7 +348,8 @@ public class EntityPnjAction extends EntityMobZone {
 				this.setSkinIndex(i);
 				return true;
 			}
-		}else if(!p.worldObj.isRemote && indexPnj != -1){
+			
+		}if(!p.worldObj.isRemote && indexPnj != -1){
 			PnjData data = DataManager.getPnjById(indexPnj);
 			for(PnjAction ac:data.Actions)
 			{
@@ -357,7 +360,7 @@ public class EntityPnjAction extends EntityMobZone {
 				}
 			}
 		}
-		return false;
+		return super.interact(p);
 	}
 	
 	public static HashMap<Integer, ClassSkin> allClass = new HashMap<Integer,ClassSkin>();
@@ -379,7 +382,7 @@ public class EntityPnjAction extends EntityMobZone {
 			ClassSkin ck = allClass.get(i);
 			
 			try {
-				allModel.put(i, new ModelSkin((ModelBase) ck.model.newInstance(), ck.res));
+				allModel.put(i, new ModelSkin((ModelBase) Class.forName(ck.model).newInstance(), ck.res));
 			} catch (Exception e) {
 				CRASH.Push(e);
 			}
@@ -388,9 +391,9 @@ public class EntityPnjAction extends EntityMobZone {
 	}
 	
 	static class ClassSkin {
-		public Class model;
+		public String model;
 		public ResourceLocation[] res;
-		public ClassSkin(Class model, ResourceLocation[] res)
+		public ClassSkin(String model, ResourceLocation[] res)
 		{
 			this.model = model;
 			this.res = res;

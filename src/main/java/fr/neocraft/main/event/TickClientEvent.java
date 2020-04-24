@@ -100,11 +100,11 @@ public class TickClientEvent {
 			if(KEY_ZOOM.getIsKeyPressed())
 			{
 				zoomState = true;
-				ClientProxy.EntityRenderer.setReachZoom(3D);
+				ClientProxy.EntityRenderer.setReachZoom(3D,0.08D);
 			}else if(zoomState)
 			{
 				zoomState = false;
-				ClientProxy.EntityRenderer.setReachZoom(1D);
+				ClientProxy.EntityRenderer.setReachZoom(1D,0.08D);
 						
 			}
 		

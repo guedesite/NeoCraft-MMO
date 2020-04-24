@@ -14,6 +14,7 @@ import fr.neocraft.quest.Recompense.QuestRecompense;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.entity.item.EntityItem;
@@ -28,13 +29,14 @@ public class RegisterQuestEnum {
 
 	ExecutePlayerCommand,
 	ExecuteConsolCommand,
-			
+			//net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(mc.thePlayer, p_146403_1_)
 		 */
 		
 		
 		EnumPnjAction.setCondition(EnumPnjAction.Null, new PnjAction() {
 			@Override
 			public boolean MakeAction(Object arg0) {
+				net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(MinecraftServer.getServer(), "");
 				return true;
 			} 
 		});

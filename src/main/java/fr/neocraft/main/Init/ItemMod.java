@@ -15,7 +15,7 @@ public class ItemMod {
 	
 	public static Item[] itemreg;
 	
-	public static Item MMOBow, MMOSword, MMOStick, Copyright_NeoCraft, Seeds_Stick, ItemDoorHouse, ItemChangeSkinPnjAction, ItemChangeModelPnjAction;
+	public static Item MMOBow, MMOSword, MMOStick, Copyright_NeoCraft, Seeds_Stick, ItemDoorHouse, ItemChangeSkinPnjAction, ItemChangeModelPnjAction, GuiHover;
 	
 	public static void Init()
     {
@@ -23,7 +23,7 @@ public class ItemMod {
 				Copyright_NeoCraft = new Item().setUnlocalizedName("Copyright_NeoCraft").setCreativeTab(main.neocraft).setTextureName(Reference.MOD_ID + ":COP")
 				,Seeds_Stick = new Item().setUnlocalizedName("Seeds_Stick").setCreativeTab(main.neocraft).setTextureName(Reference.MOD_ID + ":Seeds_Stick")
 				,ItemChangeSkinPnjAction = new Item().setUnlocalizedName("ItemChangeSkinPnjAction").setCreativeTab(main.neocraft).setTextureName(Reference.MOD_ID+":ItemChangeSkinPnjAction")
-				,ItemChangeModelPnjAction = new Item().setUnlocalizedName("ItemChangeModelPnjAction").setCreativeTab(main.neocraft).setTextureName(Reference.MOD_ID+"::ItemChangeModelPnjAction")
+				,ItemChangeModelPnjAction = new Item().setUnlocalizedName("ItemChangeModelPnjAction").setCreativeTab(main.neocraft).setTextureName(Reference.MOD_ID+":ItemChangeModelPnjAction")
 				,ItemDoorHouse = new ItemBlockDoor(BlockMod.BlockDoor[0])
 				,ItemDoorHouse = new ItemBlockDoor(BlockMod.BlockDoor[1])
 				,ItemDoorHouse = new ItemBlockDoor(BlockMod.BlockDoor[2])
@@ -33,8 +33,9 @@ public class ItemMod {
 				,ItemDoorHouse = new ItemBlockDoor(BlockMod.BlockDoor[6])
 				,MMOBow = new ItemNeoMMOBow().setUnlocalizedName("Item MMO Bow")
 				,MMOStick = new ItemNeoMMOStick().setUnlocalizedName("Item MMO Stick")
-				,MMOStick = new ItemNeoMMOSword().setUnlocalizedName("Item MMO Sword")
-														
+				,MMOSword = new ItemNeoMMOSword().setUnlocalizedName("Item MMO Sword")
+				,GuiHover = new Item().setUnlocalizedName("GuiHover").setTextureName(Reference.MOD_ID + ":GuiHover")
+													
 		};
 	}
 	

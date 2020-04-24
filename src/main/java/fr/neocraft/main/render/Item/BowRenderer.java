@@ -126,7 +126,7 @@ public class BowRenderer implements IItemRenderer {
 	    //    GL11.glRotatef(angle, 1F, 0.0F, 0.0F);
 	      //  GL11.glRotatef(angle, 0F, 0F, 0F);
 	        //GL11.glRotatef(angle, 0F, 0F, 0f);
-	        ClientProxy.EntityRenderer.setCameraZoom(f2 +1.0F);
+	        ClientProxy.EntityRenderer.setReachZoom(f2 +1.0F, 0.01F);
 	        
 	        GL11.glRotatef(0.399999F * f12, 1F, 0F, 0F);
 	        GL11.glRotatef(-0.030999F * f12, 0F, 1F, 0F);

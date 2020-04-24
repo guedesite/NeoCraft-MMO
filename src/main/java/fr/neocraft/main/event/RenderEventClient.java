@@ -25,12 +25,19 @@ public class RenderEventClient {
 	public float y = 0;
 	public float z = 0,f=0;
 	private Minecraft mc = Minecraft.getMinecraft();
-	public static String CaraColor = I18n.format("neo.cara.color");
+	public static String CaraColor;
+	public static String Dolar;
 	private boolean isLaunchDecompt = false;
 	private ArrayList<AltString> allText = new ArrayList<AltString>();
 	private Timer t = new Timer();
 	
 	public PlayerRenderer PlayerRender = new PlayerRenderer();
+	
+	
+	public static void PostInit() {
+		CaraColor = I18n.format("neo.cara.color");
+		Dolar = I18n.format("neo.dollar");
+	}
 	
 	@SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Post event)
@@ -92,57 +99,61 @@ public class RenderEventClient {
 	@SubscribeEvent
 	public void RenderPlayerEvent(RenderPlayerEvent.Pre event)
 	{
+		
 		if(ClientProxy.player != null)
 		{
-			event.setCanceled(true);
-			PlayerRender.doRender(event.entityPlayer, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0,  event.partialRenderTick);
-			if(ClientProxy.player.race == "orc")
+		//	event.setCanceled(true);
+			//PlayerRender.doRender(event.entityPlayer, event.entityPlayer.posX, event.entityPlayer.posY, event.entityPlayer.posZ, 0,  event.partialRenderTick);
+			if(ClientProxy.player.race != null)
 			{
-				if(ClientProxy.player.race == "paladin")
+				if(ClientProxy.player.race.equals("orc"))
 				{
-			
-				}else if(ClientProxy.player.race == "archer")
+					if(ClientProxy.player.classe.equals("paladin"))
+					{
+				
+					}else if(ClientProxy.player.classe.equals("archer"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("mage"))
+					{
+						
+					}
+				}else if(ClientProxy.player.race.equals("humain"))
 				{
-					
-				}else if(ClientProxy.player.race == "mage")
+					if(ClientProxy.player.classe.equals("paladin"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("archer"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("mage"))
+					{
+						
+					}
+				}else if(ClientProxy.player.race.equals("demon"))
 				{
-					
-				}
-			}else if(ClientProxy.player.race == "humain")
-			{
-				if(ClientProxy.player.race == "paladin")
+					if(ClientProxy.player.classe.equals("paladin"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("archer"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("mage"))
+					{
+						
+					}
+				}else if(ClientProxy.player.race.equals("elfe"))
 				{
-					
-				}else if(ClientProxy.player.race == "archer")
-				{
-					
-				}else if(ClientProxy.player.race == "mage")
-				{
-					
-				}
-			}else if(ClientProxy.player.race == "demon")
-			{
-				if(ClientProxy.player.race == "paladin")
-				{
-					
-				}else if(ClientProxy.player.race == "archer")
-				{
-					
-				}else if(ClientProxy.player.race == "mage")
-				{
-					
-				}
-			}else if(ClientProxy.player.race == "elfe")
-			{
-				if(ClientProxy.player.race == "paladin")
-				{
-					
-				}else if(ClientProxy.player.race == "archer")
-				{
-					
-				}else if(ClientProxy.player.race == "mage")
-				{
-					
+					if(ClientProxy.player.classe.equals("paladin"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("archer"))
+					{
+						
+					}else if(ClientProxy.player.classe.equals("mage"))
+					{
+						
+					}
 				}
 			}
 		}
@@ -175,20 +186,40 @@ public class RenderEventClient {
 		}
 		
 	}
+	
+	private  char[] colorlvl = new char[] {'f','a','2','9','1','e','6','c','4'  };
 	 @SubscribeEvent
 	 public void ItemToolType(ItemTooltipEvent event)
 	 {
 		 if(event.itemStack.stackTagCompound != null && event.itemStack.stackTagCompound.hasKey("dmg"))
 		 {
 			 event.toolTip.clear();
-			 String cara = I18n.format(RenderEventClient.CaraColor);
+			 String cara = CaraColor;
 			 NBTTagCompound tag = event.itemStack.stackTagCompound;
+			 NBTTagCompound display = null;
+			 int lvl = tag.getInteger("lvl");
+			 if(tag.hasKey("display"))
+			 {
+				 display = tag.getCompoundTag("display");
+				 String name = display.getString("Name");
+				if(lvl < 1)
+				{
+					event.toolTip.add(cara+colorlvl[0]+name);
+				} else if(9 < lvl)
+				{
+					event.toolTip.add(cara+colorlvl[8]+cara+"l"+name);
+				} else {
+					event.toolTip.add(cara+colorlvl[lvl]+name);
+				}
+				 event.toolTip.add(I18n.format(" "));
+			 }
+			 event.toolTip.add(I18n.format("neo.itemtooltype.lvl", cara+lvl));
 			 
 			 event.toolTip.add(I18n.format("neo.itemtooltype.dmg", tag.getInteger("dmg")));
 			 
 			 if(tag.hasKey("dmgtype"))
 			 {
-				 switch(tag.getInteger("dmg"))
+				 switch(tag.getInteger("dmgtype"))
 				 {
 				 	case 0:
 				 		event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", cara+"8"+"physique"));
@@ -204,7 +235,6 @@ public class RenderEventClient {
 				 		break;
 				 		
 				 }
-				 event.toolTip.add(I18n.format("neo.itemtooltype.dmgtype", tag.getInteger("dmg")));
 			 }
 			 if(tag.hasKey("projectiletype"))
 			 {
@@ -223,9 +253,9 @@ public class RenderEventClient {
 			 {
 				 event.toolTip.add(I18n.format("neo.itemtooltype.mf", tag.getInteger("mf")));
 			 }
-			 if(tag.hasKey("display"))
+			 if( display != null)
 			 {
-				 NBTTagCompound display = tag.getCompoundTag("display");
+				 
 				 if(display.hasKey("author"))
 				 {
 					 event.toolTip.add(display.getString("author"));

@@ -22,7 +22,8 @@ public class BlockMod {
 	public static Block[] blockreg, BlockDoor = new Block[7];
 	
 	public static Block 
-	BarrierRed, 
+	BarrierRed,
+	BlockLum,
 	BlockMoreHouse,
 	BlockDoorHouse,
 	BlockNeoLogStripped,
@@ -48,6 +49,7 @@ public class BlockMod {
     {
 		blockreg = new Block[] {
 				BarrierRed = new BlockBarrierRed(Material.iron).setCreativeTab(main.neocraft).setBlockName("BarrierRed").setBlockUnbreakable().setBlockTextureName(Reference.MOD_ID + ":BarrierRed" )
+				,BlockLum = new BlockLum(Material.glass).setCreativeTab(main.neocraft).setBlockName("BlockLum").setBlockUnbreakable().setBlockTextureName(Reference.MOD_ID + ":BarrierRed" )
 				,BlockMoreHouse = new BlockMoreHouse(Material.iron).setCreativeTab(main.neocraft).setBlockName("MoreHouse").setBlockUnbreakable()
 				,BlockDoorHouse = new BlockDoorHouse(Material.wood).setBlockName("BlockDoorHouse").setBlockTextureName(Reference.MOD_ID+":door_wood").setBlockUnbreakable()
 				,BlockNeoLogStripped = new BlockNeoLog("stripped")

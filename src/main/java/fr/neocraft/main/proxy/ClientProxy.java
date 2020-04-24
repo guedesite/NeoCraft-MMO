@@ -27,7 +27,7 @@ public class ClientProxy extends CommonProxy {
 	public static NeoEntityRenderer EntityRenderer;
 	public static RenderEventClient GuiClientManager;
 	
-	public static ClientPlayerData player;
+	public static ClientPlayerData player = null;
 	
 	@Override
 	public void onInit() {
@@ -48,6 +48,16 @@ public class ClientProxy extends CommonProxy {
 	    MinecraftForgeClient.registerItemRenderer(ItemMod.MMOBow, new BowRenderer());
 
 	    
+	}
+
+	public static boolean ExecuteCommand(String cmd)
+	{
+		return net.minecraftforge.client.ClientCommandHandler.instance.executeCommand(Minecraft.getMinecraft().thePlayer, cmd) != 0;
+	}
+	
+	@Override
+	public void onPostInit() {
+		RenderEventClient.PostInit();
 	}
 	
 }

@@ -61,7 +61,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "zone creat at "+v.toString());
 				}
 				else {
-					M(ic, "zone d�j� �xistante");
+					M(ic, "zone déjà éxistante");
 				}
 			}else if(arg[0].equals("reload"))
 			{
@@ -74,25 +74,6 @@ public class CommandManager extends CommandBase{
 			{
 				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(zone .id !=-1)
-				{
-					String f = "";
-					for(int i = 1; i < arg.length; i++)
-					{
-						f += arg[i];
-					}
-					zone.setName(f);
-					bdd.updateProtocole(bdd.getStringZone(),new Object[] {"Name",f }, "WHERE id="+zone.id);
-					
-					
-					M(ic, "New name: "+f);
-				}
-				else {
-					M(ic, "vous devez être dans une zone");
-				}
-			}else if(arg[0].equals("setzonename"))
-			{
-				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
-				if(zone.id !=-1)
 				{
 					String f = "";
 					for(int i = 1; i < arg.length; i++)
@@ -236,9 +217,8 @@ public class CommandManager extends CommandBase{
 					}
 
 					M(ic, "create");
-				} catch(Exception e)
+				} catch(NumberFormatException e)
 				{
-					e.printStackTrace();
 					M(ic, "error number invalid");
 				}
 			}else if(arg[0].equals("tpmyhouse"))
@@ -252,6 +232,8 @@ public class CommandManager extends CommandBase{
 			sendHelp(ic);
 		}
 	}
+	
+	
 	
 	private void M(ICommandSender player, String msg) {
 		player.addChatMessage(new ChatComponentText(msg));

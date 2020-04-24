@@ -9,8 +9,10 @@ import fr.neocraft.main.Reference;
 import fr.neocraft.main.main;
 import fr.neocraft.main.Server.EnumSound;
 import fr.neocraft.main.Server.SoundManager;
+import fr.neocraft.main.proxy.ClientProxy;
 import fr.neocraft.main.util.Vector3f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
@@ -31,12 +33,10 @@ public class CarteGui {
 	protected double zLevel;
 	private Minecraft mc;
 
-
 	public double MapSize = 256;
 	 
 	
 	public CarteGui(Minecraft mc) {
-		
 		SoundManager.PlaySound(EnumSound.NeoMOpen.getSound());
 		this.mc= mc;
 	}
@@ -48,7 +48,7 @@ public class CarteGui {
 	
 	public void drawScreen(int width, int height, double xpos, double zpos, double yaw) {
 		ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-
+			this.zLevel = 51;
 		
 			MapSize += Mouse.getDWheel() *-0.04;
 			if(256 < MapSize )
@@ -106,11 +106,15 @@ public class CarteGui {
 		    
 
 		    GL11.glTranslated(playerx*32-4,playery*32-4, 0);
-
+		    
 		    mc.getTextureManager().bindTexture(player);
+		    drawTexturedModalRect(0,0, 0, 0, 256, 256);
+		    
+		    
+		    mc.getTextureManager().bindTexture(arrow);
 		    GL11.glTranslated(128,128, 0);
-		    GL11.glRotated(yaw, 0, 0, 1);
-		    GL11.glTranslated(-128,-128, 0);
+		    GL11.glRotated(yaw+ClientProxy.GuiClientManager.x, 0, 0, 1);
+		    GL11.glTranslated(128,128, 0);
 		    
 		    drawTexturedModalRect(0,0, 0, 0, 256, 256);
 

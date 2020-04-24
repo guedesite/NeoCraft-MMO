@@ -8,6 +8,7 @@ import fr.neocraft.quest.QuestData;
 import fr.neocraft.quest.Condition.EnumCondition;
 import fr.neocraft.quest.Condition.QuestCondition;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -22,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.querz.nbt.CompoundTag;
 import net.querz.nbt.NBTUtil;
@@ -32,6 +34,7 @@ import fr.neocraft.main.main;
 import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Quest.QuestClientGuiInfo;
 import fr.neocraft.main.Server.Zone.Zone;
+import fr.neocraft.main.entity.EntityPnjAction;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetQuest;
 
@@ -281,6 +284,19 @@ public class ServerPlayerData {
 			}
 		}
 		
+	}
+
+	
+	private Entity SelectedEntity = null;
+	public void setSelectedEntity(Entity entityPnjAction) {
+		this.SelectedEntity = entityPnjAction;
+		this.p.addChatMessage(new ChatComponentText("Selected: "+entityPnjAction.getCommandSenderName()));
+	}
+	public boolean hasSelectedEntity() {
+		return this.SelectedEntity != null;
+	}
+	public Entity getSelectedEntity() {
+		return this.SelectedEntity;
 	}
 	
 	

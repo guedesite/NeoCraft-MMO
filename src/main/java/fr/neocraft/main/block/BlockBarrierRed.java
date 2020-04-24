@@ -33,14 +33,6 @@ public class BlockBarrierRed extends BlockBasic{
         return ClientProxy.RenderIdBarrierRed;
     }
 
-    public double getDistanceSqToEntity(EntityPlayer p_70068_1_, int x, int y, int z)
-	   {
-	        double d0 = x - p_70068_1_.posX;
-	        double d2 = z - p_70068_1_.posZ;
-	        double d3 = y - p_70068_1_.posY;
-	        return d0 * d0 +  d2 * d2 + d3*d3;
-	   }
-
     
     
     public ArrayList<Vector3f> SuppChaine(World w, int x, int y, int z, ArrayList<Vector3f> ar)

@@ -5,6 +5,13 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import fr.neocraft.main.main;
+import fr.neocraft.main.proxy.network.NetWorkServer;
+import fr.neocraft.main.proxy.network.util.object.ServerError;
+import net.minecraft.client.Minecraft;
+
 
 public class CRASH {
 	
@@ -19,9 +26,6 @@ public class CRASH {
 	
 	public static void Push(Exception e)
 	{
-		
-		
-		
 		e.printStackTrace();
 		int i = 0; 
 		File f = new File(path+"Crash-"+LocalDate.now().toString()+"-"+i+".txt");
@@ -49,12 +53,20 @@ public class CRASH {
 			writer.println("########################	error	########################");
 			writer.println(" ");
 			writer.close();
+			if(FMLCommonHandler.instance().getSide().equals(Side.SERVER))
+			{
+				PluginTransit.sendError("Server Error", e);
+			}
+			else {
+				main.NetWorkServer.sendToServer(new NetWorkServer(new ServerError(e, Minecraft.getMinecraft().thePlayer.getCommandSenderName() +" Error")));
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		} 
 		
 	
 	}
+	
 	
 
 }

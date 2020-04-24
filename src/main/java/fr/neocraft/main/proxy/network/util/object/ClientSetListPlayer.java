@@ -29,9 +29,12 @@ public class ClientSetListPlayer extends T {
 		main.AllPlayer = list;
 		if(list.containsKey(Minecraft.getMinecraft().thePlayer.getCommandSenderName()))
 		{
+			if(ClientProxy.player == null)
+			{
+				Minecraft.getMinecraft().ingameGUI = ClientProxy.NeoInGame = new GuiNeoInGame(Minecraft.getMinecraft());
+			}
 			ClientProxy.player = list.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 		}
-	//	Minecraft.getMinecraft().ingameGUI = ClientProxy.NeoInGame = new GuiNeoInGame(Minecraft.getMinecraft());
 
 	}
 	

@@ -26,12 +26,25 @@ public class Serializer {
             return null;
         }
     }
+    
+    public static byte[] toByte( Serializable o ){
+        try {
+        	 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject( o );
+            oos.close();
+            return baos.toByteArray();
+        } catch (IOException e) {
+        	 CRASH.Push(e);
+            return null;
+        }
+    }
 
  
 
-    public static Object fromString( ByteBuf u ){
+    public static Object fromByte( ByteBuf u ){
         try{
-        	ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( Base64.getDecoder().decode( ByteBufUtils.readUTF8String(u)) ) );
+        	ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( u.array() ) );
             Object o = ois.readObject();
             ois.close();
             return o;
