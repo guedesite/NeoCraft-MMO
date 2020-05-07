@@ -17,31 +17,30 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fr.neocraft.main.Init.BlockMod;
+import fr.neocraft.main.Init.EntityMod;
 import fr.neocraft.main.Init.ItemMod;
 import fr.neocraft.main.Server.ClientPlayerData;
 import fr.neocraft.main.Server.HouseManager;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.Server.Quest.DataManager;
 import fr.neocraft.main.Server.Zone.ZoneManager;
+import fr.neocraft.main.Server.cmd.CommandCinematic;
 import fr.neocraft.main.Server.cmd.CommandDonjon;
 import fr.neocraft.main.Server.cmd.CommandEntity;
 import fr.neocraft.main.Server.cmd.CommandManager;
+import fr.neocraft.main.Server.cmd.CommandScript;
 import fr.neocraft.main.Server.cmd.CommandSeeds;
 import fr.neocraft.main.entity.EntityPnjAction;
-import fr.neocraft.main.event.RenderEventClient;
-import fr.neocraft.main.event.TickClientEvent;
 import fr.neocraft.main.event.TickServerEvent;
 import fr.neocraft.main.event.ZoneEventFML;
 import fr.neocraft.main.event.ZoneEventFORGE;
 import fr.neocraft.main.proxy.CommonProxy;
 import fr.neocraft.main.util.CRASH;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -116,6 +115,7 @@ public class main {
     	ItemMod.Init();
     	ItemMod.register();
     	BlockMod.register();
+    	EntityMod.init();
     	EntityPnjAction.registerModel();
     	
     	 NetWorkClient = NetworkRegistry.INSTANCE.newSimpleChannel("NeoNetWorkClient");
@@ -130,6 +130,7 @@ public class main {
     public void init(FMLInitializationEvent event)
     {
     	proxy.onInit();
+    	
     	if(bdd.IsClass)
     	{
     		FMLCommonHandler.instance().bus().register(new ZoneEventFML());
@@ -169,6 +170,8 @@ public class main {
 		    	cmdman.registerCommand(new CommandSeeds());
 		    	cmdman.registerCommand(new CommandDonjon());
 		    	cmdman.registerCommand(new CommandEntity());
+		    	cmdman.registerCommand(new CommandScript());
+		    	cmdman.registerCommand(new CommandCinematic());
     		}
     	}
     }
@@ -179,6 +182,7 @@ public class main {
     	try {
     	if(bdd.IsClass)
     	{
+    		
     		if(bdd.IsOpen)
     		{
     			bdd.Closebdd();
@@ -187,7 +191,7 @@ public class main {
     		while(it.hasNext())
     		{
     			EntityPlayer player = (EntityPlayer) it.next();
-    			AllPlayerServer.get(player).quest.Save(player.getUniqueID().toString());
+    			AllPlayerServer.get(player.getCommandSenderName()).quest.Save(player.getUniqueID().toString());
     		}
     	}
     	} catch(Exception e ) {

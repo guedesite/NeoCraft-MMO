@@ -9,7 +9,7 @@ particles:0
 bobView:true
 anaglyph3d:false
 advancedOpengl:false
-maxFps:120
+maxFps:260
 fboEnable:true
 difficulty:2
 fancyGraphics:true
@@ -22,7 +22,7 @@ chatVisibility:0
 chatColors:true
 chatLinks:true
 chatLinksPrompt:true
-chatOpacity:1.0
+chatOpacity:0.5422535
 snooperEnabled:true
 fullscreen:false
 enableVsync:true
@@ -34,8 +34,8 @@ touchscreen:false
 overrideWidth:0
 overrideHeight:0
 heldItemTooltips:true
-chatHeightFocused:1.0
-chatHeightUnfocused:0.44366196
+chatHeightFocused:0.35211268
+chatHeightUnfocused:0.12676056
 chatScale:1.0
 chatWidth:1.0
 showInventoryAchievementHint:false
@@ -55,13 +55,13 @@ streamMicToggleBehavior:0
 forceUnicodeFont:false
 key_key.attack:-100
 key_key.use:-99
-key_key.forward:17
-key_key.left:30
+key_key.forward:44
+key_key.left:16
 key_key.back:31
 key_key.right:32
 key_key.jump:57
 key_key.sneak:42
-key_key.drop:16
+key_key.drop:-97
 key_key.inventory:18
 key_key.chat:20
 key_key.playerlist:15
@@ -95,7 +95,7 @@ key_key.z:81
 key_key.z2:80
 key_key.f:82
 key_key.f2:156
-soundCategory_master:1.0
+soundCategory_master:0.14569536
 soundCategory_music:1.0
 soundCategory_record:1.0
 soundCategory_weather:1.0

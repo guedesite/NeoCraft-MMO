@@ -40,11 +40,11 @@ public class GuiNeoInGame extends GuiIngame{
 	public boolean renderMap = false;
 	public CarteGui map;
 	public int updateCounter = 0;
-	public final GuiNewChat ChatGui;
+	public final GuiNeoChat ChatGui;
 	public GuiNeoInGame(Minecraft mc)
 	{
 		super(mc);
-		this.ChatGui = new GuiNewChat(mc);
+		this.ChatGui = new GuiNeoChat(mc);
 		this.map = new CarteGui(mc);
 
 	}
@@ -73,6 +73,8 @@ public class GuiNeoInGame extends GuiIngame{
 			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 		}
 		
+
+		
 		GL11.glScaled(scale1, scale1, 1F);
 		mc.getTextureManager().bindTexture(GuiMmo);
 		
@@ -85,6 +87,7 @@ public class GuiNeoInGame extends GuiIngame{
 		
 		GL11.glScaled(1F/scale1, 1F/scale1, 1F);
 		//(width - xSize* scale) / 2; 46
+
 		
 		double debx = (res.getScaledWidth() -  262D ) / 2;
 		double deby = res.getScaledHeight_double() -46.75;
@@ -191,32 +194,36 @@ public class GuiNeoInGame extends GuiIngame{
              GL11.glPopMatrix();
          }
          
+         ClientProxy.GuiClientManager.renderOther(res);
+         
          GL11.glEnable(GL11.GL_BLEND);
          OpenGlHelper.glBlendFunc(770, 771, 1, 0);
          GL11.glDisable(GL11.GL_ALPHA_TEST);
          GL11.glPushMatrix();
-         GL11.glTranslatef(0.0F, (float)(height - 48), 0.0F);
+         GL11.glTranslatef(0.0F, mc.currentScreen != null && mc.currentScreen instanceof GuiNeoScreenChat ? height - ( 19.75F + 19.56F):(float)(height)-20.59985F,-20F);
          this.ChatGui.drawChat(this.updateCounter);
+         GL11.glTranslatef(0F, 0F, 20F);
          GL11.glPopMatrix();
+         GL11.glColor4f(1F, 1F, 1F,1F);
          
-		/*GL11.glScaled(1/0.9, 1/0.9, 0);
-		
-		if(ClientProxy.player.level>9)
-		{
-			drawCenteredString(mc.fontRenderer, ClientProxy.player.level+"", 11, 50, 0XFFFFFF);
-		} else {
-			GL11.glScaled(1.8, 1.8, 0);
-			drawCenteredString(mc.fontRenderer, ClientProxy.player.level+"", 8, 25, 0XFFFFFF);
-			GL11.glScaled(1/1.8, 1/1.8, 0);
-		}
-		GL11.glScaled(1.1, 1.1, 0);
-		drawString(mc.fontRenderer, mc.thePlayer.getCommandSenderName(), 60, 13, 0XFFFFFF);
-		drawString(mc.fontRenderer, ClientProxy.player.power+" CR", 60, 26, 0XFFFFFF);
-		
-		drawString(mc.fontRenderer, ClientProxy.player.Money+""+RenderEventClient.Dolar, 150 - mc.fontRenderer.getStringWidth(ClientProxy.player.Money+""+RenderEventClient.Dolar), 26, 0XFFFFFF);
-		GL11.glScaled(1/1.1, 1/1.1, 0);
-		*/
-         this.persistantChatGUI.drawChat(this.updateCounter);
+ 		if(ClientProxy.player.level > 9) {
+ 			GL11.glScalef(1.599997F, 1.599997F, 1F);
+ 			GL11.glTranslatef(5.960041F, 39.31941F, 0F);
+ 		} else {
+ 			GL11.glScalef(1.9199994F, 1.9199994F, 1F);
+ 			GL11.glTranslatef(7.180069F, 32.500553F, 0F);
+ 		}
+ 		fontrenderer.drawStringWithShadow(""+ClientProxy.player.level, 0, 0, 0XFFFFFF);
+ 		if(ClientProxy.player.level > 9) {
+ 			GL11.glTranslatef(-5.960041F, -39.31941F, 0F);
+ 	 		GL11.glScalef(1F/1.599997F, 1F/1.599997F, 1F);
+ 		} else {
+ 			GL11.glTranslatef(-7.180069F, -32.500553F, 0F);
+ 	 		GL11.glScalef(1F/1.9199994F, 1F/1.9199994F, 1F);
+ 		}
+
+
+         
 	            if(this.mc.gameSettings.keyBindPlayerList.getIsKeyPressed() && main.AllPlayer != null && !main.AllPlayer.isEmpty())
 	            {
 		            int largeur = 300;

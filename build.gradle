@@ -31,7 +31,6 @@ dependencies {
 	compile "fr.neocraft:QuestData"
 	compile "net.querz.nbt:QuestData"
 	compile "com.mysql.jdbc:mysql"
-	compile "fr.neocraft.packet:NeoCraftPacket"
 
 }
 

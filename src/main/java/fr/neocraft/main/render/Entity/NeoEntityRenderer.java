@@ -17,6 +17,7 @@ import org.lwjgl.util.glu.Project;
 import com.google.gson.JsonSyntaxException;
 
 import fr.neocraft.main.Server.ClientPlayerData;
+import fr.neocraft.main.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -350,6 +351,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    /**
 	     * Finds what block or object the mouse is over at the specified partial tick time. Args: partialTickTime
 	     */
+	    @Override
 	    public void getMouseOver(float p_78473_1_)
 	    {
 	        if (this.mc.renderViewEntity != null)
@@ -444,7 +446,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	                    }
 	                }
 	            }
-	        }
+	        } 
 	    }
 
 	    /**
@@ -562,26 +564,28 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    
 	    private void orientCamera(float p_78467_1_)
 	    {//<>
-	    	if(this.cameraZoom > this.ZoomReach -ZoomStep &&this.cameraZoom < this.ZoomReach +ZoomStep )
-	    	{
-	    		this.cameraZoom = this.ZoomReach;
-	    	}
-	    	if(this.cameraZoom < this.ZoomReach) 
-	    	{
-	    		this.cameraZoom += ZoomStep;
-	    	}
-	    	if(this.cameraZoom > this.ZoomReach)
-	    	{
-	    		this.cameraZoom -= ZoomStep;
-	    	}
-	        EntityLivingBase entitylivingbase = this.mc.renderViewEntity;
-	        float f1 = entitylivingbase.yOffset - 1.62F;
-	        double d0 = entitylivingbase.prevPosX + (entitylivingbase.posX - entitylivingbase.prevPosX) * (double)p_78467_1_;
-	        double d1 = entitylivingbase.prevPosY + (entitylivingbase.posY - entitylivingbase.prevPosY) * (double)p_78467_1_ - (double)f1;
-	        double d2 = entitylivingbase.prevPosZ + (entitylivingbase.posZ - entitylivingbase.prevPosZ) * (double)p_78467_1_;
-	    	
-	        if(!ClientPlayerData.Cam.Cinematic(p_78467_1_))
-	        {
+	    	 EntityLivingBase entitylivingbase = this.mc.renderViewEntity;
+	    	 float f1 = entitylivingbase.yOffset - 1.62F;
+		        double d0 = entitylivingbase.prevPosX + (entitylivingbase.posX - entitylivingbase.prevPosX) * (double)p_78467_1_;
+		        double d1 = entitylivingbase.prevPosY + (entitylivingbase.posY - entitylivingbase.prevPosY) * (double)p_78467_1_ - (double)f1;
+		        double d2 = entitylivingbase.prevPosZ + (entitylivingbase.posZ - entitylivingbase.prevPosZ) * (double)p_78467_1_;
+		       
+		        GL11.glRotatef(this.prevCamRoll + (this.camRoll - this.prevCamRoll) * p_78467_1_, 0.0F, 0.0F, 1.0F);
+		     if(!ClientPlayerData.Cam.Cinematic(p_78467_1_))
+	        { 
+	        	if(this.cameraZoom > this.ZoomReach -ZoomStep &&this.cameraZoom < this.ZoomReach +ZoomStep )
+		    	{
+		    		this.cameraZoom = this.ZoomReach;
+		    	}
+		    	if(this.cameraZoom < this.ZoomReach) 
+		    	{
+		    		this.cameraZoom += ZoomStep;
+		    	}
+		    	if(this.cameraZoom > this.ZoomReach)
+		    	{
+		    		this.cameraZoom -= ZoomStep;
+		    	}
+		     
 		    	if(this.mc.gameSettings.thirdPersonView == 0)
 		    	{
 		    		this.thirdPersonDistanceY = 0;
@@ -1241,6 +1245,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	        this.mc.ingameGUI.func_152126_a((float)i, (float)j);
 	    }
 
+	    @Override
 	    public void renderWorld(float p_78471_1_, long p_78471_2_)
 	    {
 	 
@@ -1365,32 +1370,36 @@ public class NeoEntityRenderer extends EntityRenderer{
 	                GL11.glPopMatrix();
 	                GL11.glPushMatrix();
 
-	                if (this.mc.objectMouseOver != null && entitylivingbase.isInsideOfMaterial(Material.water) && entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI)
-	                {
-	                    entityplayer = (EntityPlayer)entitylivingbase;
-	                    GL11.glDisable(GL11.GL_ALPHA_TEST);
-
-	                    if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer, mc.objectMouseOver, 0, entityplayer.inventory.getCurrentItem(), p_78471_1_))
-	                    {
-	                        renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, p_78471_1_);
-	                    }
-	                    GL11.glEnable(GL11.GL_ALPHA_TEST);
-	                }
+	                if(ClientProxy.player != null && ClientProxy.player.debug) {
+	                	
+		                if (this.mc.objectMouseOver != null && entitylivingbase.isInsideOfMaterial(Material.water) && entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI)
+		                {
+		                    entityplayer = (EntityPlayer)entitylivingbase;
+		                    GL11.glDisable(GL11.GL_ALPHA_TEST);
+	
+		                    if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer, mc.objectMouseOver, 0, entityplayer.inventory.getCurrentItem(), p_78471_1_))
+		                    {
+		                        renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, p_78471_1_);
+		                    }
+		                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+		                }
+	            	}
 	            }
 
 	            GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	            GL11.glPopMatrix();
-
-	            if (entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI && this.mc.objectMouseOver != null && !entitylivingbase.isInsideOfMaterial(Material.water))
-	            {
-	                entityplayer = (EntityPlayer)entitylivingbase;
-	                GL11.glDisable(GL11.GL_ALPHA_TEST);
-
-	                if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer, mc.objectMouseOver, 0, entityplayer.inventory.getCurrentItem(), p_78471_1_))
-	                {
-	                    renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, p_78471_1_);
-	                }
-	                GL11.glEnable(GL11.GL_ALPHA_TEST);
+	            if(ClientProxy.player != null && ClientProxy.player.debug) {
+	            	if (entitylivingbase instanceof EntityPlayer && !this.mc.gameSettings.hideGUI && this.mc.objectMouseOver != null && !entitylivingbase.isInsideOfMaterial(Material.water))
+		            {
+		                entityplayer = (EntityPlayer)entitylivingbase;
+		                GL11.glDisable(GL11.GL_ALPHA_TEST);
+	
+		                if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer, mc.objectMouseOver, 0, entityplayer.inventory.getCurrentItem(), p_78471_1_))
+		                {
+		                    renderglobal.drawSelectionBox(entityplayer, this.mc.objectMouseOver, 0, p_78471_1_);
+		                }
+		                GL11.glEnable(GL11.GL_ALPHA_TEST);
+		            } 
 	            }
 
 
@@ -1402,11 +1411,11 @@ public class NeoEntityRenderer extends EntityRenderer{
 	            if (this.debugViewDirection == 0)
 	            {
 	                this.enableLightmap((double)p_78471_1_);
-	                this.mc.mcProfiler.endStartSection("litParticles");
+	                //	this.mc.mcProfiler.endStartSection("litParticles");
 	                effectrenderer.renderLitParticles(entitylivingbase, p_78471_1_);
 	                RenderHelper.disableStandardItemLighting();
 	                this.setupFog(0, p_78471_1_);
-	                this.mc.mcProfiler.endStartSection("particles");
+	             //   this.mc.mcProfiler.endStartSection("particles");
 	                effectrenderer.renderParticles(entitylivingbase, p_78471_1_);
 	                this.disableLightmap((double)p_78471_1_);
 	            }
@@ -1497,7 +1506,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 
 	            if (!this.mc.gameSettings.anaglyph)
 	            {
-	                this.mc.mcProfiler.endSection();
+	               
 	                return;
 	            }
 	        }
@@ -1512,7 +1521,7 @@ public class NeoEntityRenderer extends EntityRenderer{
 	    {
 	        if (this.mc.gameSettings.shouldRenderClouds())
 	        {
-	            this.mc.mcProfiler.endStartSection("clouds");
+	            
 	            GL11.glPushMatrix();
 	            this.setupFog(0, p_82829_2_);
 	            GL11.glEnable(GL11.GL_FOG);

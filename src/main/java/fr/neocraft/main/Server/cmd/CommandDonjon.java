@@ -8,6 +8,7 @@ import fr.neocraft.main.Server.DonjonManager;
 import fr.neocraft.main.Server.ServerPlayerData;
 import fr.neocraft.main.util.BlockPlanNBT;
 import fr.neocraft.main.util.PosVec3DHelper;
+import fr.neocraft.main.util.Vector3d;
 import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.main.util.Vector6f;
 import net.minecraft.command.CommandBase;
@@ -50,17 +51,17 @@ public class CommandDonjon extends CommandBase{
 		{
 			EntityPlayer p = (EntityPlayer)ic;
 			ServerPlayerData data = main.AllPlayerServer.get(p.getCommandSenderName());
-			if(arg[0].equals("gettype"))
+			if(arg[0].equalsIgnoreCase("gettype"))
 			{
 				M(ic, "type 0: all");
 				M(ic, "type 1: forest");
 				M(ic, "type 2: sand");
 				M(ic, "type 3: water ( water donjon will must be type 3 not 0)");
-			}if(arg[0].equals("addmob"))
+			}if(arg[0].equalsIgnoreCase("addmob"))
 			{
 				if(data.seeds != null)
 				{
-					Vector3f v = new Vector3f(MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ));
+					Vector3d v = new Vector3d(p.posX,p.posY,p.posZ);
 					if(data.seeds.getListTag("mobs") != null)
 					{
 						ListTag l =data.seeds.getListTag("mobs");
@@ -77,11 +78,11 @@ public class CommandDonjon extends CommandBase{
 				} else {
 					M(ic, "copy region first with /seeds");
 				}
-			}else if(arg[0].equals("addboss"))
+			}else if(arg[0].equalsIgnoreCase("addboss"))
 			{
 				if(data.seeds != null)
 				{
-					Vector3f v = new Vector3f(MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ));
+					Vector3d v = new Vector3d(p.posX,p.posY,p.posZ);
 					if(data.seeds.getListTag("boss") != null)
 					{
 						ListTag l =data.seeds.getListTag("boss");
@@ -99,7 +100,29 @@ public class CommandDonjon extends CommandBase{
 				} else {
 					M(ic, "copy region first with /seeds");
 				}
-			}else if(arg[0].equals("register"))
+			}else if(arg[0].equalsIgnoreCase("addbigboss"))
+			{
+				if(data.seeds != null)
+				{
+					Vector3d v = new Vector3d(p.posX,p.posY,p.posZ);
+					if(data.seeds.getListTag("bigboss") != null)
+					{
+						ListTag l =data.seeds.getListTag("bigboss");
+					
+						l.add(new SerializableTag(v));
+
+					} else {
+						ListTag all = new ListTag(SerializableTag.class);
+						
+						all.add(new SerializableTag(v));
+						
+						data.seeds.put("bigboss", all);
+					}
+					M(ic, "add bigboss at:"+v.toString());
+				} else {
+					M(ic, "copy region first with /seeds");
+				}
+			}else if(arg[0].equalsIgnoreCase("register"))
 			{
 				if(arg.length != 1)
 				{
@@ -107,6 +130,7 @@ public class CommandDonjon extends CommandBase{
 				 	M(ic, "dim: "+((SerializableTag)data.seeds.get("xyzuvw")).getValue().toString());
 				 	M(ic, (data.seeds.getListTag("mobs") != null ? data.seeds.getListTag("mobs").size() : 0) +" mobs");
 				 	M(ic, (data.seeds.getListTag("boss") != null ? data.seeds.getListTag("boss").size() : 0) +" boss");
+				 	M(ic, (data.seeds.getListTag("bigboss") != null ? data.seeds.getListTag("bigboss").size() : 0) +" boss");
 				 	try {
 				 		int type = Integer.parseInt(arg[1]);
 				 		M(ic, "type: "+type);
@@ -130,23 +154,25 @@ public class CommandDonjon extends CommandBase{
 				} else {
 					sendHelp(ic);
 				}
-			}else if(arg[0].equals("startSys"))
+			}else if(arg[0].equalsIgnoreCase("startSys"))
 			{
 				DonjonManager.timerDonjon();
 				M(ic, "run DonjonManager.timerDonjon();");
-			}else if(arg[0].equals("stopSys"))
+			}else if(arg[0].equalsIgnoreCase("stopSys"))
 			{
 				DonjonManager.endAllDonjon();
 				M(ic, "run DonjonManager.enAllDonjon();");
-			}else if(arg[0].equals("addZone"))
+			}else if(arg[0].equalsIgnoreCase("addZone"))
 			{
 				if(data.pos1 != null && data.pos2 != null)
 				{
 					Vector6f v6 = PosVec3DHelper.getMinPosAndVec(data.pos1, data.pos2);
+					DonjonManager.addDonjonZone(data.Zone.id, v6);
+					M(ic, "add");
 				} else {
 					M(ic, "Make region first with /seeds");
 				}
-			}else if(arg[0].equals("reload"))
+			}else if(arg[0].equalsIgnoreCase("reload"))
 			{
 				DonjonManager.registerDonjon();
 				M(ic, "reload");
@@ -167,6 +193,7 @@ public class CommandDonjon extends CommandBase{
 	private void sendHelp(ICommandSender ic) {
 		M(ic, "/donjon addmob");
 		M(ic, "/donjon addboss");
+		M(ic, "/donjon addbigboss");
 		M(ic, "/donjon register (type)");
 		M(ic, "/donjon gettype");
 		M(ic, "/donjon startSys");

@@ -7,8 +7,8 @@ public class Vector6f implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 4545645L;
-	public int x,y,z,u,v,w;
-	public Vector6f(int X,int Y,int Z, int U, int V, int W) {
+	public float x,y,z,u,v,w;
+	public Vector6f(float X,float Y,float Z, float U, float V, float W) {
 		x=X;
 		y=Y;
 		z=Z;

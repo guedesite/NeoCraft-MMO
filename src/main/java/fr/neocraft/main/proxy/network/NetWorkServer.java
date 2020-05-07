@@ -21,14 +21,13 @@ public class NetWorkServer implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        data = (T) Serializer.fromByte( buf );
+        data = (T) Serializer.fromString( buf );
   
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-    	buf.writeBytes(Serializer.toByte(data));
-      //  ByteBufUtils.writeUTF8String(buf, Serializer.toString(data));
+    	ByteBufUtils.writeUTF8String(buf, Serializer.toString(data));
     }
 
     public static class Handler implements IMessageHandler <NetWorkServer, IMessage> {

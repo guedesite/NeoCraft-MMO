@@ -1,8 +1,20 @@
 package fr.neocraft.main.Server;
 
+import static fr.neocraft.main.main.bdd;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import fr.neocraft.main.Server.Quest.DataManager;
+import fr.neocraft.main.Server.Quest.QuestClientGuiInfo;
+import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.util.CRASH;
+import fr.neocraft.main.util.Vector3d;
 import fr.neocraft.main.util.Vector3f;
-import fr.neocraft.pnj.PnjData;
 import fr.neocraft.quest.ElementData;
 import fr.neocraft.quest.QuestData;
 import fr.neocraft.quest.Condition.EnumCondition;
@@ -10,33 +22,11 @@ import fr.neocraft.quest.Condition.QuestCondition;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-
-import static fr.neocraft.main.main.bdd;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.querz.nbt.CompoundTag;
 import net.querz.nbt.NBTUtil;
-import net.querz.nbt.Tag;
-import net.querz.nbt.custom.PnjDataTag;
 import net.querz.nbt.custom.SerializableTag;
-import fr.neocraft.main.main;
-import fr.neocraft.main.Server.Quest.DataManager;
-import fr.neocraft.main.Server.Quest.QuestClientGuiInfo;
-import fr.neocraft.main.Server.Zone.Zone;
-import fr.neocraft.main.entity.EntityPnjAction;
-import fr.neocraft.main.proxy.network.NetWorkClient;
-import fr.neocraft.main.proxy.network.util.object.ClientSetQuest;
 
 public class ServerPlayerData {
 	public int life;
@@ -64,7 +54,7 @@ public class ServerPlayerData {
 	public Zone Zone;
 	
 	// custom:
-	public Vector3f pos1, pos2, lastBeforeHouse = null;
+	public Vector3f pos1, pos2; public Vector3d lastBeforeHouse = null;
 	public CompoundTag seeds;
 	
 	public ArrayList<Vector3f> posMap;
@@ -225,11 +215,13 @@ public class ServerPlayerData {
 		
 		public void Save(String uuid) {
 			try {
-				NBTUtil.writeTag(new SerializableTag((Serializable) data), "assets/PlayerQuest/"+uuid+".dat");
+				NBTUtil.writeTag(new SerializableTag((Serializable) data), new File("assets/PlayerQuest/"+uuid+".dat"));
 			} catch(Exception e) {
 				CRASH.Push(e);
 			}
 		}
+		
+		
 		
 		
 		class QuestPlayerData implements Serializable{

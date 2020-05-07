@@ -90,7 +90,7 @@ public class DonjonManager {
 	}
 	
 	private static final Random r = new Random();
-	
+
 	public static void timerDonjon() {
 		File f  =new File(pathModel+"cache.dat");
 		if(!f.exists())
@@ -126,8 +126,8 @@ public class DonjonManager {
 							CompoundTag t = getRandomDonjonWithReg(z.donjonType, v);
 							if(t != null)
 							{
-								BlockPlanNBT.saveCompoundTag(new File(pathModel+"cache-"+v.toSampleString()+".dat"), BlockPlanNBT.LoadBlockAndAire(DimensionManager.getWorld(0), v.x, v.y,v .z, v.u, v.v, v.w));
-								BlockPlanNBT.writeBlock(DimensionManager.getWorld(0), v.x, v.y,v .z, t);
+								BlockPlanNBT.saveCompoundTag(new File(pathModel+"cache-"+v.toSampleString()+".dat"), BlockPlanNBT.LoadBlockAndAire(DimensionManager.getWorld(0), (int) v.x,(int)  v.y,(int) v .z, (int) v.u,(int)  v.v, (int) v.w));
+								BlockPlanNBT.writeBlock(DimensionManager.getWorld(0),(int) v.x,(int)  v.y,(int) v .z, t);
 								initMobDonjon(v, t);
 								l.add(tagZone.get(z.id+"").clone());
 								((ListTag) tagZone.get(z.id+"")).remove(index);
@@ -246,9 +246,9 @@ public class DonjonManager {
 				s.stat++;
 				continue;
 			}
-			int x = s.v.x;
-			int y = s.v.y;
-			int z = s.v.z;
+			int x = (int) s.v.x;
+			int y = (int) s.v.y;
+			int z = (int) s.v.z;
 			for(int i = 0; i < s.stat * s.coef && i < s.l.size(); i++)
 			{
 				if(r.nextInt(5) == 0)
@@ -306,7 +306,7 @@ public class DonjonManager {
 			File f  =new File(pathModel+"cache-"+v.toSampleString()+".dat");
 			CompoundTag tag = BlockPlanNBT.ReadCompoundTag(f);
 			l = (ListTag) tag.get("blocks");
-			coef = l.size() / v2.v;
+			coef = (int)( l.size() / v2.v);
 			
 		}
 	}

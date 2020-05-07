@@ -64,6 +64,5 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/hugo/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.4.1558-1.7.10/start"/>
 	<classpathentry kind="lib" path="C:/Users/hugo/Desktop/devellopement/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hugo/Desktop/devellopement/java/library Eclipse/mc/QuestData.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hugo/Desktop/NeoCraftPacket.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

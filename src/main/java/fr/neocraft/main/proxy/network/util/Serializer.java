@@ -14,65 +14,62 @@ import io.netty.buffer.ByteBuf;
 
 
 public class Serializer {
-    public static String toString( Serializable o ){
+	public static String toString( Serializable o ){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
         try {
-        	 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos = new ObjectOutputStream( baos );
             oos.writeObject( o );
             oos.close();
             return Base64.getEncoder().encodeToString(baos.toByteArray());
         } catch (IOException e) {
-        	 CRASH.Push(e);
-            return null;
-        }
-    }
-    
-    public static byte[] toByte( Serializable o ){
-        try {
-        	 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream( baos );
-            oos.writeObject( o );
-            oos.close();
-            return baos.toByteArray();
-        } catch (IOException e) {
-        	 CRASH.Push(e);
-            return null;
+        	CRASH.Push(e);
+            return "";
         }
     }
 
  
 
-    public static Object fromByte( ByteBuf u ){
+    public static Object fromString( ByteBuf u ){
+       byte [] data = Base64.getDecoder().decode( ByteBufUtils.readUTF8String(u));
+        ObjectInputStream ois;
         try{
-        	ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( u.array() ) );
-            Object o = ois.readObject();
+            ois = new ObjectInputStream( new ByteArrayInputStream( data ) );
+            Object o;
+            o = ois.readObject();
             ois.close();
             return o;
         } catch (ClassNotFoundException e) {
-            CRASH.Push(e);
+        	CRASH.Push(e);
             return null;
         } catch (IOException e) {
-        	 CRASH.Push(e);
-        	return null;
+        	CRASH.Push(e);
+
+            return null;
+
         }
 
     }
     
     public static Object fromString( String u ){
-        try{
-        	ObjectInputStream ois = new ObjectInputStream( new ByteArrayInputStream( Base64.getDecoder().decode( u) ) );
-            Object o = ois.readObject();
-            ois.close();
-            return o;
-        } catch (ClassNotFoundException e) {
-            CRASH.Push(e);
-            return null;
-        } catch (IOException e) {
-        	 CRASH.Push(e);
-        	return null;
-        }
+        byte [] data = Base64.getDecoder().decode( u);
+         ObjectInputStream ois;
+         try{
+             ois = new ObjectInputStream( new ByteArrayInputStream( data ) );
+             Object o;
+             o = ois.readObject();
+             ois.close();
+             return o;
+         } catch (ClassNotFoundException e) {
+         	CRASH.Push(e);
+             return null;
+         } catch (IOException e) {
+         	CRASH.Push(e);
 
-    }
+             return null;
 
+         }
+
+     }
 
 }

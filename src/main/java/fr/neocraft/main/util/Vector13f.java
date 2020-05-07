@@ -6,7 +6,7 @@ public class Vector13f implements Serializable{
 
 	private static final long serialVersionUID = 4544575645L;
 	public float x,y,z,u,v,w,rx,ry,rz,ru,rv,rw;
-	public float custom;
+	public float custom = 0;
 	public Vector13f(float X,float Y,float Z, float U, float V, float W, float rotX, float rotY, float rotZ, float rotU, float rotV, float rotW) {
 		x=X;
 		y=Y;

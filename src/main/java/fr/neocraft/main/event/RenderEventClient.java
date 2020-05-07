@@ -7,11 +7,16 @@ import java.util.TimerTask;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fr.neocraft.main.proxy.ClientProxy;
 import fr.neocraft.main.render.Entity.PlayerRenderer;
+import fr.neocraft.main.render.gui.internal.GuiNeoChat;
+import fr.neocraft.main.render.gui.internal.GuiNeoScreenChat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -39,17 +44,9 @@ public class RenderEventClient {
 		Dolar = I18n.format("neo.dollar");
 	}
 	
-	@SubscribeEvent
-    public void onRenderGui(RenderGameOverlayEvent.Post event)
-    {
-		if (event.type != ElementType.EXPERIENCE) {
-			return;
-		}
-		
-		ScaledResolution scaled = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-        int width = scaled.getScaledWidth();
+	public void renderOther(ScaledResolution scaled) {
+		int width = scaled.getScaledWidth();
         int height = scaled.getScaledHeight();
-
 			if(allText.size() == 1 ) 
 			{
 			
@@ -78,9 +75,19 @@ public class RenderEventClient {
 					}, 5000);
 				}
 			}
-        
+	}
+	
+	@SubscribeEvent
+    public void onRenderGui(RenderGameOverlayEvent.Post event)
+    {
+		if (event.type != ElementType.EXPERIENCE) {
+			return;
+		}
+		
 		
     }
+	
+	
 	
 	@SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Pre event)
@@ -93,6 +100,15 @@ public class RenderEventClient {
 	public void RenderPlayerEventSpecial(RenderPlayerEvent.Specials.Pre event)
 	{
 		//event.setCanceled(true);
+	}
+	
+	@SubscribeEvent
+	public void GuiOpen(GuiOpenEvent event) {
+		if(event.gui == null) { return; }
+		if(event.gui instanceof GuiChat) {
+			event.setCanceled(true);
+			this.mc.displayGuiScreen(new GuiNeoScreenChat());
+		}
 	}
 	
 	
@@ -263,6 +279,5 @@ public class RenderEventClient {
 			 }
 		 }
 	 }
-	
-	
+
 }

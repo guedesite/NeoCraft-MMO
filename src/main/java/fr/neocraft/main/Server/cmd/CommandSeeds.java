@@ -47,15 +47,15 @@ public class CommandSeeds extends CommandBase{
 		{
 			EntityPlayer p = (EntityPlayer)ic;
 			ServerPlayerData data = main.AllPlayerServer.get(p.getCommandSenderName());
-			if(arg[0].equals("pos1"))
+			if(arg[0].equalsIgnoreCase("pos1"))
 			{
 				data.pos1 = new Vector3f(MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ));
 				M(ic, data.pos1.toString());
-			}else if(arg[0].equals("pos2"))
+			}else if(arg[0].equalsIgnoreCase("pos2"))
 			{
 				data.pos2 = new Vector3f(MathHelper.floor_double(p.posX),MathHelper.floor_double(p.posY),MathHelper.floor_double(p.posZ));
 				M(ic, data.pos2.toString());
-			} else if(arg[0].equals("savefile") && arg.length != 1)
+			} else if(arg[0].equalsIgnoreCase("savefile") && arg.length != 1)
 			{
 				if(data.seeds != null)
 				{
@@ -64,7 +64,7 @@ public class CommandSeeds extends CommandBase{
 				} else {
 					M(ic, "paste first");
 				}
-			}else if(arg[0].equals("loadfile")&& arg.length != 1)
+			}else if(arg[0].equalsIgnoreCase("loadfile")&& arg.length != 1)
 			{
 				File f = new File(pathModel+arg[1] + ".dat");
 				if(f.exists())
@@ -74,17 +74,17 @@ public class CommandSeeds extends CommandBase{
 				} else {
 					M(ic, "file doesn't exist: "+pathModel+arg[1] + ".dat");
 				}
-			}else if(arg[0].equals("copy"))
+			}else if(arg[0].equalsIgnoreCase("copy"))
 			{
 				if(data.pos1 != null && data.pos2 != null)
 				{
 					Vector6f v6 = PosVec3DHelper.getMinPosAndVec(data.pos1, data.pos2);
 					CompoundTag tag = null;
-					if(arg.length != 1 && arg[1].equals("-a"))
+					if(arg.length != 1 && arg[1].equalsIgnoreCase("-a"))
 					{
-						tag = BlockPlanNBT.LoadBlockAndAire(p.worldObj, v6.x, v6.y, v6.z, v6.u, v6.v, v6.w);
+						tag = BlockPlanNBT.LoadBlockAndAire(p.worldObj,(int) v6.x, (int)v6.y,(int) v6.z,(int) v6.u,(int) v6.v, (int)v6.w);
 					} else {
-						tag = BlockPlanNBT.LoadBlock(p.worldObj, v6.x, v6.y, v6.z, v6.u, v6.v, v6.w);
+						tag = BlockPlanNBT.LoadBlock(p.worldObj, (int)v6.x, (int)v6.y, (int)v6.z, (int)v6.u, (int)v6.v, (int)v6.w);
 					}
 					
 					tag.put("playerpos",new SerializableTag(new Vector3f(v6.x - MathHelper.floor_double(p.posX), v6.y-MathHelper.floor_double(p.posY), v6.z-MathHelper.floor_double(p.posZ))));
@@ -93,7 +93,7 @@ public class CommandSeeds extends CommandBase{
 				} else {
 					M(ic, "make first the both pos");
 				}
-			}else if(arg[0].equals("paste"))
+			}else if(arg[0].equalsIgnoreCase("paste"))
 			{
 				if(data.pos1 != null && data.pos2 != null)
 				{
@@ -105,7 +105,7 @@ public class CommandSeeds extends CommandBase{
 				} else {
 					M(ic, "make first the both pos");
 				}
-			}else if(arg[0].equals("script")) {
+			}else if(arg[0].equalsIgnoreCase("script")) {
 				if(arg.length != 1)
 				{
 					try {
@@ -116,7 +116,7 @@ public class CommandSeeds extends CommandBase{
 						M(ic, "Not found: "+"fr.neocraft.main.Server.function."+arg[1]);
 					}catch (InstantiationException e)
 				    {
-						M(ic, "La classe est abstract ou est une interface ou n'a pas de constructeur accessible sans paramètre");
+						M(ic, "La classe est abstract ou est une interface ou n'a pas de constructeur accessible sans paramï¿½tre");
 					}
 					catch (IllegalAccessException e)
 					{

@@ -5,9 +5,11 @@ import java.io.File;
 import fr.neocraft.main.main;
 import fr.neocraft.main.util.BlockPlanNBT;
 import fr.neocraft.main.util.Teleport;
+import fr.neocraft.main.util.Vector3d;
 import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.main.util.Vector6f;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.querz.nbt.CompoundTag;
@@ -15,9 +17,9 @@ import net.querz.nbt.custom.SerializableTag;
 
 public class HouseManager {
 
-	private static final int X = -20000;
-	private static final int Z = -20000;
-	private static final int Y = 80;
+	private static final double X = -20000;
+	private static final double Z = -20000;
+	private static final double Y = 80;
 	
 	public static int[] price = new int[] {
 			50,100,250,500,750,1000,1500,2000,3000,4000,5000,7500,10000
@@ -39,8 +41,8 @@ public class HouseManager {
 				size.u = v.u;
 				size.v = v.v;
 				size.w = v.w;
-				size.y = Y;
-				size.z = Z;
+				size.y = (float) Y;
+				size.z = (float) Z;
 			}
 			
 			World w = DimensionManager.getWorld(0);
@@ -51,7 +53,7 @@ public class HouseManager {
 			{
 				index ++;
 				x += 50;
-				flag = w.getBlock(X + x, Y, Z) == Blocks.air;
+				flag = w.getBlock(MathHelper.floor_double(X + x), MathHelper.floor_double(Y), MathHelper.floor_double(Z)) == Blocks.air;
 			}
 			main.l.info("load "+index+" player's house !");
 		}
@@ -60,19 +62,19 @@ public class HouseManager {
 	
 	
 	public static int createHouse() {
-		BlockPlanNBT.writeBlock(DimensionManager.getWorld(0), X + index * 55, Y, Z, BlockPlanNBT.ReadCompoundTag(HouseModel));
+		BlockPlanNBT.writeBlock(DimensionManager.getWorld(0),MathHelper.floor_double( X + index * 55), MathHelper.floor_double(Y),MathHelper.floor_double( Z), BlockPlanNBT.ReadCompoundTag(HouseModel));
 		return index;
 	}
 	
 	public static void TeleportPlayerToHouse(ServerPlayerData p) {
-		p.lastBeforeHouse = new Vector3f((int)p.p.posX,(int) p.p.posY,(int)p.p.posZ);
+		p.lastBeforeHouse = new Vector3d(p.p.posX, p.p.posY,p.p.posZ);
 		Teleport.player(p.p, X +  p.HouseIndex * 55, Y+1, Z);
 	}
 	
 	public static boolean isUnderHouse(ServerPlayerData p)
 	{
 		Vector6f v = size.copy();
-		v.x = X + p.HouseIndex * 55;
+		v.x = (float)X + p.HouseIndex * 55;
 		return v.isUnderExclu(new Vector3f((int)p.p.posX,(int)p.p.posY,(int)p.p.posZ));
 	}
 	

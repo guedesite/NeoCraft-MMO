@@ -18,7 +18,7 @@ import net.minecraftforge.common.network.ForgeMessage;
 
 public class Teleport {
 	private static Timer timer = new Timer();
-	public static void player(final int world, final EntityPlayer player, final int x, final int y, final int z)
+	public static void player(final int world, final EntityPlayer player, final double x, final double y, final double z)
 	{
 		if(ValidWorld(world))
 		{
@@ -39,7 +39,7 @@ public class Teleport {
 		}
 	}
 	
-	public static void player(final EntityPlayer player, final int x, final int y, final int z)
+	public static void player(final EntityPlayer player, final double x, final double y, final  double z)
 	{
 		if(main.getPlayer(player.getCommandSenderName()) == null)
 		{
@@ -66,7 +66,7 @@ public class Teleport {
 		player.setPosition((double) posX+0.5, (double) posY, (double) posZ+0.5);
 	}
 	
-	public static void entity(final int world, final Entity player, final int x, final int y, final int z)
+	public static void entity(final int world, final Entity player, final  double x, final double y, final double z)
 	{
 		if(ValidWorld(world))
 		{

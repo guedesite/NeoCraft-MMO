@@ -10,6 +10,7 @@ import fr.neocraft.main.Server.Zone.Zone;
 import fr.neocraft.main.Server.Zone.ZoneManager;
 import fr.neocraft.main.proxy.network.NetWorkClient;
 import fr.neocraft.main.proxy.network.util.object.ClientSetHeaderText;
+import fr.neocraft.main.proxy.network.util.object.ClientUpdateDebug;
 import fr.neocraft.main.util.Vector3f;
 import fr.neocraft.main.util.WeaponGenerator;
 import net.minecraft.command.CommandBase;
@@ -48,11 +49,11 @@ public class CommandManager extends CommandBase{
 		if(arg.length > 0)
 		{
 			ServerPlayerData data = main.AllPlayerServer.get(((EntityPlayer)ic).getCommandSenderName());
-			if(arg[0].equals("help"))
+			if(arg[0].equalsIgnoreCase("help"))
 			{
 				sendHelp(ic);
 			}
-			else if(arg[0].equals("createzone"))
+			else if(arg[0].equalsIgnoreCase("createzone"))
 			{
 				if(ZoneManager.getZoneAtEntity((EntityPlayer)ic).id ==-1)
 				{
@@ -63,14 +64,14 @@ public class CommandManager extends CommandBase{
 				else {
 					M(ic, "zone déjà éxistante");
 				}
-			}else if(arg[0].equals("reload"))
+			}else if(arg[0].equalsIgnoreCase("reload"))
 			{
 			
 				ZoneManager.Register();
 				HouseManager.loadUp();
 				M(ic, "Reload");
 				
-			}else if(arg[0].equals("setzonename"))
+			}else if(arg[0].equalsIgnoreCase("setzonename"))
 			{
 				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(zone .id !=-1)
@@ -89,7 +90,7 @@ public class CommandManager extends CommandBase{
 				else {
 					M(ic, "vous devez être dans une zone");
 				}
-			}else if(arg[0].equals("setzonesecname"))
+			}else if(arg[0].equalsIgnoreCase("setzonesecname"))
 			{
 				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(zone.id !=-1)
@@ -109,7 +110,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "vous devez être dans une zone");
 				}
 			}
-			else if(arg[0].equals("setzonelvl"))
+			else if(arg[0].equalsIgnoreCase("setzonelvl"))
 			{
 				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(zone.id !=-1)
@@ -129,7 +130,7 @@ public class CommandManager extends CommandBase{
 
 				}
 			}
-			else if(arg[0].equals("setzonepvp"))
+			else if(arg[0].equalsIgnoreCase("setzonepvp"))
 			{
 				Zone zone = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(zone.id !=-1)
@@ -149,7 +150,7 @@ public class CommandManager extends CommandBase{
 				else {
 					M(ic, "vous devez être dans une zone");
 				}
-			}else if(arg[0].equals("debug"))
+			}else if(arg[0].equalsIgnoreCase("debug"))
 			{
 				Zone znew = ZoneManager.getZoneAtEntity((EntityPlayer)ic);
 				if(data.debug)
@@ -161,9 +162,11 @@ public class CommandManager extends CommandBase{
 					data.debug = true;
 					main.NetWorkClient.sendTo(new NetWorkClient(new  ClientSetHeaderText(true, znew.getName(), "[DEBUG] ZoneId:"+znew.id+", Center:"+znew.getDistanceSqToEntity((EntityPlayer)ic)+"m, XPos:"+znew.getXPos()+", ZPos:"+znew.getZPos()+", lvl:"+znew.getLvl()+", pvp:"+znew.pvpEnable())), (EntityPlayerMP)ic);
 				}
+				main.NetWorkClient.sendTo(new NetWorkClient(new  ClientUpdateDebug(data.debug)), (EntityPlayerMP)ic);
+				
 				M(ic, "debug:"+data.debug);
 			}
-			else if(arg[0].equals("createmyhouse"))
+			else if(arg[0].equalsIgnoreCase("createmyhouse"))
 			{
 				if(data.HouseIndex == -1)
 				{
@@ -173,7 +176,7 @@ public class CommandManager extends CommandBase{
 					M(ic, "Tu en as déjà une !");
 				}
 			}
-			else if(arg[0].equals("reloaddata")) {
+			else if(arg[0].equalsIgnoreCase("reloaddata")) {
 				try {
 					DataManager.register();
 					M(ic, "reload");
@@ -181,11 +184,11 @@ public class CommandManager extends CommandBase{
 				{
 					M(ic, e.getMessage());
 				}
-			}else if(arg[0].equals("genitem") && arg.length > 2) {
+			}else if(arg[0].equalsIgnoreCase("genitem") && arg.length > 2) {
 				
 				try {
 					int lvl;
-					if(arg[2].equals("0"))
+					if(arg[2].equalsIgnoreCase("0"))
 					{
 						lvl = 0;
 					}else {
@@ -221,7 +224,7 @@ public class CommandManager extends CommandBase{
 				{
 					M(ic, "error number invalid");
 				}
-			}else if(arg[0].equals("tpmyhouse"))
+			}else if(arg[0].equalsIgnoreCase("tpmyhouse"))
 			{
 				HouseManager.TeleportPlayerToHouse(data);
 			}

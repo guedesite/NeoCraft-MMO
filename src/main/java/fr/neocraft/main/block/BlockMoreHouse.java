@@ -120,7 +120,7 @@ public class BlockMoreHouse extends BlockBasic {
 		for(int i = 0; i < ar.size(); i++)
 		{
 			Vector3f v = ar.get(i);
-			w.setBlockToAir(v.x, v.y, v.z);
+			w.setBlockToAir((int)v.x,(int) v.y,(int) v.z);
 		}
 		w.setBlockToAir(x, y, z);
 	}

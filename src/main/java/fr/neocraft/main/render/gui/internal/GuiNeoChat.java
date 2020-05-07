@@ -7,62 +7,70 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 import com.google.common.collect.Lists;
 
-import fr.neocraft.main.proxy.ClientProxy;
+import fr.neocraft.main.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiNeoChat extends GuiNewChat{
 
 	
     private static final Logger logger = LogManager.getLogger();
+    private static final ResourceLocation chat = new ResourceLocation(Reference.MOD_ID+":textures/gui/Chat.png");
     private final Minecraft mc;
     /** A list of messages previously sent through the chat GUI */
     private final List sentMessages = new ArrayList();
     /** Chat lines to be displayed in the chat box */
     private final List chatLines = new ArrayList();
     private final List field_146253_i = new ArrayList();
-    private int field_146250_j;
+    private int field_146250_j =0;
     private boolean field_146251_k;
+    
+    private double perc = 1F;
     
 	public GuiNeoChat(Minecraft mc) {
 		super(mc);
 		this.mc = mc;
 		
 	}
+
 	@Override
 	   public void drawChat(int p_146230_1_)
 	    {
 	        if (this.mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN)
 	        {
 	            int j = this.func_146232_i();
-	            boolean flag = false;
+	            boolean flag = true;
 	            int k = 0;
 	            int l = this.field_146253_i.size();
 	            float f = this.mc.gameSettings.chatOpacity * 0.9F + 0.1F;
 
-	            if (l > 0)
-	            {
-	                if (this.getChatOpen())
-	                {
-	                    flag = true;
-	                }
-
-	                float f1 = this.func_146244_h();
-	                int i1 = MathHelper.ceiling_float_int((float)this.func_146228_f() / f1);
+	                int i1 = MathHelper.ceiling_float_int((float)this.func_146228_f());
 	                GL11.glPushMatrix();
-	                GL11.glTranslatef(2.0F, 20.0F, 0.0F);
-	                GL11.glScalef(f1, f1, 1.0F);
+	                GL11.glColor4f(1F, 1F, 1F, this.mc.gameSettings.chatOpacity);
+	                GL11.glTranslatef(0, 20, 0.0F);
+	                mc.getTextureManager().bindTexture(chat);
+	                // y = 114.75 this.mc.gameSettings.chatWidth
+	                double scalechat = width();
+	    			NeodrawTexturedModalRect(0, -114.75 , 0, 0, 12.25D, 114.75);
+	    			NeodrawTexturedModalRect(12.25D, -114.75 , 12.25D, 0, 220.25D  *scalechat , 114.75);
+	    			NeodrawTexturedModalRect(12.25D + 220.25D  *scalechat, -114.75 ,232.5D , 0, 8 , 114.75);
+	    			
+	    			NeodrawTexturedModalRect(8, -114.75  + (7.75 + 76 *  perc  ) , 240.5, 0, 4, 24.75);
+	    			GL11.glTranslatef(13.380211F, -7.100067F, 0.0F);
 	                int j1;
 	                int k1;
 	                int i2;
@@ -106,17 +114,18 @@ public class GuiNeoChat extends GuiNewChat{
 	                            {
 	                                byte b0 = 0;
 	                                int j2 = -j1 * 9;
-	                                drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
+	                                
 	                                GL11.glEnable(GL11.GL_BLEND); // FORGE: BugFix MC-36812 Chat Opacity Broken in 1.7.x
 	                                String s = chatline.func_151461_a().getFormattedText();
-	                                this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
+	                                this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8,getIntFromColor(255,255,255,(int)(255 *this.mc.gameSettings.chatOpacity) ));
 	                                GL11.glDisable(GL11.GL_ALPHA_TEST);
+	                                GL11.glEnable(GL11.GL_BLEND);
 	                            }
 	                        }
 	                    }
 	                }
 
-	                if (flag)
+	           /*     if (flag)
 	                {
 	                    j1 = this.mc.fontRenderer.FONT_HEIGHT;
 	                    GL11.glTranslatef(-3.0F, 0.0F, 0.0F);
@@ -132,10 +141,10 @@ public class GuiNeoChat extends GuiNewChat{
 	                        drawRect(0, -l2, 2, -l2 - l1, i3 + (i2 << 24));
 	                        drawRect(2, -l2, 1, -l2 - l1, 13421772 + (i2 << 24));
 	                    }
-	                } 
-
+	                } */
+	                
 	                GL11.glPopMatrix();
-	            }
+	            
 	        }
 	    }
 
@@ -149,6 +158,15 @@ public class GuiNeoChat extends GuiNewChat{
 	        this.sentMessages.clear();
 	    }
 
+	    public int getIntFromColor(int Red, int Green, int Blue, int Alpha){
+	    	Alpha = (Alpha << 36) & 0XFF000000;
+		    Red = (Red << 16) & 0x00FF0000; 
+		    Green = (Green << 8) & 0x0000FF00; 
+		    Blue = Blue & 0x000000FF; 
+
+		    return Alpha | Red | Green | Blue; 
+		}
+	    
 	    public void printChatMessage(IChatComponent p_146227_1_)
 	    {
 	        this.printChatMessageWithOptionalDeletion(p_146227_1_, 0);
@@ -175,7 +193,7 @@ public class GuiNeoChat extends GuiNewChat{
 	            this.deleteChatLine(p_146237_2_);
 	        }
 
-	        int k = MathHelper.floor_float((float)this.func_146228_f() / this.func_146244_h());
+	        int k = MathHelper.floor_double(220 * width());
 	        int l = 0;
 	        ChatComponentText chatcomponenttext = new ChatComponentText("");
 	        ArrayList arraylist = Lists.newArrayList();
@@ -249,19 +267,11 @@ public class GuiNeoChat extends GuiNewChat{
 	            }
 	        }
 
-	        while (this.field_146253_i.size() > 100)
-	        {
-	            this.field_146253_i.remove(this.field_146253_i.size() - 1);
-	        }
 
 	        if (!p_146237_4_)
 	        {
 	            this.chatLines.add(0, new ChatLine(p_146237_3_, p_146237_1_, p_146237_2_));
 
-	            while (this.chatLines.size() > 100)
-	            {
-	                this.chatLines.remove(this.chatLines.size() - 1);
-	            }
 	        }
 	    }
 
@@ -323,66 +333,19 @@ public class GuiNeoChat extends GuiNewChat{
 	            this.field_146250_j = 0;
 	            this.field_146251_k = false;
 	        }
+	       if(this.field_146250_j >  0)
+	       {
+	    	   this.perc =  1 - (double)this.field_146250_j / ((double)j - (double)this.func_146232_i());
+	       }
+	       else {
+	    	   this.perc = 1;
+	       }
 	    }
 
+	    @Override
 	    public IChatComponent func_146236_a(int p_146236_1_, int p_146236_2_)
 	    {
-	        if (!this.getChatOpen())
-	        {
-	            return null;
-	        }
-	        else
-	        {
-	            ScaledResolution scaledresolution = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-	            int k = scaledresolution.getScaleFactor();
-	            float f = this.func_146244_h();
-	            int l = p_146236_1_ / k - 3;
-	            int i1 = p_146236_2_ / k - 27;
-	            l = MathHelper.floor_float((float)l / f);
-	            i1 = MathHelper.floor_float((float)i1 / f);
-
-	            if (l >= 0 && i1 >= 0)
-	            {
-	                int j1 = Math.min(this.func_146232_i(), this.field_146253_i.size());
-
-	                if (l <= MathHelper.floor_float((float)this.func_146228_f() / this.func_146244_h()) && i1 < this.mc.fontRenderer.FONT_HEIGHT * j1 + j1)
-	                {
-	                    int k1 = i1 / this.mc.fontRenderer.FONT_HEIGHT + this.field_146250_j;
-
-	                    if (k1 >= 0 && k1 < this.field_146253_i.size())
-	                    {
-	                        ChatLine chatline = (ChatLine)this.field_146253_i.get(k1);
-	                        int l1 = 0;
-	                        Iterator iterator = chatline.func_151461_a().iterator();
-
-	                        while (iterator.hasNext())
-	                        {
-	                            IChatComponent ichatcomponent = (IChatComponent)iterator.next();
-
-	                            if (ichatcomponent instanceof ChatComponentText)
-	                            {
-	                                l1 += this.mc.fontRenderer.getStringWidth(this.func_146235_b(((ChatComponentText)ichatcomponent).getChatComponentText_TextValue()));
-
-	                                if (l1 > l)
-	                                {
-	                                    return ichatcomponent;
-	                                }
-	                            }
-	                        }
-	                    }
-
-	                    return null;
-	                }
-	                else
-	                {
-	                    return null;
-	                }
-	            }
-	            else
-	            {
-	                return null;
-	            }
-	        }
+	    	return null;
 	    }
 
 	    /**
@@ -432,12 +395,17 @@ public class GuiNeoChat extends GuiNewChat{
 
 	    public int func_146246_g()
 	    {
-	        return func_146243_b(this.getChatOpen() ? 1.0f : 0.44366196F);
+	        return func_146243_b(0.519999F);
 	    }
 
 	    public float func_146244_h()
 	    {
-	        return this.mc.gameSettings.chatScale;
+	    	return 1f;
+	    }
+	    
+	    public float width()
+	    {
+	    	return (float)( this.mc.gameSettings.chatWidth < 0.3 ? 0.3:this.mc.gameSettings.chatWidth);
 	    }
 
 	    public static int func_146233_a(float p_146233_0_)
@@ -458,4 +426,16 @@ public class GuiNeoChat extends GuiNewChat{
 	    {
 	        return this.func_146246_g() / 9;
 	    }
+	    public void NeodrawTexturedModalRect(double p_73729_1_, double p_73729_2_, double p_73729_3_, double p_73729_4_, double p_73729_5_, double p_73729_6_)
+		{
+			float f = 0.00390625F;
+			float f1 = 0.00390625F;
+			Tessellator tessellator = Tessellator.instance;
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(p_73729_1_, p_73729_2_ + p_73729_6_, (double)this.zLevel, (double)((float)(p_73729_3_) * f), (double)((float)(p_73729_4_ + p_73729_6_) * f1));
+			tessellator.addVertexWithUV(p_73729_1_ + p_73729_5_, p_73729_2_ + p_73729_6_, (double)this.zLevel, (double)((float)(p_73729_3_ + p_73729_5_) * f), (double)((float)(p_73729_4_ + p_73729_6_) * f1));
+			tessellator.addVertexWithUV(p_73729_1_ + p_73729_5_, (double)(p_73729_2_ + 0), (double)this.zLevel, (double)((float)(p_73729_3_ + p_73729_5_) * f), (double)((float)(p_73729_4_) * f1));
+			tessellator.addVertexWithUV(p_73729_1_, p_73729_2_, (double)this.zLevel, (double)((float)(p_73729_3_) * f), (double)((float)(p_73729_4_) * f1));
+			tessellator.draw();
+		}
 	}
